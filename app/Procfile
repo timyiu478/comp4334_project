@@ -1,0 +1,1 @@
+web:　uwsgi --http :433 --wsgi-file app.py --master --processes 4 --threads 2
