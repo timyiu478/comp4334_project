@@ -1,0 +1,17 @@
+$primary-color: #e87722 !default;
+$primary-color-lighter: white !default;
+$secondary-color: #183028 !default;
+$secondary-color-lighter: #e1dfe1 !default;
+
+$text-color: $secondary-color !default;
+
+$font-size: 16px;
+$header-height: 60px;
+$content-width: 1024px;
+
+$breakpoints: (
+    xs: 576px,
+    sm: 768px,
+    md: 992px,
+    lg: 1024px
+);
