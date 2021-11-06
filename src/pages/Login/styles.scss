@@ -1,3 +1,115 @@
 .container {
-    
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    .background {
+        background-image: url('../../background.jpg');
+        background-position: center;
+        background-size: cover;
+        height: 100%;
+        width: 100%;
+        opacity: 0.8;
+        filter: blur(5px);
+        transform: scale(1.1);
+    }
+    .content {
+        //inner box container styling
+        background-color: rgba(230, 235, 241, 0.8);
+        position: fixed;
+        left: 50%;
+        bottom: 50%;
+        transform: translate(-50%, 50%);
+        width: 40%;
+        height: 26em;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        @include respond-below(sm) {
+            text-align: center;
+            width: 90%;
+        }
+        .register {
+            width: 100%;
+            text-align: right;
+            padding: 10px 15px 0px 0px;
+            text-decoration: underline;
+            cursor: pointer;
+            &:hover {
+                color: #ae4951;
+            }
+        }
+        .form {
+            // form container styling
+            width: 60%;
+            flex: 3;
+            display: flex;
+            justify-content: center;
+            @include respond-below(sm) {
+                font-size: 20px;
+                width: 80%;
+                justify-content: space-evenly;
+            }
+
+            .heading {
+                //"Login" styling
+                margin: 0 auto;
+                font-size: 2.9em;
+                font-weight: 700;
+                margin-bottom: 0.5em;
+            }
+            .input {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1em;
+                width: 100%;
+                @include respond-below(sm) {
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+                }
+                & > label {
+                    font-size: 17px;
+                    margin-right: 10px;
+                    white-space: nowrap;
+                    &::after {
+                        content: ':';
+                    }
+                }
+                & > input {
+                    padding-left: 0.3em;
+                    border: 3px solid #023459;
+                    box-sizing: border-box;
+                    border-radius: 6px;
+                    outline: none;
+                    @include respond-below(sm) {
+                        width: 70%;
+                    }
+                }
+            }
+            .submitContainer {
+                display: flex;
+                align-items: flex-end;
+                @include respond-below(sm) {
+                    justify-content: center;
+                }
+                button {
+                    width: 6.68em;
+                    height: 2.2em;
+                    font-size: 1em;
+                    margin-top: 1em;
+                    background-color: #b2a59f;
+                    text-transform: unset;
+
+                    @include respond-below(sm) {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
 }
