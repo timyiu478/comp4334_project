@@ -17,7 +17,7 @@ const RegisterPage = () => {
             })
         );
     };
-    return <button onClick={onClick}>Click me!</button>;
+    return <button onClick={onClick}>Click me</button>;
 };
 class Login extends React.PureComponent {
     constructor(props) {
