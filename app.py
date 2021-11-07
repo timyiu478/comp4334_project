@@ -6,6 +6,8 @@ from Crypto import Random
 from database import *
 from models import *
 from flask_socketio import SocketIO,join_room,leave_room
+import ujson
+from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -16,7 +18,7 @@ db.init_app(app)
 
 socketio = SocketIO(app)
 
-# db.create_all()
+db.create_all()
 
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
@@ -78,7 +80,7 @@ def signup():
         b_pw = salt + b_pw
         h = SHA256.new(b_pw)
         h_pw = h.hexdigest()
-        db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex()))
+        db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex(),public_key="puk"))
         db.session.commit()
 
         flash("Signup Successfully")
@@ -159,11 +161,15 @@ def on_leave(data):
 @socketio.on('message')
 @jwt_required()
 def on_message(data):
-    to = data['receiver']
+
+    to = data['to']
     room = to + "'s room"
+
+    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datatime=datetime.now()))
+    db.session.commit()
+
     socketio.send(data, broadcast=True, to=room)
     print(data)
 
 if __name__ == "__main__":
-    # app.run()
     socketio.run(app)
