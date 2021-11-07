@@ -9,7 +9,7 @@ class User(db.Model):
     hs_password = db.Column(db.String(255)) # hashed and salted password
     salt = db.Column(db.String(255))
     public_key = db.Column(db.String(255))
-    history = db.relationship('History', backref='history', lazy=True)
+    history = db.relationship('History', backref='user', lazy=True)
 
     def check_password(self,password):
         b_pw = str.encode(password) # byte string
