@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styles from './styles.scss';
 
 const ChatPage = () => {
+    const [inMessage, setInMessage] = useState(['hello', 'hi', 'c']);
+    const [outMessage, setOutMessage] = useState(['chat', 'test', 'df']);
     return (
         <>
             <div className={styles.container}>
@@ -11,8 +13,12 @@ const ChatPage = () => {
                         <h1>contact</h1>
                     </div>
                     <div className={styles.chatbody}>
-                        <p className={styles.message_in}>Hello</p>
-                        <p className={styles.message_out}>hi!</p>
+                        {inMessage.map((content) => (
+                            <p className={styles.message_in}>{content}</p>
+                        ))}
+                        {outMessage.map((content) => (
+                            <p className={styles.message_out}>{content}</p>
+                        ))}
                     </div>
                     <div className={styles.chatfooter}>
                         <form>
