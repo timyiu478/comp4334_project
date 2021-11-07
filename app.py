@@ -133,6 +133,10 @@ def services():
 def chat():
     return render_template('chat.html')
 
+@socketio.on('connect')
+def test_connect(auth):
+    socketio.emit('connect', {'data': 'Connected'})
+
 @socketio.on('join')
 def on_join(data):
     username = current_user.username
