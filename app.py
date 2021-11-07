@@ -131,7 +131,7 @@ def services():
 @app.route('/chat/')
 @jwt_required()
 def chat():
-    socketio.emit('connect', {'data': 'sdfsdf'})
+    socketio.emit('connect', {'data': 'sdfsdf'}, namespace='/chat/')
     return render_template('chat.html')
 
 # @socketio.on('connect', namespace='/chat/')

@@ -9,7 +9,7 @@
             var socket = io();
             socket.on('connect', function(data) {
                 console.log(data);
-                socket.emit('my event', {data: 'I\'m connected!'});
+                socket.emit('my event', {data: 'I\'m connected!'}, namespace='/chat/');
             });
             
         </script>
