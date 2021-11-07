@@ -5,6 +5,7 @@ from flask_jwt import *
 from Crypto import Random
 from database import *
 from models import *
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -12,6 +13,8 @@ jwt = JWTManager(app)
 
 db.app = app
 db.init_app(app)
+
+socketio = SocketIO(app)
 
 # db.create_all()
 
@@ -28,8 +31,10 @@ def token_verification_failed_callback(callback):
     return resp, 302
 
 @jwt.expired_token_loader
-def expired_token_callback(callback):
+def expired_token_callback(data,callback):
     # Expired auth header
+    print("----------expired_token_loader--------------")
+    print(data)
     resp = make_response(redirect(url_for('refresh')))
     unset_access_cookies(resp)
     return resp, 302
@@ -46,6 +51,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
     print("----------------------------user_lookup_callback--------------------------")
     print(jwt_data)
     return User.query.filter_by(id=identity).one_or_none()
+
 
 @app.route('/')
 def index():
@@ -122,5 +128,19 @@ def services():
     id = get_jwt_identity()
     return str(id),400
 
+@app.route('/chat/')
+@jwt_required()
+def chat():
+    return render_template('chat.html')
+
+@socketio.on('connect', namespace='/chat/')
+def chat_connect():
+    socketio.emit('connect', {'data': 'sdfsdf'})
+
+@socketio.on('my event', namespace='/chat/')
+def handle_my_custom_event(json):
+    print('received json: ' + str(json))
+
 if __name__ == "__main__":
-    app.run()
+    # app.run()
+    socketio.run(app)

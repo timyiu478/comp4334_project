@@ -5,3 +5,4 @@ flask_jwt_extended
 flask_sqlalchemy
 pycrypto
 psycopg2
+flask_socketio
