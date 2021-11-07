@@ -7,7 +7,6 @@ from database import *
 from models import *
 from flask_socketio import SocketIO,join_room,leave_room
 import ujson
-from datetime import datetime
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -18,7 +17,7 @@ db.init_app(app)
 
 socketio = SocketIO(app)
 
-db.create_all(app=app)
+db.create_all()
 
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
@@ -165,7 +164,7 @@ def on_message(data):
     to = data['to']
     room = to + "'s room"
 
-    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datatime=datetime.now()))
+    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
     db.session.commit()
 
     socketio.send(data, broadcast=True, to=room)

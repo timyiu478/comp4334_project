@@ -1,5 +1,6 @@
 from database import db
 from Crypto.Hash import SHA256
+from datetime import datetime
 
 class User(db.Model):
     __tablename__ = "User"
@@ -30,10 +31,9 @@ class History(db.model):
     from_username = db.Column(db.String(255),db.ForeignKey('user.username'))
     to_username = db.Column(db.String(255),db.ForeignKey('user.username'))
     data = db.Column(db.String(4096))
-    datetime = db.Column(db.Datetime())
+    datetime = db.Column(db.Datetime,default=datetime.utcnow)
 
-    def __init__(self,from_username,to_username,data,datetime):
+    def __init__(self,from_username,to_username,data):
         self.from_username = from_username
         self.to_username = to_username
         self.data = data
-        self.datetime = datetime
