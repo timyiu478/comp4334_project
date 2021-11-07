@@ -32,7 +32,7 @@ class History(db.Model):
     data = db.Column(db.String(4096))
     datetime = db.Column(db.DateTime,default=datetime.utcnow)
 
-    usernames = db.relationship('User',foreign_keys="[History.from_username,History.to_username]")
+    usernames = db.relationship('User',foreign_keys="[from_username,to_username]")
 
 
     def __init__(self,from_username,to_username,data):
