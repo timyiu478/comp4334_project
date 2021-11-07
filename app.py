@@ -31,10 +31,10 @@ def token_verification_failed_callback(callback):
     return resp, 302
 
 @jwt.expired_token_loader
-def expired_token_callback(data,callback):
+def expired_token_callback(header,callback):
     # Expired auth header
     print("----------expired_token_loader--------------")
-    print(data)
+    print(header)
     resp = make_response(redirect(url_for('refresh')))
     unset_access_cookies(resp)
     return resp, 302
@@ -131,11 +131,12 @@ def services():
 @app.route('/chat/')
 @jwt_required()
 def chat():
+    socketio.emit('connect', {'data': 'sdfsdf'})
     return render_template('chat.html')
 
-@socketio.on('connect', namespace='/chat/')
-def chat_connect():
-    socketio.emit('connect', {'data': 'sdfsdf'})
+# @socketio.on('connect', namespace='/chat/')
+# def chat_connect():
+    
 
 @socketio.on('my event', namespace='/chat/')
 def handle_my_custom_event(json):
