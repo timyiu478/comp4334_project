@@ -31,7 +31,7 @@ class History(db.Model):
     from_username = db.Column(db.String(255),db.ForeignKey('user.username'))
     to_username = db.Column(db.String(255),db.ForeignKey('user.username'))
     data = db.Column(db.String(4096))
-    datetime = db.Column(db.Datetime,default=datetime.utcnow)
+    datetime = db.Column(db.DateTime,default=datetime.utcnow)
 
     def __init__(self,from_username,to_username,data):
         self.from_username = from_username
