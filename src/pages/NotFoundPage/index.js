@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './styles.scss';
 
 class NotFoundPage extends React.PureComponent {
     render() {

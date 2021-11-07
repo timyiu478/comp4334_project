@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../logo.svg';
 import styles from './styles.scss';
-import withConnect from '../../utils/withConnect';
+
 import { withRouter } from 'react-router-dom';
 
 class DebugPage extends React.PureComponent {
@@ -24,4 +24,4 @@ class DebugPage extends React.PureComponent {
     }
 }
 
-export default withConnect()(withRouter(DebugPage));
+export default DebugPage;

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styles from './styles.scss';
-import withConnect from 'utils/withConnect';
-import { withRouter } from 'react-router-dom';
 
 import { FormControl } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -64,4 +62,4 @@ const Login = () => {
     );
 };
 
-export default withConnect()(withRouter(Login));
+export default Login;
