@@ -24,7 +24,7 @@ class User(db.Model):
         self.salt = salt
         self.public_key = public_key
 
-class History(db.model):
+class History(db.Model):
     __tablename__ = "History"
 
     id = db.Column(db.Integer,primary_key=True)
