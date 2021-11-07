@@ -18,7 +18,7 @@ db.init_app(app)
 
 socketio = SocketIO(app)
 
-db.create_all()
+db.create_all(app=app)
 
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
