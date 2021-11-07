@@ -10,8 +10,7 @@ class User(db.Model):
     hs_password = db.Column(db.String(255)) # hashed and salted password
     salt = db.Column(db.String(255))
     public_key = db.Column(db.String(255))
-    history = db.relationship('History', backref='user', lazy=True,foreign_keys="[History.from_username,History.to_username]")
-
+    
     def check_password(self,password):
         b_pw = str.encode(password) # byte string
         b_pw = bytes.fromhex(self.salt) + b_pw
@@ -32,6 +31,9 @@ class History(db.Model):
     to_username = db.Column(db.String(255),db.ForeignKey('User.username'))
     data = db.Column(db.String(4096))
     datetime = db.Column(db.DateTime,default=datetime.utcnow)
+
+    usernames = db.relationship('User',foreign_keys="[History.from_username,History.to_username]")
+
 
     def __init__(self,from_username,to_username,data):
         self.from_username = from_username
