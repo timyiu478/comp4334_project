@@ -27,7 +27,9 @@
                     'from': document.getElementById('sender').value,
                     'to': document.getElementById('receiver').value,
                     'msg': document.getElementById('message').value,
-                    'key': 'this is key.'
+                    'key': 'this is key.',
+                    'msg_nonce': 'this is msg nonce (fixed length)',
+                    'key_nonce': 'this is key nonce (fixed length)'
                 }
 
                 socket.emit('message', data);

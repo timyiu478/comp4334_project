@@ -1,1 +1,1 @@
-postgresql://daqkezluvlnxdf:e2779b2cb01ff2a34afd91b560caea15dbb8114fbb273fb0fafed5562269381e@ec2-35-153-88-219.compute-1.amazonaws.com:5432/dbkvms777j0650
+postgresql://rovtrqlvfgpucp:6b84d5ba9e87f6d91161869cdc74f23deae694d986247094afdf01bdfb99b953@ec2-52-204-213-254.compute-1.amazonaws.com:5432/d2g2kq6th5uhee
