@@ -5,7 +5,7 @@ from flask_jwt import *
 from Crypto import Random
 from database import *
 from models import *
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO,join_room,leave_room
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -131,16 +131,30 @@ def services():
 @app.route('/chat/')
 @jwt_required()
 def chat():
-    socketio.emit('connect', {'data': 'sdfsdf'}, namespace='/chat/')
     return render_template('chat.html')
 
-# @socketio.on('connect', namespace='/chat/')
-# def chat_connect():
-    
+@socketio.on('join')
+def on_join(data):
+    username = current_user.username
+    room = username + "'s room"
+    join_room(room)
+    socketio.send(username + ' has entered the room.', to=room)
+    print(username + ' has entered the room.')
 
-@socketio.on('my event', namespace='/chat/')
-def handle_my_custom_event(json):
-    print('received json: ' + str(json))
+@socketio.on('leave')
+def on_leave(data):
+    username = current_user.username
+    room = username + "'s room"
+    leave_room(room)
+    socketio.send(username + ' has left the room.', to=room)
+    print(username + ' has left the room.')
+
+@socketio.on('message')
+def on_message(data):
+    to = data['receiver']
+    room = to + '`s room'
+    socketio.send(data, broadcast=True, to=room)
+    print(data)
 
 if __name__ == "__main__":
     # app.run()
