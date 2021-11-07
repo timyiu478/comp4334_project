@@ -1,5 +1,6 @@
 <html>
     <body>
+        <input id="sender" name="sender">
         <input id="receiver" name="receiver">
         <textarea id="message" rows="4" cols="50"></textarea>
         <button onclick="sendMsg()">Send</button>
@@ -11,23 +12,26 @@
             
 
             socket.on('connect', function(data) {
-                console.log(data)
+                console.log(data);
+                socket.emit('join', {});
             });
 
-            socket.emit('join', {});
+            
+
             socket.on('message',function(data){
                 console.log(data);
             });
 
             function sendMsg(){
                 data = {
-                    'sender': 'tim123',
+                    'sender': document.getElementById('sender').value,
                     'receiver': document.getElementById('receiver').value,
                     'msg': document.getElementById('message').value,
                     'key': 'this is key.'
                 }
 
                 socket.emit('message', data);
+                document.getElementById('sender').value = "";
                 document.getElementById('receiver').value = "";
                 document.getElementById('message').value = "";
             }
