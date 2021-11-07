@@ -160,7 +160,7 @@ def on_leave(data):
 @jwt_required()
 def on_message(data):
     to = data['receiver']
-    room = to + '`s room'
+    room = to + "'s room"
     socketio.send(data, broadcast=True, to=room)
     print(data)
 
