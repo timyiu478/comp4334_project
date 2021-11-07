@@ -134,10 +134,12 @@ def chat():
     return render_template('chat.html')
 
 @socketio.on('connect')
+@jwt_required()
 def test_connect(auth):
     socketio.emit('connect', {'data': 'Connected'})
 
 @socketio.on('join')
+@jwt_required()
 def on_join(data):
     username = current_user.username
     room = username + "'s room"
@@ -146,6 +148,7 @@ def on_join(data):
     print(username + ' has entered the room.')
 
 @socketio.on('leave')
+@jwt_required()
 def on_leave(data):
     username = current_user.username
     room = username + "'s room"
@@ -154,6 +157,7 @@ def on_leave(data):
     print(username + ' has left the room.')
 
 @socketio.on('message')
+@jwt_required()
 def on_message(data):
     to = data['receiver']
     room = to + '`s room'
