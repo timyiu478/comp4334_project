@@ -6,4 +6,3 @@ flask_sqlalchemy
 pycrypto
 psycopg2
 flask_socketio
-gevent
