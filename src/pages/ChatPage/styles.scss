@@ -97,7 +97,7 @@ form button {
     margin-bottom: 1rem;
     margin-right: 1rem;
     background-color: $primary-color;
-    border-radius: 1rem;
+    border-radius: 50%;
     color: $chat-input-color;
     cursor: pointer;
     box-shadow: $chat-shadow;
@@ -105,4 +105,27 @@ form button {
 
 form button:hover {
     background-color: $primary-color-hover;
+}
+
+@media screen and (max-width: 1024px){
+    .chat_container {
+        background-color: $background-color;
+        opacity: 0.9;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        box-shadow: 4px 12px 20px $table-background-color;
+        margin: auto;
+        position: fixed;
+    }
+    
+    form input{
+        height: 3rem;
+    }
+
+    form button{
+        height: 3rem;
+        width: 3rem;
+    }
 }
