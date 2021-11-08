@@ -33,8 +33,8 @@
                 let to = document.getElementById('receiver').value;
                 let msg = document.getElementById('message').value;
 
-                let salt = CryptoJS.lib.WordArray.random(256/32);
-                let passphrase = CryptoJS.lib.WordArray.random(128/32);
+                let salt = CryptoJS.lib.WordArray.random(512/32);
+                let passphrase = CryptoJS.lib.WordArray.random(256/32).words;
                 let passwordSalt = CryptoJS.enc.Hex.parse(salt);
                 let derivedKey = CryptoJS.PBKDF2( passphrase, passwordSalt, { iterations: 100, keySize: 256 / 32 } );
                 let hexKey = CryptoJS.enc.Hex.stringify( derivedKey );
