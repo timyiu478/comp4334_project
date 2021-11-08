@@ -28,7 +28,7 @@
 
                 console.log(MattsRSAkey);
 
-                localStorage.setItem('MattsRSAkey', MattsRSAkey);
+                localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey));
 
                 document.getElementById('signup_form').submit();
             }
