@@ -16,7 +16,7 @@
             function get_public_key(username){
                 $.ajax({
                     type: "POST",
-                    url: "/public_keys/",
+                    url: "https://comp4334.herokuapp.com/public_keys/",
                     data: {'username':username},
                     xhrFields: {
                         withCredentials: true
