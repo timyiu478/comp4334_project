@@ -33,10 +33,12 @@
                     let array = new Uint8Array(16-count);
                     array = crypto.getRandomValues(array);
                     console.log(array); 
-                    for (var i = 0; i <= array.length; i++) {
-                        msg += String.fromCharCode((array[i]+32)%127);
+                    pad = "";
+                    for (var i = 0; i < array.length; i++) {
+                        pad += String.fromCharCode((array[i]+32)%127);
                     }
-                    console.log(msg);
+                    console.log(msg+pad);
+                    return msg+pad;
                 }
                 else{
                     return msg;
