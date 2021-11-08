@@ -9,7 +9,7 @@ class User(db.Model):
     username = db.Column(db.String(255),unique=True)
     hs_password = db.Column(db.String(255)) # hashed and salted password
     salt = db.Column(db.String(255))
-    public_key = db.Column(db.String(255))
+    public_key = db.Column(db.String(1100))
     
     def check_password(self,password):
         b_pw = str.encode(password) # byte string

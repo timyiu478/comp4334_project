@@ -65,11 +65,7 @@ def signup():
     
     uname = request.form.get('username')
     password = request.form.get('password')
-
-    print()
-    print(uname)
-    print(password)
-    print()
+    public_key = request.form.get('public_key')
 
     user = User.query.filter_by(username=uname).one_or_none()
 
@@ -79,7 +75,7 @@ def signup():
         b_pw = salt + b_pw
         h = SHA256.new(b_pw)
         h_pw = h.hexdigest()
-        db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex(),public_key="puk"))
+        db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex(),public_key=public_key))
         db.session.commit()
 
         flash("Signup Successfully")
