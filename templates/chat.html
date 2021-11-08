@@ -32,7 +32,7 @@
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
                 let aes = data['data']['aes'];
-                let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'].split(","), aes['iv'].split(","));
+                let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key_256'].split(","), aes['iv'].split(","));
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
                 let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
