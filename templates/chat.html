@@ -29,12 +29,12 @@
             function padding(msg){
                 if(msg.length % 16 != 0){
                     count = msg.length % 16;
-                    print(count)
+                    console.log(count)
                     let array = new Uint8Array(16-count);
                     array = crypto.getRandomValues(array);
                     console.log(array)
                     for (var i = 0; i < array.length; i++) {
-                        msg += String.fromCharCode((array[i]%127)+32);
+                        msg += String.fromCharCode((array[i]+32)%127);
                     }
                     console.log(msg)
                 }
