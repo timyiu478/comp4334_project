@@ -37,11 +37,11 @@
 
                 let iv = [ 21, 22, 23, 24, 25, 26, 27, 28,29, 30, 31, 32, 33, 34, 35, 36 ];
 
-                let key_256_array = new Uint8Array(key_256);
+                // let key_256_array = new Uint8Array(key_256);
 
                 let msgBytes = aesjs.utils.utf8.toBytes(msg);
 
-                let aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+                let aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
                 let encryptedBytes = aesCbc.encrypt(msgBytes);
 
                 let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
