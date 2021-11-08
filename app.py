@@ -130,6 +130,19 @@ def services():
 def chat():
     return render_template('chat.html')
 
+@app.route('/public_keys/',methods=['POST'])
+@jwt_required()
+def chat(data):
+    print(data)
+    username = data['username']
+
+    user = User.query.filter_by(username=username).one_or_none()
+
+    if user:
+        return user.public_key,200
+    else:
+        return "user does not exit", 400
+
 @socketio.on('connect')
 @jwt_required()
 def test_connect(auth):

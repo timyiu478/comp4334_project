@@ -10,9 +10,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/rsa.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/api.min.js"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
-
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
         <script>
+            function get_public_key(username){
+                $.post( "/public_keys/", { 'username': username }, function( data ) {
+                    console.log(data)
+                }, "json");
+            }
+
             var socket = io.connect('https://' + document.domain + ':' + location.port);
 
             let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));
@@ -90,7 +96,7 @@
                     'aes': aes 
                 }
 
-
+                get_public_key(to);
 
                 socket.emit('message', data);
                 document.getElementById('receiver').value = "";
