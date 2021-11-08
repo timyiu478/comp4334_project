@@ -9,7 +9,7 @@ class User(db.Model):
     username = db.Column(db.String(255),unique=True)
     hs_password = db.Column(db.String(255)) # hashed and salted password
     salt = db.Column(db.String(255))
-    public_key = db.Column(db.String(1100))
+    public_key = db.Column(db.String(255))
     
     def check_password(self,password):
         b_pw = str.encode(password) # byte string
@@ -29,7 +29,7 @@ class History(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     from_username = db.Column(db.String(255),db.ForeignKey('User.username'))
     to_username = db.Column(db.String(255),db.ForeignKey('User.username'))
-    data = db.Column(db.String(4096))
+    data = db.Column(db.String(1024))
     datetime = db.Column(db.DateTime,default=datetime.utcnow)
 
     fun = db.relationship('User',foreign_keys="[History.from_username]")

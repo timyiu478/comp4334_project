@@ -5,31 +5,47 @@
         <button onclick="sendMsg()">Send</button>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/cryptico.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/rsa.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/api.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/aes.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/pbkdf2.min.js"></script>
+
         <script>
             var socket = io.connect('https://' + document.domain + ':' + location.port);
 
-            
+            let MattsRSAkey = localStorage.getItem('MattsRSAkey');
+            let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);  
 
             socket.on('connect', function(data) {
                 console.log(data);
                 socket.emit('join', {});
             });
 
-            
-
             socket.on('message',function(data){
                 console.log(data);
             });
 
             function sendMsg(){
+
+                let to = document.getElementById('receiver').value;
+                let msg = document.getElementById('message').value;
+
+                let salt = CryptoJS.lib.WordArray.random(256/32);
+                let passphrase = CryptoJS.lib.WordArray.random(128/32);
+                let passwordSalt = CryptoJS.enc.Hex.parse(salt);
+                let derivedKey = CryptoJS.PBKDF2( passphrase, passwordSalt, { iterations: 100, keySize: 256 / 32 } );
+                let hexKey = CryptoJS.enc.Hex.stringify( derivedKey );
+                let iv = CryptoJS.lib.WordArray.random(128/32);
+
+                let enc_msg = CryptoJS.AES.encrypt(msg,derivedKey,{iv:iv,mode: CryptoJS.mode.CBC});
+
                 data = {
-                    'to': document.getElementById('receiver').value,
-                    'msg': document.getElementById('message').value,
-                    'key': 'this is key.',
-                    'msg_nonce': 'this is msg nonce (fixed length)',
-                    'key_nonce': 'this is key nonce (fixed length)'
+                    'to': to,
+                    'msg': enc_msg,
+                    'hexkey': hexKey 
                 }
 
                 socket.emit('message', data);

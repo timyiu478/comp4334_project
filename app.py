@@ -166,5 +166,8 @@ def on_message(data):
     socketio.send({'from':current_user.username,'puk': "sender's puk",'data': data}, broadcast=True, to=room)
     print(data)
 
+
+
+
 if __name__ == "__main__":
     socketio.run(app)
