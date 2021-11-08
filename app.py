@@ -164,7 +164,7 @@ def on_message(data):
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
     db.session.commit()
 
-    socketio.send({'from':current_user.username,'puk': "sender's puk",'data': data}, broadcast=True, to=room)
+    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
     
 
 

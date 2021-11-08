@@ -24,6 +24,17 @@
 
             socket.on('message',function(data){
                 console.log(data);
+
+                let encryptedBytes = aesjs.utils.hex.toBytes(data['msg']);
+
+                let aes = JSON.parse(data['aes']);
+                let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'], aes['iv']);
+
+                let decryptedBytes = aesCbc.decrypt(encryptedBytes);
+                let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
+                let msg = decryptedText.slice(0,data['msg_length']);
+                console.log(msg);
             });
 
             function padding(msg){
@@ -53,14 +64,6 @@
                 let key_256 = crypto.getRandomValues(new Uint8Array(32));
                 let iv = crypto.getRandomValues(new Uint8Array(16));
 
-                // let key_256 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                //     16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-                //     29, 30, 31];
-
-                // let iv = [ 21, 22, 23, 24, 25, 26, 27, 28,29, 30, 31, 32, 33, 34, 35, 36 ];
-
-                // let key_256_array = new Uint8Array(key_256);
-
                 let msgBytes = aesjs.utils.utf8.toBytes(padding(msg));
 
 
@@ -81,6 +84,8 @@
                     'msg_length': msg.length,
                     'aes': JSON.stringify(aes) 
                 }
+
+
 
                 socket.emit('message', data);
                 document.getElementById('receiver').value = "";
