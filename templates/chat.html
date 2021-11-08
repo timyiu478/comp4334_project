@@ -1,11 +1,12 @@
 <html>
     <body>
-        <input id="sender" name="sender">
         <input id="receiver" name="receiver">
         <textarea id="message" rows="4" cols="50"></textarea>
         <button onclick="sendMsg()">Send</button>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/pbkdf2.min.js"></script>
         <script>
             var socket = io.connect('https://' + document.domain + ':' + location.port);
 
@@ -24,7 +25,6 @@
 
             function sendMsg(){
                 data = {
-                    'from': document.getElementById('sender').value,
                     'to': document.getElementById('receiver').value,
                     'msg': document.getElementById('message').value,
                     'key': 'this is key.',
@@ -33,7 +33,6 @@
                 }
 
                 socket.emit('message', data);
-                document.getElementById('sender').value = "";
                 document.getElementById('receiver').value = "";
                 document.getElementById('message').value = "";
             }
