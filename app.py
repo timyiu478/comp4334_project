@@ -156,7 +156,8 @@ def on_leave(data):
 @socketio.on('message')
 @jwt_required()
 def on_message(data):
-
+    print("-------message--------")
+    print(data)
     to = data['to']
     room = to + "'s room"
 
@@ -164,7 +165,7 @@ def on_message(data):
     db.session.commit()
 
     socketio.send({'from':current_user.username,'puk': "sender's puk",'data': data}, broadcast=True, to=room)
-    print(data)
+    
 
 
 
