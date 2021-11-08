@@ -24,17 +24,16 @@
 
             socket.on('message',function(data){
                 console.log(data);
+                // let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
-                let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
+                // let aes = JSON.parse(data['data']['aes']);
+                // let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'], aes['iv']);
 
-                let aes = JSON.parse(data['data']['aes']);
-                let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'], aes['iv']);
+                // let decryptedBytes = aesCbc.decrypt(encryptedBytes);
+                // let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
-                let decryptedBytes = aesCbc.decrypt(encryptedBytes);
-                let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
-
-                let msg = decryptedText.slice(0,data['data']['msg_length']);
-                console.log(msg);
+                // let msg = decryptedText.slice(0,data['data']['msg_length']);
+                // console.log(msg);
 
             });
 
