@@ -26,20 +26,38 @@
                 console.log(data);
             });
 
+            function padding(msg){
+                if(msg.length % 16 != 0){
+                    count = msg.length % 16;
+                    let array = new Uint32Array(count);
+                    crypto.getRandomValues(array);
+                    for (var i = 0; i < array.length; i++) {
+                        msg += array[i];
+                    }
+                }
+                else{
+                    return msg;
+                }
+            }
+
             function sendMsg(){
 
                 let to = document.getElementById('receiver').value;
                 let msg = document.getElementById('message').value;
 
-                let key_256 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-                    29, 30, 31];
+                let key_256 = crypto.getRandomValues(new Uint32Array(32));
+                let iv = crypto.getRandomValues(new Uint32Array(16));
 
-                let iv = [ 21, 22, 23, 24, 25, 26, 27, 28,29, 30, 31, 32, 33, 34, 35, 36 ];
+                // let key_256 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                //     16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                //     29, 30, 31];
+
+                // let iv = [ 21, 22, 23, 24, 25, 26, 27, 28,29, 30, 31, 32, 33, 34, 35, 36 ];
 
                 // let key_256_array = new Uint8Array(key_256);
 
                 let msgBytes = aesjs.utils.utf8.toBytes(msg);
+
 
                 let aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
                 let encryptedBytes = aesCbc.encrypt(msgBytes);
@@ -55,6 +73,7 @@
                 data = {
                     'to': to,
                     'msg': encryptedHex,
+                    'msg_length': msg.length,
                     'aes': aes 
                 }
 
