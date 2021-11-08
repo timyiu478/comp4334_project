@@ -132,8 +132,7 @@ def chat():
 
 @app.route('/public_keys/',methods=['POST'])
 @jwt_required()
-def chat():
-    
+def public_keys():
     data = request.json
     username = data['username']
 
