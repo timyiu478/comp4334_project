@@ -31,6 +31,8 @@
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
                 let aes = JSON.parse(data['data']['aes']);
+                console.log(aes['key']);
+                console.log(aes['iv']);
                 let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'], aes['iv']);
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
