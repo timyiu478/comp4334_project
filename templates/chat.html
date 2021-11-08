@@ -27,14 +27,23 @@
                 console.log(data);
             })
 
+            function json_to_array(json){
+                let keys = Object.keys(json);
+                let array = []
+                for(let i=0;i<keys.length;i++){
+                    array.push(json[keys[i]]);
+                }
+                return array;
+            }
+
             socket.on('message',function(data){
                 console.log(data);
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
                 let aes = JSON.parse(data['data']['aes']);
-                console.log(JSON.stringify(aes['key']));
-                console.log(JSON.stringify(aes['iv']));
-                let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'], aes['iv']);
+                console.log(json_to_array(aes['key']));
+                console.log(json_to_array(aes['iv']));
+                let aesCbc = new aesjs.ModeOfOperation.cbc(json_to_array(aes['key']), json_to_array(aes['iv']));
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
                 let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
