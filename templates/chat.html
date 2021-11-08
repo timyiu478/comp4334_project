@@ -79,7 +79,7 @@
                     'to': to,
                     'msg': encryptedHex,
                     'msg_length': msg.length,
-                    'aes': aes 
+                    'aes': JSON.stringify(aes) 
                 }
 
                 socket.emit('message', data);
