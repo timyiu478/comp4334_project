@@ -16,10 +16,11 @@
             function get_public_key(username){
                 $.ajax({
                     method: 'POST',
-                    dataType: 'json',
+                    dataType: 'application/json',
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
                     },
+                    data: {'username':username},
                     url: "/public_keys/",
                     success (result, statusText) {
                         // Handle success
