@@ -14,9 +14,21 @@
 
         <script>
             function get_public_key(username){
-                $.post( "/public_keys/", { 'username': username }, function( data ) {
-                    console.log(data)
-                }, "json");
+                $.ajax({
+                    type: "POST",
+                    url: "/public_keys/",
+                    data: {'username':username},
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    dataType: 'json',
+                    success: function (result, status, xhr) {
+                        console.log(result);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
             }
 
             var socket = io.connect('https://' + document.domain + ':' + location.port);
