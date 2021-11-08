@@ -25,16 +25,17 @@
             socket.on('message',function(data){
                 console.log(data);
 
-                let encryptedBytes = aesjs.utils.hex.toBytes(data['msg']);
+                let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
-                let aes = JSON.parse(data['aes']);
+                let aes = JSON.parse(data['data']['aes']);
                 let aesCbc = new aesjs.ModeOfOperation.cbc(aes['key'], aes['iv']);
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
                 let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
-                let msg = decryptedText.slice(0,data['msg_length']);
+                let msg = decryptedText.slice(0,data['data']['msg_length']);
                 console.log(msg);
+
             });
 
             function padding(msg){
