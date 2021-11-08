@@ -56,7 +56,7 @@
 
                 // let key_256_array = new Uint8Array(key_256);
 
-                let msgBytes = aesjs.utils.utf8.toBytes(msg);
+                let msgBytes = aesjs.utils.utf8.toBytes(padding(msg));
 
 
                 let aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
