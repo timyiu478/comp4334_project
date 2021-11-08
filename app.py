@@ -132,8 +132,9 @@ def chat():
 
 @app.route('/public_keys/',methods=['POST'])
 @jwt_required()
-def chat(data):
-    print(data)
+def chat():
+    
+    data = request.json
     username = data['username']
 
     user = User.query.filter_by(username=username).one_or_none()
