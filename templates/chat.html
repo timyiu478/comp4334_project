@@ -15,20 +15,21 @@
         <script>
             function get_public_key(username){
                 $.ajax({
-                    type: "POST",
-                    url: "https://comp4334.herokuapp.com/public_keys/",
-                    data: {'username':username},
-                    xhrFields: {
-                        withCredentials: true
-                    },
+                    method: 'PSOT',
                     dataType: 'json',
-                    success: function (result, status, xhr) {
+                    headers: {
+                        'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
+                    },
+                    url: "/public_keys/",
+                    success (result, statusText) {
+                        // Handle success
                         console.log(result);
                     },
-                    error: function (xhr, status, error) {
-                        alert(error);
+                    error (jqXHR, textStatus, errorThrown) {
+                        //handle error
+                        console.log(result);
                     }
-                });
+                })
             }
 
             var socket = io.connect('https://' + document.domain + ':' + location.port);
