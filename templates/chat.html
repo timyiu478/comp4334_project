@@ -9,9 +9,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/cryptico.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/rsa.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/api.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/aes.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/pbkdf2.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
 
         <script>
             var socket = io.connect('https://' + document.domain + ':' + location.port);
@@ -33,18 +31,25 @@
                 let to = document.getElementById('receiver').value;
                 let msg = document.getElementById('message').value;
 
-                let salt = CryptoJS.lib.WordArray.random(512/32);
-                let passphrase = CryptoJS.lib.WordArray.random(256/32).words;
-                let passwordSalt = CryptoJS.enc.Hex.parse(salt);
-                let derivedKey = CryptoJS.PBKDF2( passphrase, passwordSalt, { iterations: 100, keySize: 256 / 32 } );
-                let hexKey = CryptoJS.enc.Hex.stringify( derivedKey );
-                let iv = CryptoJS.lib.WordArray.random(128/32);
+                let key_256 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                    29, 30, 31];
 
-                let enc_msg = CryptoJS.AES.encrypt(msg,derivedKey,{iv:iv,mode: CryptoJS.mode.CBC});
+                let iv = [ 21, 22, 23, 24, 25, 26, 27, 28,29, 30, 31, 32, 33, 34, 35, 36 ];
 
+                let key_258_array = new Uint8Array(key_256);
+
+                let msgBytes = aesjs.utils.utf8.toBytes(msg);
+
+                let aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+                let encryptedBytes = aesCbc.encrypt(msgBytes);
+
+                let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+                console.log(encryptedHex);
+               
                 data = {
                     'to': to,
-                    'msg': enc_msg,
+                    'msg': encryptedHex,
                     'hexkey': hexKey 
                 }
 
