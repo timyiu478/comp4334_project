@@ -57,13 +57,13 @@
                 console.log(data);
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
-                let aes = data['msg_info']['aes'];
+                let aes = data['data']['msg_info']['aes'];
                 let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
                 let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
-                let msg = decryptedText.slice(0,data['data']['msg_length']);
+                let msg = decryptedText.slice(0,data['data']['msg_info']['msg_length']);
                 console.log(msg);
 
             });
