@@ -141,7 +141,8 @@
 
                 data = {
                     'msg': encryptedHex,
-                    'msg_info': encrypted_msg_info
+                    'msg_info': encrypted_msg_info,
+                    'to': to
                 }
 
                 socket.emit('message', data);
