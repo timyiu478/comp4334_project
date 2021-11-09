@@ -77,11 +77,13 @@
                 let encrypted_msg_info = data['data']['msg_info'];
                 console.log(encrypted_msg_info);
                 // let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey));
-                let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey);
+                let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey)['plaintext']);
 
                 console.log(msg_info);
 
-                let aes = msg_info['plaintext']['aes'];
+                let aes = msg_info['aes'];
+
+                console.log(aes);
 
                 let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
 
