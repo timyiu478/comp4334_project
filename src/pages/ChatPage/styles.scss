@@ -27,12 +27,18 @@
     position: fixed;
 }
 
-.chatheader {
-    background-color: $primary-color;
-    display: flex;
+.contactListClickable {
+    visibility: hidden;
+    position: absolute;
 }
 
-.chatheader h1 {
+.chat_header {
+    background-color: $primary-color;
+    display: flex;
+    justify-content: center;
+}
+
+.chat_header h1 {
     padding: 1rem;
     color: white;
     background-size: 100%;
@@ -42,13 +48,38 @@
     font-size: 2rem;
 }
 
-.chatbody {
-    flex: 1;
-    padding: 1rem 1rem;
+.chat_app_container{
+    display: flex;
+    height: 100%;
+    width: 100%;
     background-color: transparent;
 }
 
-.message_in {
+.chat_app_contactList{
+    width: 200px;
+    background-color: black;
+}
+
+.chat_app_body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+}
+
+.chat_app_msg_container{
+    height: 90%;
+    flex: 1;
+    padding: 1rem 1rem;
+}
+
+.chat_app_contact{
+    background-color: $chat-in-msg-color;
+    color: $text-color;
+    padding: 10px 0px 10px 20px;
+}
+
+.chat_app_msg_inMsg {
     background-color: $chat-in-msg-color;
     width: fit-content;
     padding: 0.6rem;
@@ -58,7 +89,7 @@
     box-shadow: $chat-msg-shadow;
 }
 
-.message_out {
+.chat_app_msg_outMsg{
     background-color: $chat-out-msg-color;
     width: fit-content;
     padding: 0.6rem;
@@ -69,8 +100,10 @@
     box-shadow: $chat-msg-shadow;
 }
 
-.chatfooter form {
+.chat_app_footer form {
+    background-color: transparent;
     display: flex;
+    flex:1;
 }
 
 form input {
@@ -91,6 +124,7 @@ form button {
     width: 2rem;
 
     font-size: 18px;
+
     border: none;
     outline: none;
     margin-top: 1rem;
@@ -103,11 +137,12 @@ form button {
     box-shadow: $chat-shadow;
 }
 
-form button:hover {
+form button:hover, form button:active {
     background-color: $primary-color-hover;
 }
 
 @media screen and (max-width: 1024px){
+
     .chat_container {
         background-color: $background-color;
         opacity: 0.9;
@@ -119,7 +154,28 @@ form button:hover {
         margin: auto;
         position: fixed;
     }
-    
+    .chat_app_contactList{
+        //visibility: hidden;
+        position: absolute;
+        display: flexbox;
+        height: 100%;
+        //left:-1000px;
+    }
+
+    .contactListClickable{
+        visibility: visible;
+        position:absolute;
+        margin: 1.5rem;
+        transform: scale(2.5);
+        color: $primary-color-lighter;
+        cursor: pointer;
+    }
+
+    .contactListClickable:active{
+        transform: scale(2.75);
+        transition: all 0.3s;
+    }
+
     form input{
         height: 3rem;
     }
