@@ -2,7 +2,7 @@
     <body>
         <form method="POST" id="login_form">
             <input name="username">
-            <input name="password">
+            <input name="password" id='password'>
             <input hidden name='public_key' id='public_key'>
             <input type="button" onclick="gen_key_pair()">
         </form>
@@ -25,7 +25,7 @@
                 let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
                 
                 document.getElementById('public_key').value = MattsPublicKeyString;
-
+    
                 console.log(MattsRSAkey);
 
                 localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey));
