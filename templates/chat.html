@@ -56,7 +56,7 @@
                 console.log(data);
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
-                let aes = data['data']['aes'];
+                let aes = data['msg_info']['aes'];
                 let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
@@ -106,11 +106,15 @@
                     'iv': iv.toString()
                 }
 
+                msg_info = {
+                    'to':to,
+                    'msg_length':msg.length,
+                    'aes':aes
+                }
+
                 data = {
-                    'to': to,
                     'msg': encryptedHex,
-                    'msg_length': msg.length,
-                    'aes': aes 
+                    'msg_info': msg_info
                 }
 
                 socket.emit('message', data);

@@ -142,7 +142,7 @@ def public_keys():
     print(request.data)
     print(request.get_json('username'))
     
-    username = request.json['username']
+    username = request.get_json()['username']
 
     if username == None:
         return "No username provided", 400
