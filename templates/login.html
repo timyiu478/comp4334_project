@@ -28,7 +28,7 @@
     
                 console.log(MattsRSAkey);
 
-                localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey.JSON()));
+                localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey.toJSON()));
                 
                 console.log(RSAParse(localStorage.getItem('MattsRSAkey')));
                 // g
