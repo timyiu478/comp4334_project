@@ -30,7 +30,9 @@
 
                 localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey));
                 
-                document.getElementById('login_form').submit();
+                console.log(JSON.parse(localStorage.getItem('MattsRSAkey')));
+
+                // document.getElementById('login_form').submit();
             }
 
         </script>
