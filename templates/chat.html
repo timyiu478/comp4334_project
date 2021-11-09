@@ -15,14 +15,15 @@
         <script>
             function get_public_key(){
                 let to = document.getElementById('receiver').value;
+                let data = {'username':to};
                 $.ajax({
                     method: 'POST',
                     dataType: 'json',
-                    contentType: "application/json",
+                    // contentType: "application/json",
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
                     },
-                    data: JSON.stringify({'username':to}),
+                    data: JSON.stringify(data),
                     url: "/public_keys/",
                     success (result, statusText) {
                         // Handle success
