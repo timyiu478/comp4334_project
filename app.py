@@ -169,7 +169,7 @@ def on_join(data):
     username = current_user.username
     room = username + "'s room"
     join_room(room)
-    socketio.emit('all',username + ' has entered the room.', to=room)
+    socketio.emit('all',username + ' has entered the room.')
     print(username + ' has entered the room.')
 
 @socketio.on('leave')
@@ -178,7 +178,7 @@ def on_leave(data):
     username = current_user.username
     room = username + "'s room"
     leave_room(room)
-    socketio.emit('all',username + ' has left the room.', to=room)
+    socketio.emit('all',username + ' has left the room.')
     print(username + ' has left the room.')
 
 @socketio.on('message')
