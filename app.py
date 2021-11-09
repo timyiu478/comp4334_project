@@ -133,7 +133,7 @@ def chat():
 @app.route('/public_keys/',methods=['POST'])
 @jwt_required()
 def public_keys():
-    data = request.json
+    data = request.get_json()
     print('----------public_keys---------')
     print(data)
     if data == None:
