@@ -13,6 +13,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
         <script>
+            function deserializeRSAKey(key) {
+                let json = JSON.parse(key);
+                let rsa = new RSAKey();
+                rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
+                return rsa;
+            }
+
             function get_public_key(){
                 let to = document.getElementById('receiver').value;
                 let data = {"username":to};
@@ -117,7 +124,7 @@
                     'aes':aes
                 }
 
-                let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));   
+                let MattsRSAkey = deserializeRSAKey(localStorage.getItem('MattsRSAkey'));   
 
                 encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, MattsRSAkey);
                 
