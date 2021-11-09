@@ -186,7 +186,7 @@ def on_leave(data):
 def on_message(data):
     print("-------message--------")
     print(data)
-    to = data['to']
+    to = data['msg_info']['to']
     room = to + "'s room"
 
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
