@@ -15,10 +15,10 @@
         <script>
             function get_public_key(){
                 let to = document.getElementById('receiver').value;
-                let data = {'username':to};
+                let data = {"username":to};
                 $.ajax({
                     method: 'POST',
-                    dataType: 'json',
+                    dataType: 'text',
                     contentType: "application/json",
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
