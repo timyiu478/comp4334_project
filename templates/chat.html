@@ -2,7 +2,7 @@
     <body>
         <input id="receiver" name="receiver">
         <textarea id="message" rows="4" cols="50"></textarea>
-        <button onclick="sendMsg()">Send</button>
+        <button onclick="get_public_key()">Send</button>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 
@@ -13,7 +13,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
         <script>
-            function get_public_key(username){
+            function get_public_key(){
+                let to = document.getElementById('receiver').value;
                 $.ajax({
                     method: 'POST',
                     dataType: 'json',
@@ -21,11 +22,12 @@
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
                     },
-                    data: JSON.stringify({'username':username}),
+                    data: JSON.stringify({'username':to}),
                     url: "/public_keys/",
                     success (result, statusText) {
                         // Handle success
                         console.log(result);
+                        sendMsg(to,result);
                     },
                     error (jqXHR, textStatus, errorThrown) {
                         //handle error
@@ -84,9 +86,7 @@
                 }
             }
 
-            function sendMsg(){
-
-                let to = document.getElementById('receiver').value;
+            function sendMsg(to,receiver_public_key){
                 let msg = document.getElementById('message').value;
 
                 let key_256 = crypto.getRandomValues(new Uint8Array(32));
@@ -112,8 +112,6 @@
                     'msg_length': msg.length,
                     'aes': aes 
                 }
-
-                get_public_key(to);
 
                 socket.emit('message', data);
                 document.getElementById('receiver').value = "";

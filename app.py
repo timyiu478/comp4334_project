@@ -146,8 +146,7 @@ def public_keys():
         return "No username provided", 400
 
     # username = data['username']
-    username = data
-
+    username = request.json['username']
 
     user = User.query.filter_by(username=username).one_or_none()
 
