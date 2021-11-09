@@ -17,7 +17,8 @@
                 console.log(json);
                 var rsa = new RSAKey();
                 console.log(json.n);
-                rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
+                
+                rsa.setPrivateEx(N=json.n, E=json.e, D=json.d, P=json.p, Q=json.q, DP=json.dmp1, DQ=json.dmq1, C=json.coeff);
 
                 return rsa;
             }
