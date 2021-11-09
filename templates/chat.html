@@ -57,13 +57,17 @@
                 console.log(data);
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
-                let aes = data['data']['msg_info']['aes'];
+                let encrypted_msg_info = data['data']['msg_info'];
+                let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));
+                let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info, MattsRSAkey));
+
+                let aes = msg_info['aes'];
                 let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
                 let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
-                let msg = decryptedText.slice(0,data['data']['msg_info']['msg_length']);
+                let msg = decryptedText.slice(0,msg_info['msg_length']);
                 console.log(msg);
 
             });
@@ -113,17 +117,15 @@
                     'aes':aes
                 }
 
-                let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));
-                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+                let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));   
 
-                signed_msg_info = cryptico.encrypt(JSON.stringify(msg_info), MattsPublicKeyString, MattsRSAkey);
-
-                console.log(signed_msg_info);
-                console.log(JSON.stringify(cryptico.decrypt(signed_msg_info, MattsRSAkey)));
+                encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, MattsRSAkey);
+                
+                console.log(encrypted_msg_info);
 
                 data = {
                     'msg': encryptedHex,
-                    'msg_info': msg_info
+                    'msg_info': encrypted_msg_info
                 }
 
                 socket.emit('message', data);
