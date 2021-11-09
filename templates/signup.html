@@ -3,36 +3,7 @@
         <form method="POST" id="signup_form">
             <input name="username">
             <input id='password' name="password">
-            <input hidden name="public_key" id="public_key">
-            <input type="button" onclick="gen_key_pair()">
+            <input type="submit">
         </form>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/cryptico.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/rsa.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/api.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-        <script>
-            
-            function gen_key_pair(){
-                let password_salt = CryptoJS.lib.WordArray.random(128/8);
-                let password = document.getElementById('password').value;
-                let passphrase = password + password_salt;
-                
-                let Bits = 1024;
-                
-                let MattsRSAkey = cryptico.generateRSAKey(passphrase, Bits);
-
-                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
-                
-                document.getElementById('public_key').value = MattsPublicKeyString;
-
-                console.log(MattsRSAkey);
-
-                localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey));
-
-                document.getElementById('signup_form').submit();
-            }
-
-        </script>
     </body>
 </html>

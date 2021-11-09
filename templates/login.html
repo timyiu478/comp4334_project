@@ -1,9 +1,38 @@
 <html>
     <body>
-        <form method="POST">
+        <form method="POST" id="login_form">
             <input name="username">
             <input name="password">
-            <input type="submit">
+            <input hidden name='public_key' id='public_key'>
+            <input type="button" onclick="gen_key_pair()">
         </form>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/cryptico.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/rsa.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/api.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script>
+
+
+            function gen_key_pair(){
+                let password_salt = CryptoJS.lib.WordArray.random(128/8);
+                let password = document.getElementById('password').value;
+                let passphrase = password + password_salt;
+                
+                let Bits = 1024;
+                
+                let MattsRSAkey = cryptico.generateRSAKey(passphrase, Bits);
+
+                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+                
+                document.getElementById('public_key').value = MattsPublicKeyString;
+
+                console.log(MattsRSAkey);
+
+                localStorage.setItem('MattsRSAkey', JSON.stringify(MattsRSAkey));
+                
+                document.getElementById('login_form').submit();
+            }
+
+        </script>
     </body>
 </html>
