@@ -137,11 +137,11 @@ def chat():
 @app.route('/public_keys/',methods=['POST'])
 @jwt_required()
 def public_keys():
-    data = request.get_json('username')
     print('----------public_keys---------')
-    print(data)
     print(request.json)
     print(request.data)
+    print(request.get_json('username'))
+    
     if data == None:
         return "No username provided", 400
 
