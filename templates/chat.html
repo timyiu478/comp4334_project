@@ -25,12 +25,12 @@
                     },
                     data: JSON.stringify(data),
                     url: "/public_keys/",
-                    success: function(result, statusText) {
+                    success: function(result, statusText){
                         // Handle success
                         console.log(result);
                         sendMsg(to,result);
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function(jqXHR, textStatus, errorThrown){
                         //handle error
                         console.log(jqXHR);
                         console.log(textStatus);
