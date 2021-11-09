@@ -134,6 +134,7 @@ def chat():
 @jwt_required()
 def public_keys():
     data = request.json
+    print('----------public_keys---------')
     print(data)
     if data == None:
         return "No username provided", 400

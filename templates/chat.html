@@ -16,7 +16,7 @@
             function get_public_key(username){
                 $.ajax({
                     method: 'POST',
-                    dataType: 'application/json',
+                    dataType: 'json',
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
                     },
@@ -28,7 +28,7 @@
                     },
                     error (jqXHR, textStatus, errorThrown) {
                         //handle error
-                        console.log(errorThrown);
+                        console.log(textStatus);
                     }
                 })
             }
