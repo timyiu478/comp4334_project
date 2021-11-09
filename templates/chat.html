@@ -58,6 +58,7 @@
             var socket = io.connect('https://' + document.domain + ':' + location.port);
 
             let MattsRSAkey = deserializeRSAKey(localStorage.getItem('MattsRSAkey'));
+            console.log(MattsRSAkey);
             let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);  
 
             socket.on('connect', function(data) {
@@ -74,7 +75,7 @@
                 let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
 
                 let encrypted_msg_info = data['data']['msg_info'];
-                let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));
+
                 let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey));
 
                 console.log(msg_info);
@@ -134,9 +135,7 @@
                     'to':to,
                     'msg_length':msg.length,
                     'aes':aes_key
-                }
-
-                let MattsRSAkey = deserializeRSAKey(localStorage.getItem('MattsRSAkey'));   
+                } 
 
                 encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, MattsRSAkey);
                 
