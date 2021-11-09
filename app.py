@@ -189,10 +189,14 @@ def on_message(data):
     to = data['to']
     room = to + "'s room"
 
-    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
-    db.session.commit()
+    if socketio.adapter.get(room):
+        print('online')
+        db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
+        db.session.commit()
 
-    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
+        socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
+    else:
+        print("offline")
     
 
 
