@@ -15,7 +15,7 @@
         <script src="https://cdn.bootcdn.net/ajax/libs/cryptico/0.0.1343522940/rsa.js"></script>
         
         <script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
         
@@ -122,7 +122,7 @@
                 let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
                 console.log(encryptedHex);
                
-                aes = {
+                aes_key = {
                     'key_256': key_256.toString(),
                     'iv': iv.toString()
                 }
@@ -130,7 +130,7 @@
                 msg_info = {
                     'to':to,
                     'msg_length':msg.length,
-                    'aes':aes
+                    'aes':aes_key
                 }
 
                 let MattsRSAkey = deserializeRSAKey(localStorage.getItem('MattsRSAkey'));   
