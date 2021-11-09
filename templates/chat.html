@@ -17,10 +17,11 @@
                 $.ajax({
                     method: 'POST',
                     dataType: 'json',
+                    contentType: "application/json",
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
                     },
-                    data: {'username':username},
+                    data: JSON.stringify({'username':username}),
                     url: "/public_keys/",
                     success (result, statusText) {
                         // Handle success
