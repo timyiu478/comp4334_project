@@ -113,6 +113,14 @@
                     'aes':aes
                 }
 
+                let MattsRSAkey = JSON.parse(localStorage.getItem('MattsRSAkey'));
+                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+
+                signed_msg_info = cryptico.encrypt(JSON.stringify(msg_info), MattsPublicKeyString, MattsRSAkey);
+
+                console.log(signed_msg_info);
+                console.log(JSON.stringify(cryptico.decrypt(signed_msg_info, MattsRSAkey)));
+
                 data = {
                     'msg': encryptedHex,
                     'msg_info': msg_info
