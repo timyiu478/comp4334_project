@@ -12,7 +12,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/jsbn.js" integrity="sha512-D51Dx6AGMMOal3tv6CEJH9OKiSnHLSSyZ3G/1nEdE9shmYaK+XhqxfoDEhrWSK9+ursKn8uKDPwiIK3sOb1F5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
+            function RSAParse(rsaString) {
+                var json = JSON.parse(rsaString);
+                var rsa = new RSAKey();
 
+                rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
+
+                return rsa;
+            }
 
             function gen_key_pair(){
                 let password_salt = CryptoJS.lib.WordArray.random(128/8);
