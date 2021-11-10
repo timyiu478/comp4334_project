@@ -39,3 +39,12 @@ class History(db.Model):
         self.from_username = from_username
         self.to_username = to_username
         self.data = data
+
+    def __repr__(self):
+        return {
+            'id': self.id,
+            'from_username': self.from_username,
+            'to_username': self.to_username,
+            'data': self.data,
+            'datetime': self.datetime
+        }
