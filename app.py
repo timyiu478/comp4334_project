@@ -133,10 +133,10 @@ def services():
     received_datetime = data['received_datetime']
     username = current_user.username
 
-    if sent_datetime == None:
-        sent_datetime = datetime.date(1,11,2021)
-    if  received_datetime == None:
-        received_datetime = datetime.date(1,11,2021)
+    if sent_datetime == "NA":
+        sent_datetime = datetime.date(2021,11,1)
+    if  received_datetime == "NA":
+        received_datetime = datetime.date(2021,11,1)
 
     sent_msg = History.query.filter(\
         and_(History.from_username==username,History.to_username==target,History.datetime>sent_datetime))\
