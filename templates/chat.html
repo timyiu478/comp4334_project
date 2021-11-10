@@ -41,7 +41,7 @@
                 let aes = msg_info['aes'];
 
                 console.log(aes);
-
+                //
                 let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
 
                 let decryptedBytes = aesCbc.decrypt(encryptedBytes);
