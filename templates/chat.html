@@ -22,6 +22,37 @@
         
         
         <script>
+            function get_history(target){
+
+                data = {
+                    'target': target,
+                    'sent_datetime': null,
+                    'received_datetime': null
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    dataType: 'text',
+                    contentType: "application/json",
+                    headers: {
+                        'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
+                    },
+                    data: JSON.stringify(data),
+                    url: "/history/",
+                    success: function(result, statusText){
+                        // Handle success
+                        console.log(result);
+                        sendMsg(to,result);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        //handle error
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                })
+            }
+
             function deserializeRSAKey(key) {
                 let json = JSON.parse(key);
                 let rsa = new RSAKey();

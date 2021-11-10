@@ -123,7 +123,7 @@ def logout():
     # Revoke Fresh/Non-fresh Access and Refresh tokens
     return unset_jwt(), 302
 
-@app.route('/history/', methods=['GET'])
+@app.route('/history/', methods=['POST'])
 @jwt_required()
 def services():
 
