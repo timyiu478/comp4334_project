@@ -140,7 +140,7 @@ def services():
 
     print("--------- msgs ----------------")
 
-    msgs = msgs[start_message_index:start_message_index+50]
+    msgs = [repr(msg) for msg in msgs[start_message_index:start_message_index+50]]
 
     return {'msgs': msgs},200
 
