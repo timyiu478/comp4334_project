@@ -65,6 +65,7 @@ def signup():
     
     uname = request.form.get('username')
     password = request.form.get('password')
+    public_key = request.form.get('public_key')
 
     user = User.query.filter_by(username=uname).one_or_none()
 
@@ -74,7 +75,7 @@ def signup():
         b_pw = salt + b_pw
         h = SHA256.new(b_pw)
         h_pw = h.hexdigest()
-        db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex()))
+        db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex(),public_key=public_key))
         db.session.commit()
 
         flash("Signup Successfully")
@@ -103,14 +104,11 @@ def login():
     # Verify uid and password
     username = request.form.get('username')
     password = request.form.get('password')
-    public_key = request.form.get('public_key')
+
 
     user = User.query.filter_by(username=username).one_or_none()
 
     if user and user.check_password(password):
-
-        user.public_key = public_key
-        db.session.commit() 
 
         return assign_access_refresh_tokens(user.id , 'index')
 
@@ -189,14 +187,11 @@ def on_message(data):
     to = data['to']
     room = to + "'s room"
 
-    if socketio.adapter.get(room):
-        print('online')
-        db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
-        db.session.commit()
+    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
+    db.session.commit()
 
-        socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
-    else:
-        print("offline")
+    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
+
     
 
 

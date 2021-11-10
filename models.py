@@ -17,10 +17,11 @@ class User(db.Model):
         h = SHA256.new(b_pw)
         return h.hexdigest() == self.hs_password
 
-    def __init__(self,username,hs_password,salt):
+    def __init__(self,username,hs_password,salt,public_key):
         self.username = username
         self.hs_password = hs_password
         self.salt = salt
+        self.public_key = public_key
 
 class History(db.Model):
     __tablename__ = "History"

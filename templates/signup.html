@@ -3,7 +3,57 @@
         <form method="POST" id="signup_form">
             <input name="username">
             <input id='password' name="password">
-            <input type="submit">
+            <input hidden name='public_key' id='public_key'>
+            <input type="button" onclick="gen_key_pair()">
         </form>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/cryptico.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/rsa.js" integrity="sha512-jzKVTpHbyMqsifd9gZRFcv8euSGjAuMxObJ9hu2tkzhXlCmIz57VksSnkJtC5tEEsZbgGbMWvO/niqhSzpt7vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/api.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cryptico/0.0.1343522940/jsbn.js" integrity="sha512-D51Dx6AGMMOal3tv6CEJH9OKiSnHLSSyZ3G/1nEdE9shmYaK+XhqxfoDEhrWSK9+ursKn8uKDPwiIK3sOb1F5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            function serializeRSAKey(key) {
+                return JSON.stringify({
+                coeff: key.coeff.toString(16),
+                d: key.d.toString(16),
+                dmp1: key.dmp1.toString(16),
+                dmq1: key.dmq1.toString(16),
+                e: key.e.toString(16),
+                n: key.n.toString(16),
+                p: key.p.toString(16),
+                q: key.q.toString(16)
+                })
+            }
+
+            function deserializeRSAKey(key) {
+                let json = JSON.parse(key);
+                let rsa = new RSAKey();
+                rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
+                return rsa;
+            }
+
+            function gen_key_pair(){
+                let password_salt = CryptoJS.lib.WordArray.random(128/8);
+                let password = document.getElementById('password').value;
+                let passphrase = password + password_salt;
+                
+                let Bits = 1024;
+                
+                let MattsRSAkey = cryptico.generateRSAKey(passphrase, Bits);
+
+                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+                
+                document.getElementById('public_key').value = MattsPublicKeyString;
+    
+                console.log(MattsRSAkey);
+
+                localStorage.setItem('MattsRSAkey', serializeRSAKey(MattsRSAkey));
+                
+                // console.log(deserializeRSAKey(localStorage.getItem('MattsRSAkey')));
+                // g
+                document.getElementById('signup_form').submit();
+            }
+
+        </script>
     </body>
 </html>
