@@ -22,6 +22,37 @@
         
         
         <script>
+            function decrypt_msg(data){
+                console.log(data);
+                let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
+                let encrypted_msg_info;
+
+                if(data['data']['to'] == localStorage.getItem('username')){
+                    encrypted_msg_info = data['data']['msg_info'];
+                }else{
+                    encrypted_msg_info = data['data']['msg_info_for_sender'];
+                }
+                    
+                let msg_info = JSON.parse((cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']));
+                console.log(encrypted_msg_info);
+
+                console.log(msg_info);
+
+                let aes = msg_info['aes'];
+
+                console.log(aes);
+
+                let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
+
+                let decryptedBytes = aesCbc.decrypt(encryptedBytes);
+                let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
+                let msg = decryptedText.slice(0,msg_info['msg_length']);
+                console.log(msg);
+                
+                return msg;
+            }
+
             function get_history(target,start_message_index=0){
 
                 data = {
@@ -41,6 +72,12 @@
                     success: function(result, statusText){
                         // Handle success
                         console.log(result);
+
+                        msgs = result['msgs'];
+                        for(let i=0;i<msgs.length;i++){
+                            data = msgs[i]['data']
+                            decrypt_msg(data);
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown){
                         //handle error
@@ -86,9 +123,9 @@
 
             var socket = io.connect('https://' + document.domain + ':' + location.port);
 
-            let MattsRSAkey = deserializeRSAKey(localStorage.getItem('MattsRSAkey'));
-            console.log(MattsRSAkey);
-            let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);  
+            let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
+            console.log(SenderRSAkey);
+            let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);  
 
             socket.on('connect', function(data) {
                 console.log(data);
@@ -100,28 +137,7 @@
             })
 
             socket.on('message',function(data){
-                console.log(data);
-                let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
-
-                let encrypted_msg_info = data['data']['msg_info'];
-                console.log(encrypted_msg_info);
-                // let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey));
-                let msg_info = JSON.parse((cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey)['plaintext']));
-
-                console.log(msg_info);
-
-                let aes = msg_info['aes'];
-
-                console.log(aes);
-
-                let aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(",")),new Uint8Array(aes['iv'].split(",")));
-
-                let decryptedBytes = aesCbc.decrypt(encryptedBytes);
-                let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
-
-                let msg = decryptedText.slice(0,msg_info['msg_length']);
-                console.log(msg);
-
+                decrypt_msg(data);
             });
 
             function padding(msg){
@@ -169,13 +185,15 @@
                     'aes':aes_key
                 } 
 
-                encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, MattsRSAkey);
-                
+                encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, SenderRSAkey);
+                encrypted_msg_info_for_sender = cryptico.encrypt(JSON.stringify(msg_info), SenderPublicKeyString);
+
                 console.log(encrypted_msg_info);
 
                 data = {
                     'msg': encryptedHex,
                     'msg_info': encrypted_msg_info,
+                    'msg_info_for_sender': encrypted_msg_info_for_sender,
                     'to': to
                 }
 

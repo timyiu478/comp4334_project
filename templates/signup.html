@@ -39,16 +39,16 @@
                 
                 let Bits = 1024;
                 
-                let MattsRSAkey = cryptico.generateRSAKey(passphrase, Bits);
+                let SenderRSAkey = cryptico.generateRSAKey(passphrase, Bits);
 
-                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+                let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
                 
-                document.getElementById('public_key').value = MattsPublicKeyString;
+                document.getElementById('public_key').value = SenderPublicKeyString;
     
-                console.log(MattsRSAkey);
+                console.log(SenderRSAkey);
 
-                localStorage.setItem('MattsRSAkey', serializeRSAKey(MattsRSAkey));
-                
+                localStorage.setItem('SenderRSAkey', serializeRSAKey(SenderRSAkey));
+                localStorage.setItem('username', document.getElementById('username').value);
                 // console.log(deserializeRSAKey(localStorage.getItem('MattsRSAkey')));
                 // g
                 document.getElementById('signup_form').submit();
