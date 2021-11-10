@@ -139,7 +139,7 @@ def services():
         .order_by(History.datetime.desc()).all()
 
     print("--------- msgs ----------------")
-    msgs = [repr(msg) for msg in msgs[start_message_index:start_message_index+50]]
+    msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]]
     print(msgs)
 
     return {'msgs': msgs},200

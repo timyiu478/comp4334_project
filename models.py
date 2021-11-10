@@ -40,7 +40,7 @@ class History(db.Model):
         self.to_username = to_username
         self.data = data
 
-    def __repr__(self):
+    def get_json(self):
         return {
             'id': self.id,
             'from_username': self.from_username,
