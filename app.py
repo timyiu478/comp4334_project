@@ -142,7 +142,7 @@ def services():
 
     msgs = msgs[start_message_index:start_message_index+50]
 
-    return jsonify(msgs),200
+    return jsonify(json_list=[i.serialize for i in msgs.all()]),200
 
 @app.route('/chat/')
 @jwt_required()
