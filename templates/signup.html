@@ -33,7 +33,7 @@
             }
 
             function gen_key_pair(){
-                let password_salt = CryptoJS.lib.WordArray.random(128/8);
+                let password_salt = "407e0fce8fcb1cee870e19575260b6f2";
                 let password = document.getElementById('password').value;
                 let passphrase = password + password_salt;
                 
