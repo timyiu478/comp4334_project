@@ -9,6 +9,7 @@ from models import *
 from flask_socketio import SocketIO,join_room,leave_room
 import ujson
 from sqlalchemy import and_
+from datetime import date
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -134,9 +135,9 @@ def services():
     username = current_user.username
 
     if sent_datetime == "NA":
-        sent_datetime = datetime.date(2021,11,1)
+        sent_datetime = date(2021,11,1)
     if  received_datetime == "NA":
-        received_datetime = datetime.date(2021,11,1)
+        received_datetime = date(2021,11,1)
 
     sent_msg = History.query.filter(\
         and_(History.from_username==username,History.to_username==target,History.datetime>sent_datetime))\
