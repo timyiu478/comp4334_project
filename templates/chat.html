@@ -77,7 +77,7 @@
                 let encrypted_msg_info = data['data']['msg_info'];
                 console.log(encrypted_msg_info);
                 // let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey));
-                let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey)['plaintext']);
+                let msg_info = JSON.parse((cryptico.decrypt(encrypted_msg_info['cipher'], MattsRSAkey)['plaintext']));
 
                 console.log(msg_info);
 

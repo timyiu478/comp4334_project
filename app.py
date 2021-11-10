@@ -1,12 +1,14 @@
 from flask import Flask,make_response,redirect,request
 from flask.helpers import flash
 from flask.templating import render_template
+from werkzeug.datastructures import HeaderSet
 from flask_jwt import *
 from Crypto import Random
 from database import *
 from models import *
 from flask_socketio import SocketIO,join_room,leave_room
 import ujson
+from sqlalchemy import and_
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -121,10 +123,24 @@ def logout():
     # Revoke Fresh/Non-fresh Access and Refresh tokens
     return unset_jwt(), 302
 
-@app.route('/service/', methods=['GET'])
+@app.route('/history/', methods=['POST'])
 @jwt_required()
 def services():
-    id = get_jwt_identity()
+
+    data = request.get_json()
+    target = data['target']
+    sent_datetime = data['sent_datetime']
+    received_datetime = data['received_datetime']
+    username = current_user.username
+
+    sent_msg = History.query.filter(\
+        and_(History.from_username==username,History.to_username==target,History.datetime>sent_datetime))\
+        .order_by(History.datetime).all()
+    
+    received_msg = History.query.filter(\
+        and_(History.from_username==target,History.to_username==username,History.datetime>received_datetime))\
+        .order_by(History.datetime).all()
+
     return str(id),400
 
 @app.route('/chat/')
@@ -138,7 +154,7 @@ def public_keys():
     print('----------public_keys---------')
     print(request.json)
     print(request.data)
-    print(request.get_json('username'))
+    print(request.get_json())
     
     username = request.get_json()['username']
     print("username: ",username)
