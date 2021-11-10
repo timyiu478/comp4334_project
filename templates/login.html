@@ -41,9 +41,9 @@
                 
                 let MattsRSAkey = cryptico.generateRSAKey(passphrase, Bits);
 
-                // let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+                let MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
                 
-                document.getElementById('public_key').value = MattsPublicKeyString;
+                // document.getElementById('public_key').value = MattsPublicKeyString;
     
                 console.log(MattsRSAkey);
 
