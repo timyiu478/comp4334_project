@@ -31,7 +31,7 @@
 
                 $.ajax({
                     method: 'POST',
-                    dataType: 'text',
+                    dataType: 'json',
                     contentType: "application/json",
                     headers: {
                         'X-CSRF-TOKEN': Cookies.get('csrf_access_token')

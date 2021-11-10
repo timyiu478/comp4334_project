@@ -1,4 +1,4 @@
-from flask import Flask,make_response,redirect,request
+from flask import Flask,make_response,redirect,request,jsonify
 from flask.helpers import flash
 from flask.templating import render_template
 from werkzeug.datastructures import HeaderSet
@@ -133,15 +133,16 @@ def services():
     start_message_index = data['start_message_index']
     username = current_user.username
 
-    msg = History.query.filter(\
+    msgs = History.query.filter(\
         or_(and_(History.from_username==username,History.to_username==target),\
         and_(History.from_username==target,History.to_username==username)))\
         .order_by(History.datetime.desc()).all()
 
-    print("--------- msg ----------------")
-    print(msg)
+    print("--------- msgs ----------------")
 
-    return "nothing",200
+    msgs = msgs[start_message_index:start_message_index+50]
+
+    return jsonify(msgs),200
 
 @app.route('/chat/')
 @jwt_required()
