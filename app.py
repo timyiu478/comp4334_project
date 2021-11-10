@@ -7,7 +7,6 @@ from Crypto import Random
 from database import *
 from models import *
 from flask_socketio import SocketIO,join_room,leave_room
-import ujson
 from sqlalchemy import and_,or_
 
 

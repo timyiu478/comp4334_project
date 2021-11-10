@@ -1,6 +1,7 @@
 from database import db
 from Crypto.Hash import SHA256
 from datetime import datetime
+import ujson
 
 class User(db.Model):
     __tablename__ = "User"
@@ -45,6 +46,6 @@ class History(db.Model):
             'id': self.id,
             'from_username': self.from_username,
             'to_username': self.to_username,
-            'data': self.data,
+            'data': ujson.loads(self.data),
             'datetime': self.datetime
         }
