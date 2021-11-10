@@ -8,7 +8,7 @@ from database import *
 from models import *
 from flask_socketio import SocketIO,join_room,leave_room
 import ujson
-from sqlalchemy import and_
+from sqlalchemy import and_,or_
 from datetime import date
 
 app = Flask(__name__)
@@ -130,30 +130,18 @@ def services():
 
     data = request.get_json()
     target = data['target']
-    sent_datetime = data['sent_datetime']
-    received_datetime = data['received_datetime']
+    start_message_index = data['start_message_index']
     username = current_user.username
 
-    if sent_datetime == "NA":
-        sent_datetime = date(2021,11,1)
-    if  received_datetime == "NA":
-        received_datetime = date(2021,11,1)
+    msg = History.query.filter(\
+        or_(and_(History.from_username==username,History.to_username==target),\
+        and_(History.from_username==target,History.to_username==username)))\
+        .order_by(History.datetime.desc()).all()
 
-    sent_msg = History.query.filter(\
-        and_(History.from_username==username,History.to_username==target,History.datetime>sent_datetime))\
-        .order_by(History.datetime).all()
-    
-    received_msg = History.query.filter(\
-        and_(History.from_username==target,History.to_username==username,History.datetime>received_datetime))\
-        .order_by(History.datetime).all()
+    print("--------- msg ----------------")
+    print(msg)
 
-    print("---------sent msg ----------------")
-    print(sent_msg)
-
-    print("----------received msg --------------")
-    print(received_msg)
-
-    return "nothing",400
+    return "nothing",200
 
 @app.route('/chat/')
 @jwt_required()
