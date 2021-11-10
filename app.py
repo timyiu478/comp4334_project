@@ -123,7 +123,7 @@ def logout():
     # Revoke Fresh/Non-fresh Access and Refresh tokens
     return unset_jwt(), 302
 
-@app.route('/history/', methods=['POST'])
+@app.route('/history/', methods=['GET'])
 @jwt_required()
 def services():
 
@@ -133,6 +133,11 @@ def services():
     received_datetime = data['received_datetime']
     username = current_user.username
 
+    if sent_datetime == None:
+        sent_datetime = datetime.date(1,11,2021)
+    if  received_datetime == None:
+        received_datetime = datetime.date(1,11,2021)
+
     sent_msg = History.query.filter(\
         and_(History.from_username==username,History.to_username==target,History.datetime>sent_datetime))\
         .order_by(History.datetime).all()
@@ -141,7 +146,13 @@ def services():
         and_(History.from_username==target,History.to_username==username,History.datetime>received_datetime))\
         .order_by(History.datetime).all()
 
-    return str(id),400
+    print("---------sent msg ----------------")
+    print(sent_msg)
+
+    print("----------received msg --------------")
+    print(received_msg)
+
+    return "nothing",400
 
 @app.route('/chat/')
 @jwt_required()
