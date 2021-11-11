@@ -1,1 +1,1 @@
-web: uwsgi flask_backend/uwsgi.ini
+web: uwsgi uwsgi.ini
