@@ -1,4 +1,4 @@
-from flask import Flask,make_response,redirect,request,jsonify
+from flask import Flask,make_response,redirect,request,jsonify,send_from_directory
 from flask.helpers import flash
 from flask.templating import render_template
 from werkzeug.datastructures import HeaderSet
@@ -59,9 +59,11 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return User.query.filter_by(id=identity).one_or_none()
 
 
-# @app.route('/')
-# def index():
-#     return "hello world!"
+@app.route('/')
+def index():
+    return send_from_directory(app.static_folder,'index.html')
+
+
 
 @app.route('/api/signup/', methods=['POST'])
 def signup():

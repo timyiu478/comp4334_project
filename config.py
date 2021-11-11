@@ -17,3 +17,6 @@ JWT_CSRF_CHECK_FORM = True
 SQLALCHEMY_DATABASE_URI = database_url
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
+
+static_folder='client/build'
+static_url_path=''
