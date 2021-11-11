@@ -8,11 +8,14 @@ from database import *
 from models import *
 from flask_socketio import SocketIO,join_room,leave_room
 from sqlalchemy import and_,or_
-
+from flask_sslify import SSLify
 
 app = Flask(__name__)
 app.config.from_object('config')
+
 jwt = JWTManager(app)
+
+sslify = SSLify(app)
 
 db.app = app
 db.init_app(app)
@@ -173,6 +176,15 @@ def public_keys():
         return str(user.public_key),200
     else:
         return "user does not exit", 400
+
+@app.route('/usernames/')
+@jwt_required()
+def usernames():
+    usernames = User.query.with_entities(User.username).all()
+    print("---------usernames------------")
+    print(usernames)
+
+    return {'usernames': [user.username for user in usernames]},200
 
 @socketio.on('connect')
 @jwt_required()

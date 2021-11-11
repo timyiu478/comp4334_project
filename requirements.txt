@@ -7,3 +7,4 @@ pycrypto
 psycopg2
 flask_socketio
 ujson
+Flask-SSLify
