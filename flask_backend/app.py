@@ -59,14 +59,14 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return User.query.filter_by(id=identity).one_or_none()
 
 
-@app.route('/')
-def index():
-    return "hello world!"
+# @app.route('/')
+# def index():
+#     return "hello world!"
 
-@app.route('/signup/', methods=['GET','POST'])
+@app.route('/api/signup/', methods=['POST'])
 def signup():
-    if request.method == "GET":
-        return render_template('signup.html'),400
+    # if request.method == "GET":
+    #     return render_template('signup.html'),400
     
     uname = request.form.get('username')
     password = request.form.get('password')
@@ -83,14 +83,16 @@ def signup():
         db.session.add(User(username=uname, hs_password=h_pw,salt=salt.hex(),public_key=public_key))
         db.session.commit()
 
-        flash("Signup Successfully")
-        return redirect(url_for('login')),400
+        # flash("Signup Successfully")
+        # return redirect(url_for('login')),200
+        return {"status":"success","msg":"signup successfully"},200
     else:
-        flash("Username is already exit")
+        # flash("Username is already exit")
+        return {"status":"failed","msg":"Username is already exit"},400
 
-    return render_template('signup.html'),400
+    # return render_template('signup.html'),400
 
-@app.route('/token/refresh/', methods=['GET'])
+@app.route('/api/token/refresh/', methods=['GET'])
 @jwt_required(refresh=True)
 def refresh():
     # Refreshing expired Access token
@@ -100,11 +102,11 @@ def refresh():
     set_access_cookies(resp, access_token)
     return resp
 
-@app.route('/login/', methods=['POST','GET'])
+@app.route('/api/login/', methods=['POST'])
 def login():
 
-    if request.method == "GET":
-        return render_template('login.html'),400
+    # if request.method == "GET":
+    #     return render_template('login.html'),400
 
     # Verify uid and password
     username = request.form.get('username')
@@ -117,16 +119,16 @@ def login():
 
         return assign_access_refresh_tokens(user.id , 'index')
 
-    flash("Incorrect Username or Password.")
-    return render_template('login.html'),400
+    # flash("Incorrect Username or Password.")
+    return {"status":"failed","msg":"Incorrect Username or Password."},400
 
-@app.route('/logout/')
+@app.route('/api/logout/')
 @jwt_required()
 def logout():
     # Revoke Fresh/Non-fresh Access and Refresh tokens
     return unset_jwt(), 302
 
-@app.route('/history/', methods=['POST'])
+@app.route('/api/history/', methods=['POST'])
 @jwt_required()
 def services():
 
@@ -148,12 +150,12 @@ def services():
 
     return {'msgs': msgs},200
 
-@app.route('/chat/')
-@jwt_required()
-def chat():
-    return render_template('chat.html')
+# @app.route('/chat/')
+# @jwt_required()
+# def chat():
+#     return render_template('chat.html')
 
-@app.route('/public_keys/',methods=['POST'])
+@app.route('/api/public_keys/',methods=['POST'])
 @jwt_required()
 def public_keys():
     print('----------public_keys---------')
@@ -177,7 +179,7 @@ def public_keys():
     else:
         return "user does not exit", 400
 
-@app.route('/usernames/')
+@app.route('/api/usernames/')
 @jwt_required()
 def usernames():
     usernames = User.query.with_entities(User.username).all()
