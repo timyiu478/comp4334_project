@@ -46,9 +46,13 @@ const Login = () => {
             url: "/api/login/",
             success: function(result, statusText){
                 console.log(result);
+
+                alert(result['responseJSON']['msg']);
             },
             error: function(result, statusText){
                 console.log(result);
+
+                alert(result['responseJSON']['msg']);
             },
         })
 
