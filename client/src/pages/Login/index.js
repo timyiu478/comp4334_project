@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styles from './styles.scss';
 import { useHistory } from 'react-router-dom';
 import { FormControl } from '@material-ui/core';
@@ -29,7 +29,7 @@ const Login = () => {
         // history.push('/chatpage');
 
         const senderRSAkey = gen_key_pair(username,password);
-        
+
         const data = {
             'username': username,
             'password': password
