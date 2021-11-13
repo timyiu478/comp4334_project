@@ -4,7 +4,7 @@ from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, 
                                 unset_jwt_cookies,unset_access_cookies,current_user)
 
-def assign_access_refresh_tokens(user_id, url):
+def assign_access_refresh_tokens(user_id):
     access_token = create_access_token(identity=user_id)
     refresh_token = create_refresh_token(identity=user_id)
     resp = jsonify({'refresh': True})

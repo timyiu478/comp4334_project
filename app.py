@@ -1,5 +1,5 @@
 import re
-from flask import Flask,make_response,redirect,request,jsonify,send_from_directory
+from flask import Flask,make_response,redirect,request,send_from_directory
 from flask.helpers import flash
 from flask.templating import render_template
 from werkzeug.datastructures import HeaderSet
@@ -28,12 +28,13 @@ db.create_all()
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
     # No auth header
-    return redirect(url_for('signup'), 302)
+    # return redirect(url_for('signup'), 302)
+    return jsonify({'authorized':False}),302
 
 @jwt.token_verification_failed_loader
 def token_verification_failed_callback(callback):
     # Invalid Fresh/Non-Fresh Access token in auth header
-    resp = make_response(redirect(url_for('signup')))
+    resp = jsonify({'authorized':False}),302
     unset_jwt_cookies(resp)
     return resp, 302
 
@@ -129,7 +130,7 @@ def login():
 
     if user and user.check_password(password):
 
-        return assign_access_refresh_tokens(user.id , 'index')
+        return assign_access_refresh_tokens(user.id)
 
     # flash("Incorrect Username or Password.")
     return {"status":"failed","msg":"Incorrect Username or Password."},400
