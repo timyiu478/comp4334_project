@@ -129,7 +129,7 @@ def login():
 
     if user and user.check_password(password):
 
-        return assign_access_refresh_tokens(user.id , 'index'),200
+        return assign_access_refresh_tokens(user.id , 'index')
 
     # flash("Incorrect Username or Password.")
     return {"status":"failed","msg":"Incorrect Username or Password."},400

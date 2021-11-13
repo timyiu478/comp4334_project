@@ -7,7 +7,7 @@ from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,
 def assign_access_refresh_tokens(user_id, url):
     access_token = create_access_token(identity=user_id)
     refresh_token = create_refresh_token(identity=user_id)
-    resp = make_response(redirect(url_for(url), 302))
+    resp = make_response(redirect(url_for(url), 200))
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)
     return resp
