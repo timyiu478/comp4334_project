@@ -61,15 +61,9 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 
 @app.route('/')
-@jwt_required(optional=True)
 def index():
-
-    id = get_jwt_identity()
-
-    if id == None:
-        return send_from_directory(app.static_folder,'index.html'),200
+    return send_from_directory(app.static_folder,'index.html'),200
     
-    return redirect("/chatapp/"),302
 
 
 

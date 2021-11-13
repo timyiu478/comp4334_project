@@ -1,4 +1,6 @@
-function serializeRSAKey(key) {
+import {cryptico} from 'cryptico-js';
+
+export function serializeRSAKey(key) {
     return JSON.stringify({
     coeff: key.coeff.toString(16),
     d: key.d.toString(16),
@@ -11,14 +13,14 @@ function serializeRSAKey(key) {
     })
 }
 
-function deserializeRSAKey(key) {
+export function deserializeRSAKey(key) {
     let json = JSON.parse(key);
     let rsa = new RSAKey();
     rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
     return rsa;
 }
 
-function gen_key_pair(username,password){
+export function gen_key_pair(username,password){
     let password_salt = "407e0fce8fcb1cee870e19575260b6f2";
     // let username = document.getElementById('username').value;
     // let password = document.getElementById('password').value;
@@ -43,6 +45,6 @@ function gen_key_pair(username,password){
     // document.getElementById('signup_form').submit();
 }
 
-function gen_public_key(SenderRSAkey){
+export function gen_public_key(SenderRSAkey){
     return cryptico.publicKeyString(SenderRSAkey);
 }

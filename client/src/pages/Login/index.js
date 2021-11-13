@@ -5,11 +5,58 @@ import { FormControl } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Register from 'components/Register';
 
+
+import {serializeRSAKey,gen_key_pair} from 'src/genKey.js';
+import $ from 'jquery';
+
 const Login = () => {
     const [open, setOpen] = useState(false);
-    const history = useHistory();
+    // const history = useHistory();
+
+    const [username,setUsername] = useState("");
+    const [password,setPassword] = useState("");
+
+    const handleChange = () => {
+        if(e.target.id == "username"){
+            setUsername(e.target.value);
+        }
+        if(e.target.id == "password"){
+            setPassword(e.target.value);
+        } 
+    }
+
     const signUp = () => {
-        history.push('/chatpage');
+        // history.push('/chatpage');
+
+        const senderRSAkey = gen_key_pair(username,password);
+        const senderPublicKeyString = gen_public_key(senderRSAkey);
+
+        const data = {
+            'username': username,
+            'password': password,
+            'public_key': senderPublicKeyString
+        }
+
+        localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
+        localStorage.setItem('username', username);
+
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            headers: {
+                'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
+            },
+            data: JSON.stringify(data),
+            url: "/api/login/",
+            success: function(result, statusText){
+                console.log(result);
+            },
+            error: function(result, statusText){
+                console.log(result);
+            },
+        })
+
     };
 
     const onClick = () => {
@@ -29,11 +76,11 @@ const Login = () => {
                         <h1 className={styles.heading}>Login</h1>
                         <div className={styles.input}>
                             <label htmlFor="name">Login Name</label>
-                            <input type="text" name="name" id="name" autoComplete="none" />
+                            <input type="text" name="username" id="username" autoComplete="none" value={username} onChange={handleChange} />
                         </div>
                         <div className={styles.input}>
                             <label htmlFor="password">Password</label>
-                            <input type="password" name="password" id="password" />
+                            <input type="password" name="password" id="password"  value={password} onChange={handleChange} />
                         </div>
                         <div className={styles.submitContainer}>
                             <Button variant="contained" onClick={signUp}>

@@ -7,8 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import {cryptico} from 'cryptico-js';
-import {serializeRSAKey,deserializeRSAKey,gen_key_pair} from './register.js';
+import {serializeRSAKey,gen_key_pair} from 'src/genKey.js';
 import $ from 'jquery';
 
 const FormDialog = ({ open, setOpen }) => {
