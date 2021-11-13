@@ -16,7 +16,7 @@ const Login = () => {
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
 
-    const handleChange = () => {
+    const handleChange = (e) => {
         if(e.target.id == "username"){
             setUsername(e.target.value);
         }
