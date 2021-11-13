@@ -62,7 +62,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 @app.route('/')
 def index():
-    return send_from_directory(app.static_folder,'index.html'),200
+    return send_from_directory(app.static_folder,'index.html')
     
 
 
