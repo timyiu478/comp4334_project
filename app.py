@@ -115,9 +115,12 @@ def login():
     #     return render_template('login.html'),400
 
     # Verify uid and password
-    username = request.form.get('username')
-    password = request.form.get('password')
+    # username = request.form.get('username')
+    # password = request.form.get('password')
 
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
 
     user = User.query.filter_by(username=username).one_or_none()
 

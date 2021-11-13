@@ -1,4 +1,4 @@
-import {cryptico} from 'cryptico-js';
+import cryptico from 'cryptico-js';
 
 export function serializeRSAKey(key) {
     return JSON.stringify({

@@ -29,12 +29,10 @@ const Login = () => {
         // history.push('/chatpage');
 
         const senderRSAkey = gen_key_pair(username,password);
-        const senderPublicKeyString = gen_public_key(senderRSAkey);
-
+        
         const data = {
             'username': username,
-            'password': password,
-            'public_key': senderPublicKeyString
+            'password': password
         }
 
         localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
@@ -44,9 +42,6 @@ const Login = () => {
             method: 'POST',
             dataType: 'json',
             contentType: "application/json",
-            headers: {
-                'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
-            },
             data: JSON.stringify(data),
             url: "/api/login/",
             success: function(result, statusText){

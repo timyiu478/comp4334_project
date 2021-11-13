@@ -40,9 +40,6 @@ const FormDialog = ({ open, setOpen }) => {
             method: 'POST',
             dataType: 'json',
             contentType: "application/json",
-            headers: {
-                'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
-            },
             data: JSON.stringify(data),
             url: "/api/signup/",
             success: function(result, statusText){
