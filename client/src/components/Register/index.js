@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import {serializeRSAKey,gen_key_pair} from 'src/genKey.js';
+import {serializeRSAKey,gen_public_key,gen_key_pair} from 'src/genKey.js';
 import $ from 'jquery';
 
 const FormDialog = ({ open, setOpen }) => {
