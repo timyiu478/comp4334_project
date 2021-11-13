@@ -1,4 +1,4 @@
-from flask import make_response,redirect,url_for
+from flask import make_response,redirect,url_for,jsonify
 from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,
                                 create_access_token, create_refresh_token, 
                                 set_access_cookies, set_refresh_cookies, 
@@ -7,13 +7,13 @@ from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,
 def assign_access_refresh_tokens(user_id, url):
     access_token = create_access_token(identity=user_id)
     refresh_token = create_refresh_token(identity=user_id)
-    resp = {'refresh': True}
+    resp = jsonify({'refresh': True})
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)
     return resp,200
 
 def unset_jwt():
-    resp = {'unset': True}
+    resp = jsonify({'unset': True})
     unset_jwt_cookies(resp)
     return resp,200
 
