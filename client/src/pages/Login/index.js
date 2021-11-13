@@ -6,12 +6,12 @@ import Button from '@material-ui/core/Button';
 import Register from 'components/Register';
 
 
-import {serializeRSAKey,gen_key_pair,gen_public_key} from 'src/genKey.js';
+import {serializeRSAKey,gen_key_pair} from 'src/genKey.js';
 import $ from 'jquery';
 
 const Login = () => {
     const [open, setOpen] = useState(false);
-    // const history = useHistory();
+    const history = useHistory();
 
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     const signUp = () => {
-        // history.push('/chatpage');
+        history.push('/chatpage');
 
         const senderRSAkey = gen_key_pair(username,password);
 

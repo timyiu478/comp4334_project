@@ -60,8 +60,14 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return User.query.filter_by(id=identity).one_or_none()
 
 
-@app.route('/')
-def index():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    print("---------path-----------")
+    print(path)
+    if path ==  "chatpage/" or path == "chatpage":
+        return send_from_directory(app.static_folder, "chatpage"),200
+
     return send_from_directory(app.static_folder,'index.html'),200
     
 
