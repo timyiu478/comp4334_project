@@ -1,3 +1,4 @@
+import re
 from flask import Flask,make_response,redirect,request,jsonify,send_from_directory
 from flask.helpers import flash
 from flask.templating import render_template
@@ -60,8 +61,15 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 
 @app.route('/')
+@jwt_required(optional=True)
 def index():
-    return send_from_directory(app.static_folder,'index.html')
+
+    id = get_jwt_identity()
+
+    if id == None:
+        return send_from_directory(app.static_folder,'index.html'),200
+    
+    return redirect("/chatapp/"),302
 
 
 
@@ -69,10 +77,12 @@ def index():
 def signup():
     # if request.method == "GET":
     #     return render_template('signup.html'),400
-    
-    uname = request.form.get('username')
-    password = request.form.get('password')
-    public_key = request.form.get('public_key')
+
+    data = request.get_json()
+
+    uname = data['username']
+    password = data['password']
+    public_key = data['public_key']
 
     user = User.query.filter_by(username=uname).one_or_none()
 
