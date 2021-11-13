@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import Register from 'components/Register';
 
 
-import {serializeRSAKey,gen_key_pair} from 'src/genKey.js';
+import {serializeRSAKey,gen_key_pair,gen_public_key} from 'src/genKey.js';
 import $ from 'jquery';
 
 const Login = () => {
