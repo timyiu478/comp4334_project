@@ -10,10 +10,10 @@ def assign_access_refresh_tokens(user_id, url):
     resp = {'refresh': True}
     set_access_cookies(resp, access_token)
     set_refresh_cookies(resp, refresh_token)
-    return resp
+    return resp,200
 
 def unset_jwt():
-    resp = make_response(redirect(url_for('index'), 302))
+    resp = {'unset': True}
     unset_jwt_cookies(resp)
-    return resp
+    return resp,200
 
