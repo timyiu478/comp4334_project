@@ -128,6 +128,9 @@ def login():
     username = data['username']
     password = data['password']
 
+    print("-------login-----------")
+    print(data)
+
     user = User.query.filter_by(username=username).one_or_none()
 
     if user and user.check_password(password):

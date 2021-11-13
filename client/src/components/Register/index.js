@@ -48,7 +48,7 @@ const FormDialog = ({ open, setOpen }) => {
                 localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
                 localStorage.setItem('username', username);
                 
-                alert(result['responseJSON']['msg']);
+                alert(result['msg']);
             },
             error: function(result, statusText){
                 console.log(result);
