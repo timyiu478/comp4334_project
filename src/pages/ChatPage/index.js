@@ -1,55 +1,94 @@
-import React, { useState } from 'react';
-import { withStylesPropTypes } from 'react-with-styles';
+import React, { useState, useRef, Component } from 'react';
 import styles from './styles.scss';
-import { PermContactCalendar, Send } from '@material-ui/icons';
-import { debug } from 'debug';
+import { Send, StayPrimaryLandscapeSharp } from '@material-ui/icons';
 
-const ChatPage = () => {
-    const contactList = ['Peter','Tony','Ryan' ]; //testing
-    var contactName = contactList[1]; 
-    const [inMessage, setInMessage] = useState(['hello', 'hi', 'c']);
-    const [outMessage, setOutMessage] = useState(['chat', 'test', 'df']);
-    console.log("hi");
+const ChatPage = () => { 
+  
+    const [msgList, setMsgList] = useState([{isFromSelf: false,
+                                            msg: 'hello',
+                                            time: '01:00'
+                                            },
+                                            {isFromSelf: true,
+                                                msg: 'hi',
+                                                time: '01:01'
+                                            },
+                                            {isFromSelf: false,
+                                                msg: 'how are you doing',
+                                                time: '01:02'
+                                            },
+                                            {isFromSelf: true,
+                                                msg: 'well',
+                                                time: '01:03'
+                                            },
+                                            {isFromSelf: true,
+                                                msg: 'And you?',
+                                                time: '01:04'
+                                            },
+                                            {isFromSelf: false,
+                                                msg: 'wonderful!',
+                                                time: '01:05'
+                                            }, 
+                                            ]);
+                                            
+    const [contactList, setContactList] = useState([{name: 'Peter',
+                                                    id: '001',
+                                                    sessionkey: '999'},
+                                                    {name: 'Tony',
+                                                    id: '002',
+                                                    sessionkey: '989'},
+                                                    {name: 'Greg',
+                                                    id: '003',
+                                                    sessionkey: '789'}]);
 
-    //display mobile contact list
-    function toggleMobileContactList(){
-        console.log("hi");
-    };
+    const [inputForm, setInputForm] = useState('');
+    const [currentContact, setCurrentContact] = useState(contactList[0]);
+
+    const contactSelector = (index) => {
+        setCurrentContact(contactList[index])
+    }
+
+    const sendInputMsg = () => {
+        if (inputForm!=""){
+            const newMsg = {
+                isFromSelf: true,
+                msg: inputForm,
+                time: "02:00"
+            }
+            setMsgList( msgList => [...msgList, newMsg]);
+        }
+    }
+
 
     return (
         <>
             <div className={styles.container}>
                 <div className={styles.background} />
                 <div className={styles.chat_container}>
-                    <div className={styles.contactListClickable}>
-                        <PermContactCalendar onClick={toggleMobileContactList}></PermContactCalendar>
-                    </div>
                     <div className={styles.chat_header}>
                         <h1>ChatPage</h1>
                     </div>
                     <div className ={styles.chat_app_container}>
-                        <div className={styles.chat_app_contactList}>
-                            <h1>contact list</h1>
+                        
+                        <div className={styles.chat_app_contactList_container}>
+                            {contactList.map( (contact, index) => (
+                                    <li key={contact.id} className={styles.chat_app_contactList_contact} onClick={()=>contactSelector(index)}>{contact.name}</li>
+                                ))}
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                    <h2>{contactName}</h2>
-
+                                    <h2>{currentContact.name}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
-                                {inMessage.map((content) => (
-                                    <p className={styles.chat_app_msg_inMsg}>{content}</p>
+
+                                {msgList.map( (content) => (
+                                    <p className={!content.isFromSelf? styles.chat_app_msg_inMsg: styles.chat_app_msg_outMsg}>{content.msg}</p>
                                 ))}
-                                {outMessage.map((content) => (
-                                    <p className={styles.chat_app_msg_outMsg}>{content}</p>
-                                ))}
+
                             </div>                                
                             <div className={styles.chat_app_footer}>
                                 <form>
-                                    <input type="text" name="" />
-                                    <button id="send_btn">
-                                        <Send></Send>
-                                    </button>
+                                <input type="text" onChange={ () => setInputForm(event.target.value)}/>
+                                    <button onClick={()=>sendInputMsg()}><Send ></Send></button>
                                 </form>
                             </div>
                         </div>
