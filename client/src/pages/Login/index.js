@@ -80,7 +80,7 @@ const Login = () => {
                             />
                         </div>
                         <div className={styles.input}>
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Passwordsss</label>
                             <input
                                 type="password"
                                 name="password"
