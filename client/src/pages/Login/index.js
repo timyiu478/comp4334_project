@@ -69,7 +69,7 @@ const Login = () => {
                     <FormControl className={styles.form}>
                         <h1 className={styles.heading}>Login</h1>
                         <div className={styles.input}>
-                            <label htmlFor="name">Login</label>
+                            <label htmlFor="name">Login name test</label>
                             <input
                                 type="text"
                                 name="username"
