@@ -55,9 +55,29 @@
     background-color: transparent;
 }
 
-.chat_app_contactList{
-    width: 200px;
-    background-color: black;
+.chat_app_contactList_container{
+    display: flexbox;
+    width: 150px;
+    justify-content: center;
+    background-color: $contactListContainer-color;
+}
+
+.chat_app_contactList_contact{
+    font-size: $font-size;
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: fit-content;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 0;
+    background-color: $contactListContact-color;
+}
+
+.chat_app_contactList_contact:hover{
+    background-color: $contactListContact-selected-color;
+    cursor:pointer;
 }
 
 .chat_app_body {
@@ -154,24 +174,8 @@ form button:hover, form button:active {
         margin: auto;
         position: fixed;
     }
-    .chat_app_contactList{
-        //visibility: hidden;
-        position: absolute;
-        display: flexbox;
-        height: 100%;
-        //left:-1000px;
-    }
 
-    .contactListClickable{
-        visibility: visible;
-        position:absolute;
-        margin: 1.5rem;
-        transform: scale(2.5);
-        color: $primary-color-lighter;
-        cursor: pointer;
-    }
-
-    .contactListClickable:active{
+    .contactListClickabl:active{
         transform: scale(2.75);
         transition: all 0.3s;
     }
