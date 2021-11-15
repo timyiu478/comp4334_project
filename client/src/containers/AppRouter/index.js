@@ -14,7 +14,7 @@ const AppRouter = () => (
             <Route exact path={RoutePaths.LoginPath} component={Login} />
             <Route exact path={RoutePaths.ChatPage} component={chatBox} />
             <Redirect from="*" to="/"></Redirect>
-            <Route component={NotFoundPage} />
+            {/* <Route component={NotFoundPage} /> */}
         </Switch>
     </BrowserRouter>
 );
