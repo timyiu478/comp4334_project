@@ -1,31 +1,39 @@
 .container {
+    width: 100%;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     overflow: hidden;
+    position: relative;
 }
 .background {
-    background-image: url('../../background.jpg');
+    background: url('../../background.jpg');
+    // background-image: url('../../background.jpg');
     background-position: center;
     background-size: cover;
     height: 100%;
     width: 100%;
-    opacity: 0.8;
-    filter: blur(5px);
-    transform: scale(1.1);
+    // opacity: 0.8;
+    // filter: blur(5px);
+    // transform: scale(1.1);
+    position: absolute;
+    top:0;
+    left: 0;
 }
 .chat_container {
-    border-radius: 5%;
+    // background-color: transparent;
+    border-radius: 10px;
     background-color: $background-color;
     opacity: 0.9;
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 90%;
     width: 60%;
     box-shadow: 4px 12px 20px $table-background-color;
-    margin: auto;
-    position: fixed;
+    margin: 20px auto 0 auto;
+    overflow: hidden;
+    // position: fixed;
 }
 
 .contactListClickable {
@@ -89,10 +97,10 @@
 }
 
 .chat_app_msg_container{
-    height: 90%;
-    flex: 1;
-    padding: 1rem 1rem;
-    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    // flex: 1;
+    // padding: 1rem 1rem;
 }
 
 .chat_app_contact{
@@ -101,47 +109,61 @@
     padding: 10px 0px 10px 20px;
 }
 
+.chat_app_msg_inMsg p,.chat_app_msg_outMsg p{
+    width: 100%;
+    height: 100%;
+}
+
+.chat_app_msg_inMsg span,.chat_app_msg_outMsg span{
+    font-size: 0.6rem;
+    // float: right;
+}
+
+.chat_app_msg_inMsg,.chat_app_msg_outMsg{
+    width: 30%;
+    height: max-content;
+    padding: 0 0.6rem;
+    border-radius: 15px;
+    // margin-top: 5px;
+    // margin-bottom: 10px;
+    margin: 0.5rem 1rem;
+    box-shadow: $chat-msg-shadow;
+}
+
 .chat_app_msg_inMsg {
     background-color: $chat-in-msg-color;
-    width: fit-content;
-    padding: 0.6rem;
-    border-radius: 10%;
-    margin-top: 5px;
-    margin-bottom: 10px;
     box-shadow: $chat-msg-shadow;
 }
 
 .chat_app_msg_outMsg{
     background-color: $chat-out-msg-color;
-    width: fit-content;
-    padding: 0.6rem;
-    border-radius: 10%;
-    margin-top: 5px;
-    margin-bottom: 10px;
     margin-left: auto;
-    box-shadow: $chat-msg-shadow;
 }
 
-.chat_app_footer form {
-    // background-color: transparent;
-    display: flex;
-    flex:1;
+.chat_app_footer{
+    background-color: transparent;
+    // display: flex;
+    // flex:1;
+    width: 100%;
+    margin: 10px 0;
 }
 
-form input {
-    flex: 1;
+.chat_app_footer input {
+    // flex: 1;
+    width: 85%;
     height: 2rem;
     border: none;
     outline: none;
     padding: 0.5rem;
     font-size: 16px;
-    margin: 1rem;
+    // margin: 1rem;
     margin-left: 1.5rem;
+    margin-right: 1rem;
     border-radius: 1rem;
     box-shadow: $chat-shadow;
 }
 
-form button {
+.chat_app_footer button {
     height: 2rem;
     width: 2rem;
 
@@ -149,9 +171,9 @@ form button {
 
     border: none;
     outline: none;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-right: 1rem;
+    // margin-top: 1rem;
+    // margin-bottom: 1rem;
+    // margin-right: 1rem;
     background-color: $primary-color;
     border-radius: 50%;
     color: $chat-input-color;
@@ -163,31 +185,39 @@ form button:hover, form button:active {
     background-color: $primary-color-hover;
 }
 
+.msg_scrollbar{
+    width: 100%;
+    height: 100%;
+}
+
 @media screen and (max-width: 1024px){
 
     .chat_container {
-        background-color: $background-color;
-        opacity: 0.9;
-        display: flex;
-        flex-direction: column;
+        // background-color: transparent;
+        // background-color: $background-color;
+        // opacity: 0.9;
+        // display: flex;
+        // flex-direction: column;
+        border-radius: 0px;
         height: 100%;
         width: 100%;
-        box-shadow: 4px 12px 20px $table-background-color;
-        margin: auto;
-        position: fixed;
+        margin: 0;
+        // box-shadow: 4px 12px 20px $table-background-color;
+        // margin: auto;
+        // position: fixed;
     }
 
-    .contactListClickabl:active{
-        transform: scale(2.75);
-        transition: all 0.3s;
-    }
+    // .contactListClickabl:active{
+    //     transform: scale(2.75);
+    //     transition: all 0.3s;
+    // }
 
-    form input{
-        height: 3rem;
-    }
+    // form input{
+    //     height: 3rem;
+    // }
 
-    form button{
-        height: 3rem;
-        width: 3rem;
-    }
+    // form button{
+    //     height: 3rem;
+    //     width: 3rem;
+    // }
 }

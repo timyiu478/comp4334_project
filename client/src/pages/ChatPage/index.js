@@ -1,9 +1,12 @@
 import React, { useState, useRef, Component } from 'react';
 import styles from './styles.scss';
-import { Send, StayPrimaryLandscapeSharp } from '@material-ui/icons';
+import { Send, StayPrimaryLandscapeSharp,Menu} from '@material-ui/icons';
+import { Scrollbars} from 'react-custom-scrollbars-2';
 
 const ChatPage = () => { 
-  
+
+    const msg_scrollbar = useRef(null);
+
     const [msgList, setMsgList] = useState([{isFromSelf: false,
                                             msg: 'hello',
                                             time: '01:00'
@@ -43,11 +46,21 @@ const ChatPage = () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(contactList[0]);
 
+    const handleInputFormChange = (e) => {
+        setInputForm(e.target.value);
+    }
+
     const contactSelector = (index) => {
         setCurrentContact(contactList[index])
     }
 
-    const sendInputMsg = () => {
+    const sendInputMsgByEnter = (e) => {
+        // console.log(e.key);
+        if(e.key !== 'Enter') return;
+        sendInputMsg();
+    }
+
+    const sendInputMsg = async () => {
         
         if (inputForm!=""){
             const newMsg = {
@@ -55,14 +68,17 @@ const ChatPage = () => {
                 msg: inputForm,
                 time: "02:00"
             }
-            setMsgList( msgList => [...msgList, newMsg]);
+            await setMsgList( msgList => [...msgList, newMsg]);
+            setInputForm("");
+
+            msg_scrollbar.current.scrollToBottom();
         }
     }
 
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={styles.container} onKeyDown={sendInputMsgByEnter}>
                 <div className={styles.background} />
                 <div className={styles.chat_container}>
                     <div className={styles.chat_header}>
@@ -80,17 +96,18 @@ const ChatPage = () => {
                                     <h2>{currentContact.name}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
-
-                                {msgList.map( (content) => (
-                                    <p className={!content.isFromSelf? styles.chat_app_msg_inMsg: styles.chat_app_msg_outMsg}>{content.msg}</p>
-                                ))}
-
+                                <Scrollbars ref={msg_scrollbar} className={styles.msg_scrollbar} universal autoHide autoHideTimeout={1000} autoHideDuration={200}>
+                                    {msgList.map( (content) => (
+                                        <p className={!content.isFromSelf? styles.chat_app_msg_inMsg: styles.chat_app_msg_outMsg}>
+                                            <p>{content.msg}</p>
+                                            <span>{content.time}</span>
+                                        </p>
+                                    ))}
+                                </Scrollbars>
                             </div>                                
                             <div className={styles.chat_app_footer}>
-                                <form>
-                                <input type="text" onChange={ () => setInputForm(event.target.value)}/>
-                                    <button onClick={()=>sendInputMsg()} type='button' ><Send ></Send></button>
-                                </form>
+                                <input placeholder=" Enter message..." type="text" value={inputForm} onChange={handleInputFormChange}/> 
+                                <button onClick={sendInputMsg} type='button' ><Send ></Send></button>
                             </div>
                         </div>
                         
