@@ -21,8 +21,9 @@ const ChatPage = () => {
 
     const sendInputMsg = () => {
         console.log('msg: ' + inputForm + 'to: ' + contactList[currentContact]);
-        const publicKey = get_public_key(contactList[currentContact]);
-        sendMsg(inputForm, contactList[currentContact], publicKey);
+        get_public_key(contactList[currentContact]).then((response) =>
+            sendMsg(inputForm, contactList[currentContact], response)
+        );
     };
     const getUser = () => {
         $.ajax({
