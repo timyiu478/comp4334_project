@@ -52,7 +52,7 @@ export function get_history(target, start_message_index = 0) {
             'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
         },
         data: JSON.stringify(data),
-        url: '/history/',
+        url: '/api/history/',
         success: function (result, statusText) {
             // Handle success
             console.log(result);
