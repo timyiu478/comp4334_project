@@ -16,6 +16,7 @@
     transform: scale(1.1);
 }
 .chat_container {
+    border-radius: 5%;
     background-color: $background-color;
     opacity: 0.9;
     display: flex;
@@ -91,6 +92,7 @@
     height: 90%;
     flex: 1;
     padding: 1rem 1rem;
+    overflow-y: scroll;
 }
 
 .chat_app_contact{
@@ -121,7 +123,7 @@
 }
 
 .chat_app_footer form {
-    background-color: transparent;
+    // background-color: transparent;
     display: flex;
     flex:1;
 }
