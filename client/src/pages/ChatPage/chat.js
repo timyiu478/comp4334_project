@@ -157,8 +157,7 @@ export function sendMsg(msg, to, receiver_public_key) {
     // document.getElementById('message').value = "";
 }
 
-const server = require('http').createServer();
-const io = require('socket.io')(server);
+const io = require('socket.io')();
 var socket = io.connect('https://' + document.domain + ':' + location.port);
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
