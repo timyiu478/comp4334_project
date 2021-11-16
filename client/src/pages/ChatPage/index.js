@@ -82,13 +82,13 @@ const ChatPage = () => {
                                     className={styles.chat_app_contactList_contact}
                                     onClick={() => contactSelector(index)}
                                 >
-                                    {contact.name}
+                                    {contact}
                                 </li>
                             ))}
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{currentContact.name}</h2>
+                                <h2>{currentContact}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
