@@ -87,6 +87,7 @@ export function get_public_key(receiver) {
         success: function (result, statusText) {
             // Handle success
             console.log(result);
+            return result;
         },
         error: function (jqXHR, textStatus, errorThrown) {
             //handle error
