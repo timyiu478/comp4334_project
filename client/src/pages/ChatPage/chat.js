@@ -119,7 +119,7 @@ socket.on('message', function (data) {
 
 function padding(msg) {
     if (msg.length % 16 != 0) {
-        count = msg.length % 16;
+        const count = msg.length % 16;
         console.log(count);
         let array = new Uint8Array(16 - count);
         array = crypto.getRandomValues(array);
