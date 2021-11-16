@@ -56,7 +56,7 @@ const ChatPage = () => {
             method: 'GET',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify(data),
+            // data: JSON.stringify(data),
             url: '/api/usernames/',
             success: function (result, statusText) {
                 console.log(result);
