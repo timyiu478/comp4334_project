@@ -72,9 +72,9 @@ export function get_history(target, start_message_index = 0) {
     });
 }
 
-export function get_public_key() {
-    let to = document.getElementById('receiver').value;
-    let data = { username: to };
+export function get_public_key(receiver) {
+    const to = receiver;
+    const data = { username: to };
     $.ajax({
         method: 'POST',
         dataType: 'text',
@@ -87,7 +87,6 @@ export function get_public_key() {
         success: function (result, statusText) {
             // Handle success
             console.log(result);
-            sendMsg(to, result);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             //handle error

@@ -3,7 +3,7 @@ import styles from './styles.scss';
 import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
-import { get_history } from './chat';
+import { get_history, get_public_key, sendMsg } from './chat';
 
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
@@ -19,22 +19,10 @@ const ChatPage = () => {
         setInputForm(e.target.value);
     };
 
-    const sendInputMsgByEnter = (e) => {
-        if (e.key !== 'Enter') return;
-        sendInputMsg();
-    };
-
-    const sendInputMsg = async () => {
-        if (inputForm != '') {
-            const newMsg = {
-                isFromSelf: true,
-                msg: inputForm,
-                time: '02:00',
-            };
-            await setMsgList((msgList) => [...msgList, newMsg]);
-            setInputForm('');
-            msg_scrollbar.current.scrollToBottom();
-        }
+    const sendInputMsg = () => {
+        console.log('msg: ' + inputForm + 'to: ' + contactList[currentContact]);
+        get_public_key(contactList[currentContact]);
+        // sendMsg(inputForm, contactList[currentContact], receiver_public_key);
     };
     const getUser = () => {
         $.ajax({
@@ -61,7 +49,7 @@ const ChatPage = () => {
 
     return (
         <>
-            <div className={styles.container} onKeyDown={sendInputMsgByEnter}>
+            <div className={styles.container}>
                 <div className={styles.background} />
                 <div className={styles.chat_container}>
                     <div className={styles.chat_header}>
