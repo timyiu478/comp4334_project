@@ -10,7 +10,7 @@ const ChatPage = () => {
 
     const [msgList, setMsgList] = useState([]);
 
-    const [contactList, setContactList] = useState();
+    const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(0);
@@ -56,7 +56,7 @@ const ChatPage = () => {
     }, []);
 
     useEffect(() => {
-        if (contactList !== undefined) get_history(contactList[currentContact]);
+        if (contactList !== []) get_history(contactList[currentContact]);
     }, [currentContact]);
 
     return (
@@ -69,7 +69,7 @@ const ChatPage = () => {
                     </div>
                     <div className={styles.chat_app_container}>
                         <div className={styles.chat_app_contactList_container}>
-                            {contactList !== undefined &&
+                            {contactList !== [] &&
                                 contactList.map((contact, index) => (
                                     <li
                                         key={index}
@@ -93,18 +93,19 @@ const ChatPage = () => {
                                     autoHideTimeout={1000}
                                     autoHideDuration={200}
                                 >
-                                    {msgList.map((content) => (
-                                        <p
-                                            className={
-                                                !content.isFromSelf
-                                                    ? styles.chat_app_msg_inMsg
-                                                    : styles.chat_app_msg_outMsg
-                                            }
-                                        >
-                                            <p>{content.msg}</p>
-                                            <span>{content.time}</span>
-                                        </p>
-                                    ))}
+                                    {msgList !== [] &&
+                                        msgList.map((content) => (
+                                            <p
+                                                className={
+                                                    !content.isFromSelf
+                                                        ? styles.chat_app_msg_inMsg
+                                                        : styles.chat_app_msg_outMsg
+                                                }
+                                            >
+                                                <p>{content.msg}</p>
+                                                <span>{content.time}</span>
+                                            </p>
+                                        ))}
                                 </Scrollbars>
                             </div>
                             <div className={styles.chat_app_footer}>
