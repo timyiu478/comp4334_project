@@ -18,7 +18,7 @@ const ChatPage = () => {
     ]);
 
     const [contactList, setContactList] = useState([]);
-
+    const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(0);
 
@@ -51,7 +51,7 @@ const ChatPage = () => {
             url: '/api/usernames/',
             success: function (result, statusText) {
                 console.log(result.usernames);
-                setContactList(result.usernames.filter((word) => word != 'qwe'));
+                setContactList(result.usernames.filter((word) => word != currentMe));
             },
             error: function (result, statusText) {
                 console.log(result);
