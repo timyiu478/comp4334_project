@@ -47,7 +47,6 @@ const ChatPage = () => {
             };
             await setMsgList((msgList) => [...msgList, newMsg]);
             setInputForm('');
-            // get_public_key();
             msg_scrollbar.current.scrollToBottom();
         }
     };
