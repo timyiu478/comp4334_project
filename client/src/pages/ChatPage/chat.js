@@ -72,10 +72,11 @@ export function get_history(target, start_message_index = 0) {
     });
 }
 
-export function get_public_key(receiver) {
+export async function get_public_key(receiver) {
     const to = receiver;
     const data = { username: to };
-    $.ajax({
+    let publicKey = '';
+    await $.ajax({
         method: 'POST',
         dataType: 'text',
         contentType: 'application/json',
@@ -86,6 +87,7 @@ export function get_public_key(receiver) {
         url: '/api/public_keys/',
         success: function (result, statusText) {
             // Handle success
+            publicKey = result;
             return result;
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -95,6 +97,7 @@ export function get_public_key(receiver) {
             console.log(errorThrown);
         },
     });
+    return publicKey;
 }
 
 var socket = io.connect('https://' + document.domain + ':' + location.port);
