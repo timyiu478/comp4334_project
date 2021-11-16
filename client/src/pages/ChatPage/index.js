@@ -3,7 +3,7 @@ import styles from './styles.scss';
 import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
-
+import { get_history } from './chat';
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
 
@@ -19,18 +19,13 @@ const ChatPage = () => {
     const [contactList, setContactList] = useState([]);
 
     const [inputForm, setInputForm] = useState('');
-    const [currentContact, setCurrentContact] = useState(contactList[0]);
+    const [currentContact, setCurrentContact] = useState(0);
 
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
     };
 
-    const contactSelector = (index) => {
-        setCurrentContact(contactList[index]);
-    };
-
     const sendInputMsgByEnter = (e) => {
-        // console.log(e.key);
         if (e.key !== 'Enter') return;
         sendInputMsg();
     };
@@ -55,7 +50,7 @@ const ChatPage = () => {
             url: '/api/usernames/',
             success: function (result, statusText) {
                 console.log(result.usernames);
-                setContactList(result.usernames);
+                setContactList(result.usernames.filter((word) => word != 'qwe'));
             },
             error: function (result, statusText) {
                 console.log(result);
@@ -65,6 +60,10 @@ const ChatPage = () => {
     useEffect(() => {
         getUser();
     }, []);
+
+    useEffect(() => {
+        get_history(contactList[currentContact]);
+    }, [currentContact]);
 
     return (
         <>
@@ -80,7 +79,7 @@ const ChatPage = () => {
                                 <li
                                     key={index}
                                     className={styles.chat_app_contactList_contact}
-                                    onClick={() => contactSelector(index)}
+                                    onClick={() => setCurrentContact(index)}
                                 >
                                     {contact}
                                 </li>
@@ -88,7 +87,7 @@ const ChatPage = () => {
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{currentContact}</h2>
+                                <h2>{contactList[currentContact]}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
