@@ -16,11 +16,7 @@ const ChatPage = () => {
         { isFromSelf: false, msg: 'wonderful!', time: '01:05' },
     ]);
 
-    const [contactList, setContactList] = useState([
-        { name: 'Peter', id: '001', sessionkey: '999' },
-        { name: 'Tony', id: '002', sessionkey: '989' },
-        { name: 'Greg', id: '003', sessionkey: '789' },
-    ]);
+    const [contactList, setContactList] = useState([]);
 
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(contactList[0]);
@@ -56,15 +52,13 @@ const ChatPage = () => {
             method: 'GET',
             dataType: 'json',
             contentType: 'application/json',
-            // data: JSON.stringify(data),
             url: '/api/usernames/',
             success: function (result, statusText) {
-                console.log(result);
+                console.log(result.usernames);
+                setContactList(result.usernames);
             },
             error: function (result, statusText) {
                 console.log(result);
-
-                alert('Invalid Username or Password.');
             },
         });
     };
@@ -84,7 +78,7 @@ const ChatPage = () => {
                         <div className={styles.chat_app_contactList_container}>
                             {contactList.map((contact, index) => (
                                 <li
-                                    key={contact.id}
+                                    key={index}
                                     className={styles.chat_app_contactList_contact}
                                     onClick={() => contactSelector(index)}
                                 >
