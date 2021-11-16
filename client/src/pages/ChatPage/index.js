@@ -2,7 +2,6 @@ import React, { useState, useRef, Component } from 'react';
 import styles from './styles.scss';
 import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { decrypt_msg, get_history, get_public_key, sendMsg } from './chat.js';
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
 
