@@ -1,7 +1,9 @@
-import React, { useState, useRef, Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './styles.scss';
 import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import $ from 'jquery';
+
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
 
@@ -49,6 +51,26 @@ const ChatPage = () => {
             msg_scrollbar.current.scrollToBottom();
         }
     };
+    const getUser = () => {
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            url: '/api/usernames/',
+            success: function (result, statusText) {
+                console.log(result);
+            },
+            error: function (result, statusText) {
+                console.log(result);
+
+                alert('Invalid Username or Password.');
+            },
+        });
+    };
+    useEffect(() => {
+        getUser();
+    }, []);
 
     return (
         <>
