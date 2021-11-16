@@ -63,7 +63,7 @@ const ChatPage = () => {
     }, []);
 
     useEffect(() => {
-        get_history(contactList[currentContact]);
+        if (contactList !== []) get_history(contactList[currentContact]);
     }, [currentContact]);
 
     return (
