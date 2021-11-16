@@ -2,6 +2,7 @@ import { deserializeRSAKey } from 'src/genKey.js';
 import aesjs from 'aes-js';
 import $ from 'jquery';
 import Cookies from 'js-cookie';
+import io from 'socket.io';
 
 export function decrypt_msg(data) {
     console.log(data);
@@ -157,7 +158,6 @@ export function sendMsg(msg, to, receiver_public_key) {
     // document.getElementById('message').value = "";
 }
 
-const io = require('socket.io')();
 var socket = io.connect('https://' + document.domain + ':' + location.port);
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
