@@ -56,7 +56,7 @@ const ChatPage = () => {
     }, []);
 
     useEffect(() => {
-        if (contactList !== null) get_history(contactList[currentContact]);
+        if (contactList !== undefined) get_history(contactList[currentContact]);
     }, [currentContact]);
 
     return (
@@ -69,7 +69,7 @@ const ChatPage = () => {
                     </div>
                     <div className={styles.chat_app_container}>
                         <div className={styles.chat_app_contactList_container}>
-                            {contactList !== null &&
+                            {contactList !== undefined &&
                                 contactList.map((contact, index) => (
                                     <li
                                         key={index}
