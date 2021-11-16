@@ -86,7 +86,7 @@ export function get_public_key(receiver) {
         url: '/api/public_keys/',
         success: function (result, statusText) {
             // Handle success
-            console.log(result);
+            console.log('public key' + result);
             return result;
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -148,14 +148,14 @@ export function sendMsg(msg, to, receiver_public_key) {
 
     let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
     console.log(encryptedHex);
-
+    console.log('receiver_public_key' + receiver_public_key);
     const aes_key = {
         key_256: key_256.toString(),
         iv: iv.toString(),
     };
 
     const msg_info = {
-        to: to,
+        to,
         msg_length: msg.length,
         aes: aes_key,
     };
