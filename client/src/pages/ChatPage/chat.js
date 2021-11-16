@@ -57,7 +57,7 @@ export function get_history(target, start_message_index = 0) {
             // Handle success
             console.log(result);
 
-            msgs = result['msgs'];
+            msgs = result.msgs;
             for (let i = 0; i < msgs.length; i++) {
                 data = msgs[i];
                 decrypt_msg(data);
