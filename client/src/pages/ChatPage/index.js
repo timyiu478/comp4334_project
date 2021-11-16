@@ -24,7 +24,7 @@ const ChatPage = () => {
 
         const publicKey = await get_public_key(contactList[currentContact]);
         console.log('publiccc keyyy: ' + publicKey);
-        setTimeout(() => sendMsg(inputForm, contactList[currentContact], publicKey), 1000);
+        sendMsg(inputForm, contactList[currentContact], publicKey);
     };
     const getUser = () => {
         $.ajax({
