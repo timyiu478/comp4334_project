@@ -19,11 +19,12 @@ const ChatPage = () => {
         setInputForm(e.target.value);
     };
 
-    const sendInputMsg = () => {
+    const sendInputMsg = async () => {
         console.log('msg: ' + inputForm + 'to: ' + contactList[currentContact]);
-        const publicKey = get_public_key(contactList[currentContact]).then((response) =>
-            sendMsg(inputForm, contactList[currentContact], response)
-        );
+
+        const publicKey = await get_public_key(contactList[currentContact]);
+        console.log('publiccc keyyy: ' + publicKey);
+        sendMsg(inputForm, contactList[currentContact], publicKey);
     };
     const getUser = () => {
         $.ajax({
