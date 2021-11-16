@@ -148,7 +148,7 @@ export function sendMsg(msg, to, receiver_public_key) {
 
     let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
     console.log(encryptedHex);
-    console.log('receiver_public_key' + receiver_public_key);
+    console.log('receiver_public_key: ' + receiver_public_key);
     const aes_key = {
         key_256: key_256.toString(),
         iv: iv.toString(),
