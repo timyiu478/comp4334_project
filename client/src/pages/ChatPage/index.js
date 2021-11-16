@@ -8,16 +8,9 @@ import { get_history } from './chat';
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
 
-    const [msgList, setMsgList] = useState([
-        { isFromSelf: false, msg: 'hello', time: '01:00' },
-        { isFromSelf: true, msg: 'hi', time: '01:01' },
-        { isFromSelf: false, msg: 'how are you doing', time: '01:02' },
-        { isFromSelf: true, msg: 'well', time: '01:03' },
-        { isFromSelf: true, msg: 'And you?', time: '01:04' },
-        { isFromSelf: false, msg: 'wonderful!', time: '01:05' },
-    ]);
+    const [msgList, setMsgList] = useState([]);
 
-    const [contactList, setContactList] = useState([]);
+    const [contactList, setContactList] = useState();
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(0);
@@ -63,8 +56,7 @@ const ChatPage = () => {
     }, []);
 
     useEffect(() => {
-        console.log('tset' + contactList.length());
-        if (contactList.length() !== 0) get_history(contactList[currentContact]);
+        if (contactList !== null) get_history(contactList[currentContact]);
     }, [currentContact]);
 
     return (
