@@ -4,6 +4,7 @@ import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { get_history } from './chat';
+
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
 
