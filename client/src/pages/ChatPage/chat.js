@@ -38,13 +38,13 @@ export function decrypt_msg(data) {
     return msg;
 }
 
-export async function get_history(target, start_message_index = 0) {
+export function get_history(target, start_message_index = 0) {
     const data = {
         target,
         start_message_index,
     };
 
-    await $.ajax({
+    $.ajax({
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -72,10 +72,10 @@ export async function get_history(target, start_message_index = 0) {
     });
 }
 
-export async function get_public_key(receiver) {
+export function get_public_key(receiver) {
     const to = receiver;
     const data = { username: to };
-    await $.ajax({
+    $.ajax({
         method: 'POST',
         dataType: 'text',
         contentType: 'application/json',
