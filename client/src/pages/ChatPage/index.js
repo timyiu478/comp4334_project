@@ -13,7 +13,7 @@ const ChatPage = () => {
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
-    const [currentContact, setCurrentContact] = useState(0);
+    const [currentContact, setCurrentContact] = useState(null);
 
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
@@ -70,7 +70,7 @@ const ChatPage = () => {
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{contactList[currentContact]}</h2>
+                                <h2>{currentContact !== null && contactList[currentContact]}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars

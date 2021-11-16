@@ -124,7 +124,7 @@ function padding(msg) {
         let array = new Uint8Array(16 - count);
         array = crypto.getRandomValues(array);
         console.log(array);
-        pad = '';
+        let pad = '';
         for (var i = 0; i < array.length; i++) {
             pad += String.fromCharCode((array[i] + 32) % 127);
         }
@@ -149,27 +149,27 @@ export function sendMsg(msg, to, receiver_public_key) {
     let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
     console.log(encryptedHex);
 
-    aes_key = {
+    const aes_key = {
         key_256: key_256.toString(),
         iv: iv.toString(),
     };
 
-    msg_info = {
+    const msg_info = {
         to: to,
         msg_length: msg.length,
         aes: aes_key,
     };
 
-    encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, SenderRSAkey);
-    encrypted_msg_info_for_sender = cryptico.encrypt(JSON.stringify(msg_info), SenderPublicKeyString);
+    const encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, SenderRSAkey);
+    const encrypted_msg_info_for_sender = cryptico.encrypt(JSON.stringify(msg_info), SenderPublicKeyString);
 
     console.log(encrypted_msg_info);
 
-    data = {
+    const data = {
         msg: encryptedHex,
         msg_info: encrypted_msg_info,
         msg_info_for_sender: encrypted_msg_info_for_sender,
-        to: to,
+        to,
     };
 
     socket.emit('message', data);
