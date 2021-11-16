@@ -69,15 +69,16 @@ const ChatPage = () => {
                     </div>
                     <div className={styles.chat_app_container}>
                         <div className={styles.chat_app_contactList_container}>
-                            {contactList.map((contact, index) => (
-                                <li
-                                    key={index}
-                                    className={styles.chat_app_contactList_contact}
-                                    onClick={() => setCurrentContact(index)}
-                                >
-                                    {contact}
-                                </li>
-                            ))}
+                            {contactList !== null &&
+                                contactList.map((contact, index) => (
+                                    <li
+                                        key={index}
+                                        className={styles.chat_app_contactList_contact}
+                                        onClick={() => setCurrentContact(index)}
+                                    >
+                                        {contact}
+                                    </li>
+                                ))}
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
