@@ -39,9 +39,9 @@ export function decrypt_msg(data) {
 }
 
 export function get_history(target, start_message_index = 0) {
-    data = {
-        target: target,
-        start_message_index: start_message_index,
+    const data = {
+        target,
+        start_message_index,
     };
 
     $.ajax({
