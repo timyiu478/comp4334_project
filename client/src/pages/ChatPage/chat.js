@@ -83,7 +83,7 @@ export function get_public_key(receiver) {
             'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
         },
         data: JSON.stringify(data),
-        url: '/public_keys/',
+        url: '/api/public_keys/',
         success: function (result, statusText) {
             // Handle success
             console.log(result);
