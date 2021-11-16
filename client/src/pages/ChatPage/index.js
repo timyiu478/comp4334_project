@@ -63,6 +63,7 @@ const ChatPage = () => {
     }, []);
 
     useEffect(() => {
+        console.log('tset' + contactList);
         if (contactList !== []) get_history(contactList[currentContact]);
     }, [currentContact]);
 
