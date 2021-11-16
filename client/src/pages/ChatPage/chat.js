@@ -2,7 +2,6 @@ import { deserializeRSAKey } from 'src/genKey.js';
 import aesjs from 'aes-js';
 import $ from 'jquery';
 import Cookies from 'js-cookie';
-import io from 'socket.io';
 
 export function decrypt_msg(data) {
     console.log(data);
@@ -98,6 +97,25 @@ export function get_public_key() {
     });
 }
 
+var socket = io.connect('https://' + document.domain + ':' + location.port);
+
+let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
+console.log(SenderRSAkey);
+let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
+
+socket.on('connect', function (data) {
+    console.log(data);
+    socket.emit('join', {});
+});
+
+socket.on('all', function (data) {
+    console.log(data);
+});
+
+socket.on('message', function (data) {
+    decrypt_msg(data);
+});
+
 function padding(msg) {
     if (msg.length % 16 != 0) {
         count = msg.length % 16;
@@ -157,22 +175,3 @@ export function sendMsg(msg, to, receiver_public_key) {
     // document.getElementById('receiver').value = "";
     // document.getElementById('message').value = "";
 }
-
-var socket = io.connect('https://' + document.domain + ':' + location.port);
-
-let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
-console.log(SenderRSAkey);
-let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
-
-socket.on('connect', function (data) {
-    console.log(data);
-    socket.emit('join', {});
-});
-
-socket.on('all', function (data) {
-    console.log(data);
-});
-
-socket.on('message', function (data) {
-    decrypt_msg(data);
-});
