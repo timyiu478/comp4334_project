@@ -68,7 +68,7 @@ const ChatPage = () => {
         getUser();
     }, []);
 
-    const handleCurrentContact = async (currentContact) => {
+    const handleCurrentContact =  useEffect(async (currentContact) => {
         setCurrentContact(currentContact);
 
         await get_public_key(currentContact).then((publicKey)=>{
@@ -79,28 +79,12 @@ const ChatPage = () => {
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        let element;
+        setMsgList(msgs);
 
-        for(let i=0;i<msgs.length;i++){
-            element += 
-                    <p
-                        className={
-                            content.to === currentMe
-                                ? styles.chat_app_msg_inMsg
-                                : styles.chat_app_msg_outMsg
-                        }
-                    >
-                        <p>{content.msg}</p>
-                        <span>{content.date}</span>
-                    </p>;
-        }
-
-        ReactDOM.render(element, document.getElementById('msgList'));
-
-        // console.log("Msglist: ",msgList);
+        console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
 
-    }
+    },[]);
 
     // useEffect(async () => {
     //     if (contactList !== []) {
@@ -158,8 +142,8 @@ const ChatPage = () => {
                                     autoHideDuration={200}
                                 >
                                     <div id="msgList"></div>
-                                    {/* {msgList !== [] && */}
-                                    {   msgList.map((content) => (
+                                    {msgList !== [] &&
+                                       msgList.map((content) => (
                                             <p
                                                 className={
                                                     content.to === currentMe
