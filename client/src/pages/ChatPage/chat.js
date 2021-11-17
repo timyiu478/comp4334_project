@@ -38,13 +38,13 @@ export function decrypt_msg(data) {
     return msg;
 }
 
-export async function get_history(target, start_message_index = 0) {
+export function get_history(target, start_message_index = 0) {
     const data = {
         target,
         start_message_index,
     };
     let history = [];
-    await $.ajax({
+    $.ajax({
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
@@ -58,7 +58,7 @@ export async function get_history(target, start_message_index = 0) {
             const msg = result.msgs;
             console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                history = [...history, { msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].data.to }];
+                history.push({ msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].data.to });
                 // console.log(msg[i].datetime);
             }
             return history;
