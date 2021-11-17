@@ -15,7 +15,7 @@ export async function decrypt_msg(data) {
         encrypted_msg_info = data['data']['msg_info_for_sender'];
     }
 
-    let msg_info = JSON.parse(await cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']);
+    let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']);
     // console.log(encrypted_msg_info);
 
     // console.log(msg_info);
@@ -109,6 +109,8 @@ let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
 export function socketRun(){
     var socket = io.connect('https://' + document.domain + ':' + location.port);
 
+    let new_msg;
+
     socket.on('connect', function (data) {
         console.log(data);
         socket.emit('join', {});
@@ -119,8 +121,8 @@ export function socketRun(){
     });
     
     socket.on('message', function (data) {
-        const msg = decrypt_msg(data);
-        console.log(msg);
+        new_msg = decrypt_msg(data);
+        console.log(new_msg);
     });
 }
 
