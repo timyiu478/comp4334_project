@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Cookies from 'js-cookie';
 import { io } from 'socket.io-client';
 
-export async function decrypt_msg(data) {
+export function decrypt_msg(data) {
     // console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
     let encrypted_msg_info;
@@ -61,15 +61,18 @@ export async function get_history(target, start_message_index = 0) {
                 history = [...history, { msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].data.to }];
                 // console.log(msg[i].datetime);
             }
+            return history;
         },
         error: (jqXHR, textStatus, errorThrown) => {
             //handle error
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
+
+            return "error: ajax failed";
         },
     });
-    return history;
+    return "error";
 }
 
 export async function get_public_key(receiver) {
