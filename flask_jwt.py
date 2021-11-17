@@ -13,7 +13,7 @@ def assign_access_refresh_tokens(user_id):
     return resp,200
 
 def unset_jwt():
-    resp = jsonify({'unset': True})
+    resp = url_for('index')
     unset_jwt_cookies(resp)
     return resp,200
 
