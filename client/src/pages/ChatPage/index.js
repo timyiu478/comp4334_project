@@ -50,7 +50,7 @@ const ChatPage = () => {
             url: '/api/usernames/',
             success: (result, statusText) => {
                 console.log(result.usernames);
-                setContactList(result.usernames.filter((word) => word != currentMe));
+                setContactList(result.usernames.filter((word) => word !== currentMe));
             },
             error: (result, statusText) => {
                 console.log(result);
@@ -62,7 +62,9 @@ const ChatPage = () => {
     }, []);
 
     useEffect(() => {
-        if (contactList !== []) get_history(contactList[currentContact]);
+        if (contactList !== []) {
+            console.log('final ' + get_history(contactList[currentContact]));
+        }
     }, [currentContact]);
 
     return (

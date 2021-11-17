@@ -43,7 +43,7 @@ export function get_history(target, start_message_index = 0) {
         target,
         start_message_index,
     };
-
+    let result = [];
     $.ajax({
         method: 'POST',
         dataType: 'json',
@@ -59,7 +59,7 @@ export function get_history(target, start_message_index = 0) {
 
             const msgs = result.msgs;
             for (let i = 0; i < msgs.length; i++) {
-                decrypt_msg(msgs[i]);
+                result = [...result, decrypt_msg(msgs[i])];
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -69,6 +69,7 @@ export function get_history(target, start_message_index = 0) {
             console.log(errorThrown);
         },
     });
+    return result;
 }
 
 export async function get_public_key(receiver) {
