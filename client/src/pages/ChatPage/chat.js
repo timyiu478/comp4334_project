@@ -68,6 +68,7 @@ export async function get_history(target, start_message_index = 0) {
             console.log(errorThrown);
         },
     });
+    console.log(history);
     return history;
 }
 
