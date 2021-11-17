@@ -69,7 +69,7 @@ const Login = () => {
                     <FormControl className={styles.form}>
                         <h1 className={styles.heading}>Login</h1>
                         <div className={styles.input}>
-                            <label htmlFor="name">Login Name:</label>
+                            <label htmlFor="name">Login Name</label>
                             <input
                                 type="text"
                                 name="username"
@@ -80,7 +80,7 @@ const Login = () => {
                             />
                         </div>
                         <div className={styles.input}>
-                            <label htmlFor="password">Password:</label>
+                            <label htmlFor="password">Password</label>
                             <input
                                 type="password"
                                 name="password"
