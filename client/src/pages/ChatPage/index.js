@@ -63,9 +63,9 @@ const ChatPage = () => {
 
     useEffect(() => {
         if (contactList !== []) {
-            console.log(get_history(contactList[currentContact]));
+            setMsgList(get_history(contactList[currentContact]));
             // setMsgList(messages);
-            // console.log('final ' + msgList);
+            console.log('final ' + msgList);
         }
     }, [currentContact]);
 
