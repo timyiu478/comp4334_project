@@ -14,6 +14,6 @@ def assign_access_refresh_tokens(user_id):
 
 def unset_jwt():
     resp = make_response(url_for('index'),200)
-    unset_jwt_cookies()
+    unset_jwt_cookies(resp)
     return resp
 
