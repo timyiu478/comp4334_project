@@ -66,7 +66,7 @@ const ChatPage = () => {
             // setMsgList(get_history(contactList[currentContact]));
             // setMsgList(messages);
             get_history(contactList[currentContact]).then((response) => {
-                console.log(response);
+                setMsgList(response);
             });
         }
     }, [currentContact]);
@@ -116,13 +116,13 @@ const ChatPage = () => {
                                         msgList.map((content) => (
                                             <p
                                                 className={
-                                                    !content.isFromSelf
+                                                    content.to === currentMe
                                                         ? styles.chat_app_msg_inMsg
                                                         : styles.chat_app_msg_outMsg
                                                 }
                                             >
                                                 <p>{content.msg}</p>
-                                                <span>{content.time}</span>
+                                                <span>{content.date}</span>
                                             </p>
                                         ))}
                                 </Scrollbars>
