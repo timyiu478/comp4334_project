@@ -67,7 +67,7 @@ const ChatPage = () => {
         if (contactList !== []) {
             // setMsgList(get_history(contactList[currentContact]));
             // setMsgList(messages);
-            setPublicKey(await get_public_key(contactList[currentContact]));
+            setPublicKey(get_public_key(contactList[currentContact]));
             console.log("publicKey: ",publicKey);
             get_history(contactList[currentContact]).then((response) => {
                 setMsgList(response);
