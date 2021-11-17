@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
-export function decrypt_msg(data) {
+export async function decrypt_msg(data) {
     // console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
     let encrypted_msg_info;
@@ -15,7 +15,7 @@ export function decrypt_msg(data) {
         encrypted_msg_info = data['data']['msg_info_for_sender'];
     }
 
-    let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']);
+    let msg_info = JSON.parse(await cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']);
     // console.log(encrypted_msg_info);
 
     // console.log(msg_info);
