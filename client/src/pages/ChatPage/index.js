@@ -65,7 +65,9 @@ const ChatPage = () => {
         if (contactList !== []) {
             // setMsgList(get_history(contactList[currentContact]));
             // setMsgList(messages);
-            console.log('final ' + get_history(contactList[currentContact]));
+            get_history(contactList[currentContact]).then((response) => {
+                console.log(response);
+            });
         }
     }, [currentContact]);
 
