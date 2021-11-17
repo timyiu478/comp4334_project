@@ -74,20 +74,20 @@ const ChatPage = () => {
             setPublicKey(publicKey);
             console.log("publicKey: ",publicKey);
         });
-        
-        if(msgList.length>0) setMsgList([]);
 
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        useEffect( () => {
-            setMsgList(msgs);
-        },[msgs]);
+        setMsgList(msgs);      
 
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
 
     }
+
+    useEffect( () => {
+        handleCurrentContact(currentContact);
+    },[]);
 
     // useEffect(async () => {
     //     if (contactList !== []) {
