@@ -22,6 +22,7 @@ const ChatPage = () => {
     };
     const logOut = () => {
         $.ajax({
+            method: 'GET',
             dataType: 'json',
             contentType: 'application/json',
             url: '/api/logout/',
