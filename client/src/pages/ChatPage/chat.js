@@ -100,24 +100,30 @@ export async function get_public_key(receiver) {
     return publicKey;
 }
 
-var socket = io.connect('https://' + document.domain + ':' + location.port);
+
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
 console.log(SenderRSAkey);
 let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
 
-socket.on('connect', function (data) {
-    console.log(data);
-    socket.emit('join', {});
-});
+export function socketRun(){
+    var socket = io.connect('https://' + document.domain + ':' + location.port);
 
-socket.on('all', function (data) {
-    console.log(data);
-});
+    socket.on('connect', function (data) {
+        console.log(data);
+        socket.emit('join', {});
+    });
+    
+    socket.on('all', function (data) {
+        console.log(data);
+    });
+    
+    socket.on('message', function (data) {
+        const msg = decrypt_msg(data);
+        console.log(msg);
+    });
+}
 
-socket.on('message', function (data) {
-    decrypt_msg(data);
-});
 
 function padding(msg) {
     if (msg.length % 16 != 0) {

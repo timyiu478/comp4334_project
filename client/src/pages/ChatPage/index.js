@@ -6,9 +6,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
-import { get_history, get_public_key, sendMsg } from './chat';
+import { get_history, get_public_key, sendMsg ,socketRun } from './chat';
 
 const ChatPage = () => {
+
+    socketRun();
+
     const msg_scrollbar = useRef(null);
     const history = useHistory();
     const [msgList, setMsgList] = useState([]);
@@ -17,6 +20,8 @@ const ChatPage = () => {
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(null);
+
+    const [publicKey,setPublicKey] = useState(null);
 
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
@@ -36,7 +41,7 @@ const ChatPage = () => {
     };
     const sendInputMsg = async () => {
         setInputForm('');
-        const publicKey = await get_public_key(contactList[currentContact]);
+        // const publicKey = await get_public_key(contactList[currentContact]);
         sendMsg(inputForm, contactList[currentContact], publicKey);
     };
     const getUser = () => {
@@ -58,10 +63,12 @@ const ChatPage = () => {
         getUser();
     }, []);
 
-    useEffect(() => {
+    useEffect(async () => {
         if (contactList !== []) {
             // setMsgList(get_history(contactList[currentContact]));
             // setMsgList(messages);
+            setPublicKey(await get_public_key(contactList[currentContact]));
+            console.log("publicKey: ",publicKey);
             get_history(contactList[currentContact]).then((response) => {
                 setMsgList(response);
             });
