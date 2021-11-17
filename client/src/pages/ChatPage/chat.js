@@ -53,17 +53,16 @@ export function get_history(target, start_message_index = 0) {
         },
         data: JSON.stringify(data),
         url: '/api/history/',
-        success: function (result, statusText) {
+        success: (result, statusText) => {
             // Handle success
             console.log(result);
 
             const msgs = result.msgs;
             for (let i = 0; i < msgs.length; i++) {
-                data = msgs[i];
-                decrypt_msg(data);
+                decrypt_msg(msgs[i]);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: (jqXHR, textStatus, errorThrown) => {
             //handle error
             console.log(jqXHR);
             console.log(textStatus);
