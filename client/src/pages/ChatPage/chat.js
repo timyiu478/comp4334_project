@@ -38,7 +38,7 @@ export function decrypt_msg(data) {
     return msg;
 }
 
-export function get_history(target, start_message_index = 0) {
+export async function get_history(target, start_message_index = 0) {
     const data = {
         target,
         start_message_index,
@@ -72,7 +72,7 @@ export function get_history(target, start_message_index = 0) {
             return "error: ajax failed";
         },
     });
-    return "error";
+    return history;
 }
 
 export async function get_public_key(receiver) {
