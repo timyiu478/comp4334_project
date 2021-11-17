@@ -79,18 +79,21 @@ const ChatPage = () => {
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        const element = msgs.map((content) => (
-            <p
-                className={
-                    content.to === currentMe
-                        ? styles.chat_app_msg_inMsg
-                        : styles.chat_app_msg_outMsg
-                }
-            >
-                <p>{content.msg}</p>
-                <span>{content.date}</span>
-            </p>
-        ));     
+        let element;
+
+        for(let i=0;i<msgs.length;i++){
+            element += 
+                    <p
+                        className={
+                            content.to === currentMe
+                                ? styles.chat_app_msg_inMsg
+                                : styles.chat_app_msg_outMsg
+                        }
+                    >
+                        <p>{content.msg}</p>
+                        <span>{content.date}</span>
+                    </p>;
+        }
 
         ReactDOM.render(element, document.getElementById('msgList'));
 
