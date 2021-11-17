@@ -77,13 +77,15 @@ const ChatPage = () => {
         
         get_history(currentContact).then((response) => {
             console.log(response);
-            setMsgList(response);
+            setMsgList([]);
+            for(let i=0;i<response.length;i++){
+                setMsgList([...msgList,response[i]]);
+            }
+            msg_scrollbar.current.scrollToBottom();
         })
         .catch(function (error) {
             console.log(error.message)
         });
-
-        console.log(msgList);
     }
 
     // useEffect(async () => {
