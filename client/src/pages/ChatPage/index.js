@@ -27,7 +27,6 @@ const ChatPage = () => {
             url: '/api/logout/',
             success: (result, statusText) => {
                 history.push('/');
-                // localStorage.clear();
                 console.log(result);
             },
             error: (result, statusText) => {
