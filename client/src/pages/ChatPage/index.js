@@ -68,8 +68,11 @@ const ChatPage = () => {
         getUser();
     }, []);
 
-    const handleCurrentContact = (currentContact) => {
-        setPublicKey(get_public_key(currentContact));
+    const handleCurrentContact = async (currentContact) => {
+        await get_public_key(currentContact).then((publicKey)=>{
+            setPublicKey(publicKey);
+        });
+        
         console.log("publicKey: ",publicKey);
         get_history(currentContact).then((response) => {
             setMsgList(response);
