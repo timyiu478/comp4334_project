@@ -14,7 +14,7 @@ const ChatPage = () => {
     const [msgList, setMsgList] = useState([]);
 
     const [contactList, setContactList] = useState([]);
-    // const currentMe = localStorage.getItem('username');
+    const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState(null);
 
@@ -29,7 +29,7 @@ const ChatPage = () => {
             url: '/api/logout/',
             success: (result, statusText) => {
                 history.push('/');
-                localStorage.clear();
+                // localStorage.clear();
                 console.log(result);
             },
             error: (result, statusText) => {
