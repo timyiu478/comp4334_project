@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom'
 import styles from './styles.scss';
 import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
 import IconButton from '@mui/material/IconButton';
@@ -78,16 +79,25 @@ const ChatPage = () => {
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        setMsgList(msgs);      
+        const element = msgs.map((content) => (
+            <p
+                className={
+                    content.to === currentMe
+                        ? styles.chat_app_msg_inMsg
+                        : styles.chat_app_msg_outMsg
+                }
+            >
+                <p>{content.msg}</p>
+                <span>{content.date}</span>
+            </p>
+        ));     
 
-        console.log("Msglist: ",msgList);
+        ReactDOM.render(element, document.getElementById('msgList'));
+
+        // console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
 
     }
-
-    useEffect( () => {
-        handleCurrentContact(currentContact);
-    },[]);
 
     // useEffect(async () => {
     //     if (contactList !== []) {
@@ -144,6 +154,7 @@ const ChatPage = () => {
                                     autoHideTimeout={1000}
                                     autoHideDuration={200}
                                 >
+                                    <div id="msgList"></div>
                                     {/* {msgList !== [] && */}
                                     {   msgList.map((content) => (
                                             <p
