@@ -18,8 +18,8 @@ const ChatPage = () => {
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
-    const [currentContact, setCurrentContact] = useState(null);
-    const [publicKey,setPublicKey] = useState(null);
+    const [currentContact, setCurrentContact] = useState("");
+    const [publicKey,setPublicKey] = useState("");
 
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
@@ -72,9 +72,9 @@ const ChatPage = () => {
         
         await get_public_key(currentContact).then((publicKey)=>{
             setPublicKey(publicKey);
+            console.log("publicKey: ",publicKey);
         });
         
-        console.log("publicKey: ",publicKey);
         get_history(currentContact).then((response) => {
             setMsgList(response);
         });
