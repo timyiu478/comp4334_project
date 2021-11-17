@@ -55,10 +55,10 @@ export async function get_history(target, start_message_index = 0) {
         url: '/api/history/',
         success: (result, statusText) => {
             // Handle success
-            const msgs = result.msgs;
-            console.log(msgs);
-            for (let i = 0; i < msgs.length; i++) {
-                history = [...history, { msg: decrypt_msg(msgs[i]), date: msgs[i].datetime, to: msgs[i].to }];
+            const msg = result.msgs;
+            console.log(msg);
+            for (let i = 0; i < msg.length; i++) {
+                // history = [...history, { msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].to }];
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
