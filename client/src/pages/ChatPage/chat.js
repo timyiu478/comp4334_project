@@ -2,7 +2,23 @@ import { deserializeRSAKey } from 'src/genKey.js';
 import aesjs from 'aes-js';
 import $ from 'jquery';
 import Cookies from 'js-cookie';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
+
+const socket = io('https://' + document.domain + ':' + location.port);
+
+socket.on('connect', function (data) {
+    console.log(data);
+    socket.emit('join', {});
+});
+
+socket.on('all', function (data) {
+    console.log(data);
+}); 
+
+socket.on('message', function (data) {
+    console.log(decrypt_msg(data));
+});
+
 
 export async function decrypt_msg(data) {
     // console.log(data);
@@ -105,26 +121,6 @@ export async function get_public_key(receiver) {
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
 console.log(SenderRSAkey);
 let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
-
-
-var socket = io.connect('https://' + document.domain + ':' + location.port);
-
-
-
-// socket.on('connect', function (data) {
-//     console.log(data);
-//     socket.emit('join', {});
-// });
-
-// socket.on('all', function (data) {
-//     console.log(data);
-// });
-
-socket.on('message', function (data) {
-    console.log(decrypt_msg(data));
-});
-
-
 
 function padding(msg) {
     if (msg.length % 16 != 0) {
