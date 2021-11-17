@@ -7,6 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, sendMsg} from './chat';
+import Cookies from 'js-cookie';
 
 const ChatPage = () => {
 
@@ -17,7 +18,7 @@ const ChatPage = () => {
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
-    const [currentContact, setCurrentContact] = useState(null);
+    // const [currentContact, setCurrentContact] = useState(null);
 
     const [publicKey,setPublicKey] = useState(null);
 
@@ -28,6 +29,9 @@ const ChatPage = () => {
         $.ajax({
             method: 'GET',
             url: '/api/logout/',
+            headers: {
+                'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
+            },
             success: (result, statusText) => {
                 history.push('/');
                 console.log(result);
@@ -46,7 +50,9 @@ const ChatPage = () => {
         $.ajax({
             method: 'GET',
             dataType: 'json',
-            contentType: 'application/json',
+            headers: {
+                'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
+            },
             url: '/api/usernames/',
             success: (result, statusText) => {
                 console.log(result.usernames);
@@ -57,21 +63,32 @@ const ChatPage = () => {
             },
         });
     };
+
     useEffect(() => {
         getUser();
     }, []);
 
-    useEffect(async () => {
-        if (contactList !== []) {
-            // setMsgList(get_history(contactList[currentContact]));
-            // setMsgList(messages);
-            setPublicKey(get_public_key(contactList[currentContact]));
-            console.log("publicKey: ",publicKey);
-            get_history(contactList[currentContact]).then((response) => {
-                setMsgList(response);
-            });
-        }
-    }, [currentContact]);
+    const handleCurrentContact = (currentContact) => {
+        setPublicKey(get_public_key(currentContact));
+        console.log("publicKey: ",publicKey);
+        get_history(currentContact).then((response) => {
+            setMsgList(response);
+        });
+    }
+
+    // useEffect(async () => {
+    //     if (contactList !== []) {
+    //         // setMsgList(get_history(contactList[currentContact]));
+    //         // setMsgList(messages);
+    //         setPublicKey(get_public_key(contactList[currentContact]));
+    //         console.log("publicKey: ",publicKey);
+    //         get_history(contactList[currentContact]).then((response) => {
+    //             setMsgList(response);
+    //         });
+    //     }
+    // }, [currentContact]);
+
+
 
     return (
         <>
@@ -95,7 +112,7 @@ const ChatPage = () => {
                                     <li
                                         key={index}
                                         className={styles.chat_app_contactList_contact}
-                                        onClick={() => setCurrentContact(index)}
+                                        onClick={() => handleCurrentContact(contact)}
                                     >
                                         {contact}
                                     </li>

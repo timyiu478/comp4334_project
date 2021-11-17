@@ -4,22 +4,6 @@ import $ from 'jquery';
 import Cookies from 'js-cookie';
 import { io } from 'socket.io-client';
 
-const socket = io('https://' + document.domain + ':' + location.port);
-
-socket.on('connect', function (data) {
-    console.log(data);
-    socket.emit('join', {});
-});
-
-socket.on('all', function (data) {
-    console.log(data);
-}); 
-
-socket.on('message', function (data) {
-    console.log(decrypt_msg(data));
-});
-
-
 export async function decrypt_msg(data) {
     // console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
@@ -121,6 +105,24 @@ export async function get_public_key(receiver) {
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
 console.log(SenderRSAkey);
 let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
+
+
+const socket = io('https://' + document.domain + ':' + location.port);
+
+socket.on('connect', function (data) {
+    console.log(data);
+    socket.emit('join', {});
+});
+
+socket.on('all', function (data) {
+    console.log(data);
+}); 
+
+socket.on('message', function (data) {
+    console.log(decrypt_msg(data));
+});
+
+
 
 function padding(msg) {
     if (msg.length % 16 != 0) {
