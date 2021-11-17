@@ -140,7 +140,7 @@ def login():
 @jwt_required()
 def logout():
     # Revoke Fresh/Non-fresh Access and Refresh tokens
-    return unset_jwt(), 302
+    return unset_jwt(), 200
 
 @app.route('/api/history/', methods=['POST'])
 @jwt_required()
