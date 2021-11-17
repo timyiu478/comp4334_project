@@ -16,13 +16,13 @@ export function decrypt_msg(data) {
     }
 
     let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']);
-    console.log(encrypted_msg_info);
+    // console.log(encrypted_msg_info);
 
-    console.log(msg_info);
+    // console.log(msg_info);
 
     let aes = msg_info['aes'];
 
-    console.log(aes);
+    // console.log(aes);
     //
     let aesCbc = new aesjs.ModeOfOperation.cbc(
         new Uint8Array(aes['key_256'].split(',')),
@@ -55,11 +55,11 @@ export function get_history(target, start_message_index = 0) {
         url: '/api/history/',
         success: (result, statusText) => {
             // Handle success
-            console.log(result);
+            // console.log(result);
 
             const msgs = result.msgs;
             for (let i = 0; i < msgs.length; i++) {
-                result = [...result, decrypt_msg(msgs[i])];
+                result = result.push(decrypt_msg(msgs[i]));
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
