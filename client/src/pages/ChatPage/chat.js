@@ -57,7 +57,7 @@ export async function get_history(target, start_message_index = 0) {
             // Handle success
             const msgs = result.msgs;
             console.log(msgs);
-            for (let i = 0; i < msgs.length && msgs[i].msg_info.status === 'success'; i++) {
+            for (let i = 0; i < msgs.length; i++) {
                 history = [...history, { msg: decrypt_msg(msgs[i]), date: msgs[i].datetime, to: msgs[i].to }];
             }
         },
