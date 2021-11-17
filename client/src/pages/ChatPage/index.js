@@ -78,8 +78,10 @@ const ChatPage = () => {
         if(msgList.length>0) setMsgList([]);
 
         const msgs = await get_history(currentContact);
-        setMsgList([...msgList,...msgs]);
-        
+        console.log("msgs: ",msgs);
+        for(let i=0;i<msgs.length;i++){
+            setMsgList((msgList)=> [...msgList,msgs[i]]);
+        }
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
 
