@@ -59,7 +59,7 @@ export function get_history(target, start_message_index = 0) {
 
             const msgs = result.msgs;
             for (let i = 0; i < msgs.length; i++) {
-                result = result.push(decrypt_msg(msgs[i]));
+                result.push(decrypt_msg(msgs[i]));
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
