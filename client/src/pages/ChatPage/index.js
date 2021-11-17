@@ -69,18 +69,18 @@ const ChatPage = () => {
 
     const handleCurrentContact = async (currentContact) => {
         setCurrentContact(currentContact);
-        
+        setMsgList([]);
+
         await get_public_key(currentContact).then((publicKey)=>{
             setPublicKey(publicKey);
             console.log("publicKey: ",publicKey);
         });
         
         get_history(currentContact).then((response) => {
-            console.log(response);
-            setMsgList([]);
             for(let i=0;i<response.length;i++){
                 setMsgList([...msgList,response[i]]);
             }
+            console.log(msgList);
             msg_scrollbar.current.scrollToBottom();
         })
         .catch(function (error) {
