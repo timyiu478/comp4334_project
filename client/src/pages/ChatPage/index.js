@@ -21,13 +21,13 @@ const ChatPage = () => {
         setInputForm(e.target.value);
     };
     const logOut = () => {
-        history.push('/');
-        localStorage.clear();
         $.ajax({
             dataType: 'json',
             contentType: 'application/json',
             url: '/api/logout/',
             success: function (result, statusText) {
+                history.push('/');
+                localStorage.clear();
                 console.log(result);
             },
             error: function (result, statusText) {

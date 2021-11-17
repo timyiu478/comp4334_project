@@ -25,7 +25,6 @@ const Login = () => {
     };
 
     const signUp = () => {
-        history.push('/chatpage');
         const senderRSAkey = gen_key_pair(username, password);
 
         const data = {
@@ -44,7 +43,7 @@ const Login = () => {
             url: '/api/login/',
             success: function (result, statusText) {
                 console.log(result);
-                // history.push('/chatpage');
+                history.push('/chatpage');
             },
             error: function (result, statusText) {
                 console.log(result);
