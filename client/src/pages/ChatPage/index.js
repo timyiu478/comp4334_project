@@ -78,11 +78,12 @@ const ChatPage = () => {
         get_history(currentContact).then((response) => {
             console.log(response);
             setMsgList(response);
-            forceUpdate();
         })
         .catch(function (error) {
             console.log(error.message)
         });
+
+        console.log(msgList);
     }
 
     // useEffect(async () => {
@@ -140,8 +141,8 @@ const ChatPage = () => {
                                     autoHideTimeout={1000}
                                     autoHideDuration={200}
                                 >
-                                    {msgList !== [] &&
-                                        msgList.map((content) => (
+                                    {/* {msgList !== [] && */}
+                                    {   msgList.map((content) => (
                                             <p
                                                 className={
                                                     content.to === currentMe
