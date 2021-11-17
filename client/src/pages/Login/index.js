@@ -29,8 +29,8 @@ const Login = () => {
         const senderRSAkey = gen_key_pair(username, password);
 
         const data = {
-            username: username,
-            password: password,
+            username,
+            password,
         };
 
         localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));

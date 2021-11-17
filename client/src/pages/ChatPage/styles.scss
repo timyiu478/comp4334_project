@@ -18,7 +18,7 @@
     // filter: blur(5px);
     // transform: scale(1.1);
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
 }
 .chat_container {
@@ -33,9 +33,14 @@
     box-shadow: 4px 12px 20px $table-background-color;
     margin: 20px auto 0 auto;
     overflow: hidden;
+    position: relative;
     // position: fixed;
 }
-
+.logOut {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
 .contactListClickable {
     visibility: hidden;
     position: absolute;
@@ -45,6 +50,8 @@
     background-color: $primary-color;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .chat_header h1 {
@@ -57,21 +64,21 @@
     font-size: 2rem;
 }
 
-.chat_app_container{
+.chat_app_container {
     display: flex;
     height: 100%;
     width: 100%;
     background-color: transparent;
 }
 
-.chat_app_contactList_container{
+.chat_app_contactList_container {
     display: flexbox;
     width: 150px;
     justify-content: center;
     background-color: $contactListContainer-color;
 }
 
-.chat_app_contactList_contact{
+.chat_app_contactList_contact {
     font-size: $font-size;
     display: flex;
     justify-content: center;
@@ -84,9 +91,9 @@
     background-color: $contactListContact-color;
 }
 
-.chat_app_contactList_contact:hover{
+.chat_app_contactList_contact:hover {
     background-color: $contactListContact-selected-color;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .chat_app_body {
@@ -96,30 +103,33 @@
     background-color: transparent;
 }
 
-.chat_app_msg_container{
+.chat_app_msg_container {
     width: 100%;
     height: 100%;
     // flex: 1;
     // padding: 1rem 1rem;
 }
 
-.chat_app_contact{
+.chat_app_contact {
     background-color: $chat-in-msg-color;
     color: $text-color;
     padding: 10px 0px 10px 20px;
 }
 
-.chat_app_msg_inMsg p,.chat_app_msg_outMsg p{
+.chat_app_msg_inMsg p,
+.chat_app_msg_outMsg p {
     width: 100%;
     height: 100%;
 }
 
-.chat_app_msg_inMsg span,.chat_app_msg_outMsg span{
+.chat_app_msg_inMsg span,
+.chat_app_msg_outMsg span {
     font-size: 0.6rem;
     // float: right;
 }
 
-.chat_app_msg_inMsg,.chat_app_msg_outMsg{
+.chat_app_msg_inMsg,
+.chat_app_msg_outMsg {
     width: 30%;
     height: max-content;
     padding: 0 0.6rem;
@@ -135,12 +145,12 @@
     box-shadow: $chat-msg-shadow;
 }
 
-.chat_app_msg_outMsg{
+.chat_app_msg_outMsg {
     background-color: $chat-out-msg-color;
     margin-left: auto;
 }
 
-.chat_app_footer{
+.chat_app_footer {
     background-color: transparent;
     // display: flex;
     // flex:1;
@@ -181,17 +191,17 @@
     box-shadow: $chat-shadow;
 }
 
-form button:hover, form button:active {
+form button:hover,
+form button:active {
     background-color: $primary-color-hover;
 }
 
-.msg_scrollbar{
+.msg_scrollbar {
     width: 100%;
     height: 100%;
 }
 
-@media screen and (max-width: 1024px){
-
+@media screen and (max-width: 1024px) {
     .chat_container {
         // background-color: transparent;
         // background-color: $background-color;

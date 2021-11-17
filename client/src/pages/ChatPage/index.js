@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './styles.scss';
 import { Send, StayPrimaryLandscapeSharp, Menu } from '@material-ui/icons';
+import IconButton from '@mui/material/IconButton';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
+import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, sendMsg } from './chat';
-
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
-
+    const history = useHistory();
     const [msgList, setMsgList] = useState([]);
 
     const [contactList, setContactList] = useState([]);
@@ -18,12 +20,25 @@ const ChatPage = () => {
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
     };
-
+    const logOut = () => {
+        history.push('/');
+        localStorage.clear();
+        $.ajax({
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '/api/logout/',
+            success: function (result, statusText) {
+                console.log(result);
+            },
+            error: function (result, statusText) {
+                console.log(result);
+            },
+        });
+    };
     const sendInputMsg = async () => {
         console.log('msg: ' + inputForm + 'to: ' + contactList[currentContact]);
-
+        setInputForm('');
         const publicKey = await get_public_key(contactList[currentContact]);
-        console.log('publiccc keyyy: ' + publicKey);
         sendMsg(inputForm, contactList[currentContact], publicKey);
     };
     const getUser = () => {
@@ -54,8 +69,15 @@ const ChatPage = () => {
             <div className={styles.container}>
                 <div className={styles.background} />
                 <div className={styles.chat_container}>
+                    <div className={styles.logOut}>
+                        <IconButton aria-label="LogOut" size="small" onClick={logOut}>
+                            <LogoutIcon fontSize="inherit" />
+                            LogOut
+                        </IconButton>
+                    </div>
                     <div className={styles.chat_header}>
                         <h1>ChatPage</h1>
+                        <h5>Welcome! {currentMe}</h5>
                     </div>
                     <div className={styles.chat_app_container}>
                         <div className={styles.chat_app_contactList_container}>
