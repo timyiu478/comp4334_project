@@ -6,11 +6,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
-import { get_history, get_public_key, sendMsg ,socketRun } from './chat';
+import { get_history, get_public_key, sendMsg} from './chat';
+import io from 'socket.io-client';
 
 const ChatPage = () => {
-
-    socketRun();
+    
+    var socket = io.connect('https://' + document.domain + ':' + location.port);
+    socket.on('message', function (data) {
+        console.log(decrypt_msg(data));
+    });
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();

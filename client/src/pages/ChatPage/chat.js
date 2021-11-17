@@ -106,25 +106,24 @@ let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
 console.log(SenderRSAkey);
 let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
 
-export function socketRun(){
-    var socket = io.connect('https://' + document.domain + ':' + location.port);
 
-    let new_msg;
+var socket = io.connect('https://' + document.domain + ':' + location.port);
 
-    socket.on('connect', function (data) {
-        console.log(data);
-        socket.emit('join', {});
-    });
-    
-    socket.on('all', function (data) {
-        console.log(data);
-    });
-    
-    socket.on('message', function (data) {
-        new_msg = decrypt_msg(data);
-        console.log(new_msg);
-    });
-}
+
+
+// socket.on('connect', function (data) {
+//     console.log(data);
+//     socket.emit('join', {});
+// });
+
+// socket.on('all', function (data) {
+//     console.log(data);
+// });
+
+socket.on('message', function (data) {
+    console.log(decrypt_msg(data));
+});
+
 
 
 function padding(msg) {
