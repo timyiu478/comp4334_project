@@ -18,8 +18,7 @@ const ChatPage = () => {
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
-    // const [currentContact, setCurrentContact] = useState(null);
-
+    const [currentContact, setCurrentContact] = useState(null);
     const [publicKey,setPublicKey] = useState(null);
 
     const handleInputFormChange = (e) => {
@@ -44,7 +43,7 @@ const ChatPage = () => {
     const sendInputMsg = async () => {
         setInputForm('');
         // const publicKey = await get_public_key(contactList[currentContact]);
-        sendMsg(inputForm, contactList[currentContact], publicKey);
+        sendMsg(inputForm, currentContact, publicKey);
     };
     const getUser = () => {
         $.ajax({
@@ -69,6 +68,8 @@ const ChatPage = () => {
     }, []);
 
     const handleCurrentContact = async (currentContact) => {
+        setCurrentContact(currentContact);
+        
         await get_public_key(currentContact).then((publicKey)=>{
             setPublicKey(publicKey);
         });
@@ -123,7 +124,7 @@ const ChatPage = () => {
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{currentContact !== null && contactList[currentContact]}</h2>
+                                <h2>{currentContact !== null}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
