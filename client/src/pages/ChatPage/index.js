@@ -77,7 +77,9 @@ const ChatPage = () => {
         
         get_history(currentContact).then((response) => {
             console.log(response);
-            setMsgList(response);
+            useEffect(() => {
+                setMsgList(response);
+            }, []);
         })
         .catch(function (error) {
             console.log(error.message)
