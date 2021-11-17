@@ -203,41 +203,41 @@ def usernames():
 
     return {'usernames': [user.username for user in usernames]},200
 
-@socketio.on('connect')
-@jwt_required()
-def test_connect(auth):
-    socketio.emit('connect', {'data': 'Connected'})
+# @socketio.on('connect')
+# @jwt_required()
+# def test_connect(auth):
+#     socketio.emit('connect', {'data': 'Connected'})
 
-@socketio.on('join')
-@jwt_required()
-def on_join(data):
-    username = current_user.username
-    room = username + "'s room"
-    join_room(room)
-    socketio.emit('all',username + ' has entered the room.')
-    print(username + ' has entered the room.')
+# @socketio.on('join')
+# @jwt_required()
+# def on_join(data):
+#     username = current_user.username
+#     room = username + "'s room"
+#     join_room(room)
+#     socketio.emit('all',username + ' has entered the room.')
+#     print(username + ' has entered the room.')
 
-@socketio.on('leave')
-@jwt_required()
-def on_leave(data):
-    username = current_user.username
-    room = username + "'s room"
-    leave_room(room)
-    socketio.emit('all',username + ' has left the room.')
-    print(username + ' has left the room.')
+# @socketio.on('leave')
+# @jwt_required()
+# def on_leave(data):
+#     username = current_user.username
+#     room = username + "'s room"
+#     leave_room(room)
+#     socketio.emit('all',username + ' has left the room.')
+#     print(username + ' has left the room.')
 
-@socketio.on('message')
-@jwt_required()
-def on_message(data):
-    print("-------message--------")
-    print(data)
-    to = data['to']
-    room = to + "'s room"
+# @socketio.on('message')
+# @jwt_required()
+# def on_message(data):
+#     print("-------message--------")
+#     print(data)
+#     to = data['to']
+#     room = to + "'s room"
 
-    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
-    db.session.commit()
+#     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
+#     db.session.commit()
 
-    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
+#     socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
 
     
 

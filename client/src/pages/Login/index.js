@@ -25,28 +25,32 @@ const Login = () => {
     };
 
     const signUp = () => {
-        // const senderRSAkey = gen_key_pair(username, password);
-        // const data = {
-        //     username,
-        //     password,
-        // };
-        // localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
-        // localStorage.setItem('username', username);
-        // $.ajax({
-        //     method: 'POST',
-        //     dataType: 'json',
-        //     contentType: 'application/json',
-        //     data: JSON.stringify(data),
-        //     url: '/api/login/',
-        //     success: function (result, statusText) {
-        //         console.log(result);
-        //         history.push('/chatpage');
-        //     },
-        //     error: function (result, statusText) {
-        //         console.log(result);
-        //         alert('Invalid Username or Password.');
-        //     },
-        // });
+        const senderRSAkey = gen_key_pair(username, password);
+
+        const data = {
+            username,
+            password,
+        };
+
+        localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
+        localStorage.setItem('username', username);
+
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            url: '/api/login/',
+            success: function (result, statusText) {
+                console.log(result);
+                history.push('/chatpage');
+            },
+            error: function (result, statusText) {
+                console.log(result);
+
+                alert('Invalid Username or Password.');
+            },
+        });
     };
 
     const onClick = () => {
