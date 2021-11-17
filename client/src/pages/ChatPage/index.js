@@ -7,6 +7,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, sendMsg } from './chat';
+
 const ChatPage = () => {
     const msg_scrollbar = useRef(null);
     const history = useHistory();
@@ -21,23 +22,22 @@ const ChatPage = () => {
         setInputForm(e.target.value);
     };
     const logOut = () => {
+        history.push('/');
+        localStorage.clear();
         $.ajax({
             method: 'GET',
             dataType: 'json',
             contentType: 'application/json',
             url: '/api/logout/',
-            success: function (result, statusText) {
-                history.push('/');
-                localStorage.clear();
+            success: (result, statusText) => {
                 console.log(result);
             },
-            error: function (result, statusText) {
+            error: (result, statusText) => {
                 console.log(result);
             },
         });
     };
     const sendInputMsg = async () => {
-        console.log('msg: ' + inputForm + 'to: ' + contactList[currentContact]);
         setInputForm('');
         const publicKey = await get_public_key(contactList[currentContact]);
         sendMsg(inputForm, contactList[currentContact], publicKey);
@@ -48,11 +48,11 @@ const ChatPage = () => {
             dataType: 'json',
             contentType: 'application/json',
             url: '/api/usernames/',
-            success: function (result, statusText) {
+            success: (result, statusText) => {
                 console.log(result.usernames);
                 setContactList(result.usernames.filter((word) => word != currentMe));
             },
-            error: function (result, statusText) {
+            error: (result, statusText) => {
                 console.log(result);
             },
         });
