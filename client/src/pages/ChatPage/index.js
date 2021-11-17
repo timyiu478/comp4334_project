@@ -75,8 +75,8 @@ const ChatPage = () => {
             console.log("publicKey: ",publicKey);
         });
         
-        history = await get_history(currentContact);
-        setMsgList(history);
+        const msgs = await get_history(currentContact);
+        setMsgList(msgs);
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
 
