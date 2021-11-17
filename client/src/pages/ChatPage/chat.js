@@ -58,7 +58,7 @@ export async function get_history(target, start_message_index = 0) {
             const msg = result.msgs;
             console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                // history = [...history, { msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].to }];
+                history = [...history, { msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].data.to }];
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
