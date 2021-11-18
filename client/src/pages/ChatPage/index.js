@@ -64,9 +64,9 @@ const ChatPage = () => {
         });
     };
 
-    useEffect(() => {
-        getUser();
-    }, []);
+    // useEffect(() => {
+    getUser();
+    // }, []);
 
     const handleCurrentContact = async (currentContact) => {
         await setCurrentContact(currentContact);
@@ -81,7 +81,7 @@ const ChatPage = () => {
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        await setMsgList( () => msgs);
+        await setMsgList(msgs);
 
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
