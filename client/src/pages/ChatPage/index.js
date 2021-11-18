@@ -40,13 +40,13 @@ const ChatPage = () => {
         console.log("from:",from);
         console.log("new_nsg:",new_msg);
         if(from == currentContact || from == currentMe){
-            setMsgList([...msgList,{msg:new_msg,date:data['data']['date'],to:data['data']['to']}]);
+            setMsgList([...msgList,{msg:new_msg,date:data['datatime'],to:data['data']['to']}]);
         }else{
             msgCounts[from]+=1;
         }
         console.log(msgCounts);
 
-        if(!contactList.includes(from)) setContactList([...contactList,from]);
+        if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]);
     });
 
     const handleInputFormChange = (e) => {
