@@ -154,8 +154,8 @@ def services():
     start_message_index = data['start_message_index']
     username = current_user.username
 
-    msgs = redis_client.get(target+username)
-
+    # msgs = redis_client.get(target+username)
+    msgs = None
     if msgs == None:
         msgs = History.query.filter(\
             or_(and_(History.from_username==username,History.to_username==target),\
