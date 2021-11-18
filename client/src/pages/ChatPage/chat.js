@@ -5,16 +5,18 @@ import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
-console.log(SenderRSAkey);
+console.log("SenderRSAkey:",SenderRSAkey);
 let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
-
+console.log("SenderPublicKeyString:",SenderPublicKeyString);
+let currrentUsername = localStorage.getItem('username');
+console.log("currrentUsername:",currrentUsername);
 
 export function decrypt_msg(data) {
     // console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
     let encrypted_msg_info;
 
-    if (data['data']['to'] == localStorage.getItem('username')) {
+    if (data['data']['to'] == currrentUsername) {
         encrypted_msg_info = data['data']['msg_info'];
     } else {
         encrypted_msg_info = data['data']['msg_info_for_sender'];
@@ -24,6 +26,9 @@ export function decrypt_msg(data) {
     console.log(encrypted_msg_info);
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
     console.log(msg_info);
+
+    if(msg_info['status']=="failure") return false;
+
     console.log(msg_info['plaintext']);
     msg_info = msg_info['plaintext'];
     msg_info = JSON.parse(msg_info);
@@ -70,7 +75,9 @@ export async function get_history(target, start_message_index = 0) {
             const msg = result.msgs;
             console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                history.push({ msg: decrypt_msg(msg[i]), date: msg[i].datetime, to: msg[i].data.to });
+                const plaintext = decrypt_msg(msg[i]);
+                if (plaintext == false) continue;
+                history.push({ msg: plaintext, date: msg[i].datetime, to: msg[i].data.to });
                 // console.log(msg[i].datetime);
             }
             return history;

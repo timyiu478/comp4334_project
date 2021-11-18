@@ -9,8 +9,25 @@ import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, sendMsg} from './chat';
 import Cookies from 'js-cookie';
+import io from 'socket.io-client';
 
 const ChatPage = () => {
+
+    const socket = io.connect('https://' + document.domain + ':' + location.port);
+    // const socket = io.connect('https://' + document.domain + ':' + 80);
+    
+    socket.on('connect', function (data) {
+        console.log(data);
+        socket.emit('join', {});
+    });
+    
+    socket.on('all', function (data) {
+        console.log(data);
+    }); 
+    
+    socket.on('message', function (data) {
+        console.log(decrypt_msg(data));
+    });
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();
