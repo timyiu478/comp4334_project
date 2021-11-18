@@ -256,6 +256,11 @@ def on_message(data):
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
 
+    msgs = redis_client.get(to+current_user.username)
+
+    if msgs != None:
+        msgs.append({'data':data,'datetime':now})
+        redis_client.set(to+current_user.username,ujson.dumps({'msgs':msgs}),300)
 
     
 
