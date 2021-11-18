@@ -161,7 +161,7 @@ def services():
             or_(and_(History.from_username==username,History.to_username==target),\
             and_(History.from_username==target,History.to_username==username)))\
             .order_by(History.datetime.desc()).all()
-        redis_client.set(target+username,bytes(msgs))
+        redis_client.set(target+username,bytes(msgs),300)
 
     print("--------- msgs ----------------")
     print(data)
