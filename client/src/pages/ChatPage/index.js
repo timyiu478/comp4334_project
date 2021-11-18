@@ -14,7 +14,7 @@ const ChatPage = () => {
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();
-    const [msgList, setMsgList] = useState([{}]);
+    const [msgList, setMsgList] = useState([]);
 
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
@@ -64,9 +64,9 @@ const ChatPage = () => {
         });
     };
 
-    // useEffect(() => {
-    getUser();
-    // }, []);
+    useEffect(() => {
+        getUser();
+    }, []);
 
     const handleCurrentContact = async (currentContact) => {
         await setCurrentContact(currentContact);
@@ -81,10 +81,10 @@ const ChatPage = () => {
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        await setMsgList(msgs);
+        await setMsgList([msgs]);
 
         console.log("Msglist: ",msgList);
-        msg_scrollbar.current.scrollToBottom();
+        // msg_scrollbar.current.scrollToBottom();
 
     };
 
@@ -143,7 +143,6 @@ const ChatPage = () => {
                                     autoHideTimeout={1000}
                                     autoHideDuration={200}
                                 >
-                                    <div id="msgList"></div>
                                     {msgList !== [] &&
                                        msgList.map((content) => (
                                             <p
