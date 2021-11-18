@@ -39,11 +39,12 @@ const ChatPage = () => {
             setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
             msg_scrollbar.current.scrollToBottom();
         }else{
+            if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
             setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
         }
         console.log(msgCounts);
 
-        if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]);
+        
     });
 
 

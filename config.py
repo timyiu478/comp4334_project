@@ -7,6 +7,9 @@ with open('database_url.txt','r') as f:
 with open('flask_session_secret_key.txt','r') as f:
     flask_session_secret_key = f.read()
 
+with open('redis_url.txt','r') as f:
+    redis_url = f.read()
+
 SECRET_KEY = flask_session_secret_key
 
 JWT_SECRET_KEY = jwt_secret_key
@@ -17,3 +20,5 @@ JWT_CSRF_CHECK_FORM = True
 SQLALCHEMY_DATABASE_URI = database_url
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = False
+
+REDIS_URL = redis_url

@@ -7,6 +7,7 @@ from flask_socketio import SocketIO,join_room,leave_room, send
 from sqlalchemy import and_,or_
 from flask_sslify import SSLify
 from flask_cors import CORS
+from flask_redis import FlaskRedis
 
 app = Flask(__name__,static_folder = "client/build",static_url_path="/")
 app.config.from_object('config')
@@ -16,6 +17,8 @@ jwt = JWTManager(app)
 sslify = SSLify(app)
 
 CORS(app)
+
+redis_client = FlaskRedis(app)
 
 db.app = app
 db.init_app(app)
