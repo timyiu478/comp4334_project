@@ -69,6 +69,9 @@ const ChatPage = () => {
     }, []);
 
     const handleCurrentContact = async (e)=>{
+
+        console.log("e.target.id",e.target.id);
+
         await setCurrentContact(e.target.id);
 
         console.log("currentContact: ",currentContact);
@@ -84,7 +87,7 @@ const ChatPage = () => {
         await setMsgList([msgs]);
 
         console.log("Msglist: ",msgList);
-        // msg_scrollbar.current.scrollToBottom();
+        msg_scrollbar.current.scrollToBottom();
 
     };
 
@@ -133,7 +136,7 @@ const ChatPage = () => {
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{currentContact !== null}</h2>
+                                <h2>{currentContact !== ""}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
