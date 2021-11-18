@@ -41,7 +41,8 @@ const ChatPage = () => {
         console.log("new_nsg:",new_msg);
         console.log("data:", data);
         if(from == currentContact || from == currentMe){
-            setMsgList([...msgList,{msg:new_msg,date:data['datatime'],to:data['data']['to']}]);
+            setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
+            msg_scrollbar.current.scrollToBottom();
         }else{
             msgCounts[from]+=1;
         }

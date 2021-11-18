@@ -31,7 +31,7 @@ class History(db.Model):
     from_username = db.Column(db.String(255),db.ForeignKey('User.username'))
     to_username = db.Column(db.String(255),db.ForeignKey('User.username'))
     data = db.Column(db.String(4096))
-    datetime = db.Column(db.DateTime,default=datetime.utcnow)
+    datetime = db.Column(db.String(255))
 
     fun = db.relationship('User',foreign_keys="[History.from_username]")
     tun = db.relationship('User',foreign_keys="[History.to_username]")
