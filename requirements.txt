@@ -9,5 +9,3 @@ flask_socketio
 ujson
 Flask-SSLify
 flask_cors
-gevent
-python-gevent
