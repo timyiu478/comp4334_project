@@ -148,7 +148,7 @@ function padding(msg) {
     }
 }
 
-export function encryptMsg(msg, to, receiver_public_key) {
+export async function encryptMsg(msg, to, receiver_public_key) {
     // let msg = document.getElementById('message').value;
 
     console.log("to:",to);

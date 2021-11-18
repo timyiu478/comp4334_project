@@ -14,13 +14,15 @@ import io from 'socket.io-client';
 const ChatPage = () => {
 
     let msgCounts = {}
+    let publicKeys = {}
 
     const socket = io.connect('https://' + document.domain + ':' + location.port);
-    
-    socket.on('connect', function (data) {
-        console.log(data);
-        socket.emit('join', {});
-    });
+    socket.emit('join', {});
+
+    // socket.on('connect', function (data) {
+    //     console.log(data);
+        
+    // });
     
     socket.on('message', function (data) {
         console.log("---------new msg---------");
@@ -108,9 +110,15 @@ const ChatPage = () => {
 
         console.log("currentContact: ",currentContact);
 
-        await get_public_key(currentC).then((response)=>{
-            setPublicKey(response);
-        });
+        if(publicKeys.hasOwnProperty(currentC)){
+            setPublicKey(publicKeys[currentC]);
+        }else{
+            await get_public_key(currentC).then((response)=>{
+                setPublicKey(response);
+                publicKeys[currentC] = response;
+            });
+        }
+
         console.log("publicKey: ",publicKey);
 
         await get_history(currentC).then((response) => {
