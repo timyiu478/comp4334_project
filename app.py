@@ -242,8 +242,8 @@ def on_message(data):
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
 
-    socketio.send({'datetime':now,'from':current_user.username,'data': data}, broadcast=True, to=to_room)
-    socketio.send({'datetime':now,'from':current_user.username,'data': data}, broadcast=True, to=from_room)
+    socketio.send({'datetime':ujson.dumps(now),'from':current_user.username,'data': data}, broadcast=True, to=to_room)
+    socketio.send({'datetime':ujson.dumps(now),'from':current_user.username,'data': data}, broadcast=True, to=from_room)
     
 
 
