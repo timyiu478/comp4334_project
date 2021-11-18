@@ -161,6 +161,9 @@ def services():
             or_(and_(History.from_username==username,History.to_username==target),\
             and_(History.from_username==target,History.to_username==username)))\
             .order_by(History.datetime.desc()).all()
+
+        msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
+        
         redis_client.set(target+username,bytes(msgs),300)
     else:
         msgs = list(msgs)
@@ -168,9 +171,7 @@ def services():
     print("--------- msgs ----------------")
     print(data)
     # print(msgs)
-    msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
-    # print(msgs)
-
+    
     return {'msgs': msgs},200
 
 # @app.route('/chat/')
