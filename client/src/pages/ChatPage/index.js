@@ -175,7 +175,7 @@ const ChatPage = () => {
                                         className={styles.chat_app_contactList_contact}
                                         onClick={handleCurrentContact}
                                     >
-                                        {contact} <Badge bg="secondary">{msgCounts[contact]}</Badge>
+                                        {contact}
                                     </li>
                                 ))}
                         </div>

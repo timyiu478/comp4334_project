@@ -154,14 +154,14 @@ def services():
     start_message_index = data['start_message_index']
     username = current_user.username
 
-    msgs = redis_client.get(target+username)
+    msgs = list(redis_client.get(target+username))
 
     if msgs == None:
         msgs = History.query.filter(\
             or_(and_(History.from_username==username,History.to_username==target),\
             and_(History.from_username==target,History.to_username==username)))\
             .order_by(History.datetime.desc()).all()
-        redis_client.set(target+username,msgs)
+        redis_client.set(target+username,bytes(msgs))
 
     print("--------- msgs ----------------")
     print(data)
