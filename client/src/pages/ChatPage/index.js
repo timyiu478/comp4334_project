@@ -25,12 +25,10 @@ const ChatPage = () => {
     let msgCounts = {}
     let publicKeys = {}
 
+    console.log("location.host:",location.host);
+    const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} });
 
     useEffect(() => {    
-        console.log("location.host:",location.host);
-        
-        const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} });
-        
         socket.emit('join', {});
 
         socket.on('message', function (data) {
