@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
 import Cookies from 'js-cookie';
 import {socket} from './socket';
+import Badge from 'react-bootstrap/Badge'
 
 const ChatPage = () => {
 
@@ -21,8 +22,8 @@ const ChatPage = () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState("");
     const [publicKey,setPublicKey] = useState("");
+    const [msgCounts,setMsgCounts] = useState({});
 
-    let msgCounts = {}
     let publicKeys = {}
 
     socket.emit('join', {});
@@ -38,7 +39,7 @@ const ChatPage = () => {
             setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
             msg_scrollbar.current.scrollToBottom();
         }else{
-            msgCounts[from]+=1;
+            setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
         }
         console.log(msgCounts);
 
@@ -93,7 +94,7 @@ const ChatPage = () => {
 
                 for(let i=0;i<result.usernames.length;i++){
                     if(!msgCounts.hasOwnProperty(result.usernames[i]) && result.usernames[i] != currentMe){
-                        msgCounts[result.usernames[i]] = 0;
+                        setMsgCounts({...msgCounts,[result.usernames[i]]:0});
                     }
                 }
             },
@@ -173,7 +174,7 @@ const ChatPage = () => {
                                         className={styles.chat_app_contactList_contact}
                                         onClick={handleCurrentContact}
                                     >
-                                        {contact}
+                                        {contact} <Badge bg="secondary">{msgCounts[contact]}</Badge>
                                     </li>
                                 ))}
                         </div>
