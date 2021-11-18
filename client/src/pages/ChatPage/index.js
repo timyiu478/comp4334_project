@@ -14,7 +14,7 @@ const ChatPage = () => {
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();
-    const [msgList, setMsgList] = useState([]);
+    const [msgList, setMsgList] = useState([{}]);
 
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
@@ -68,8 +68,10 @@ const ChatPage = () => {
         getUser();
     }, []);
 
-    const handleCurrentContact =  useEffect(async (currentContact) => {
-        setCurrentContact(currentContact);
+    const handleCurrentContact = async (currentContact) => {
+        await setCurrentContact(currentContact);
+
+        console.log("currentContact",currentContact);
 
         await get_public_key(currentContact).then((publicKey)=>{
             setPublicKey(publicKey);
@@ -79,12 +81,12 @@ const ChatPage = () => {
         const msgs = await get_history(currentContact);
         console.log("msgs: ",msgs);
         
-        setMsgList(msgs);
+        await setMsgList( () => msgs);
 
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
 
-    },[]);
+    };
 
     // useEffect(async () => {
     //     if (contactList !== []) {
@@ -122,7 +124,7 @@ const ChatPage = () => {
                                     <li
                                         key={index}
                                         className={styles.chat_app_contactList_contact}
-                                        onClick={() => handleCurrentContact(contact)}
+                                        onClick={(contact) => handleCurrentContact(contact)}
                                     >
                                         {contact}
                                     </li>
