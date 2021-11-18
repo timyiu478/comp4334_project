@@ -157,9 +157,9 @@ def services():
 
     print("--------- msgs ----------------")
     print(data)
-    print(msgs)
+    # print(msgs)
     msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
-    print(msgs)
+    # print(msgs)
 
     return {'msgs': msgs},200
 
