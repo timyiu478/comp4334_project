@@ -212,7 +212,7 @@ def on_join(data):
     username = current_user.username
     room = username + "'s room"
     join_room(room)
-    socketio.emit('all',username + ' has entered the room.')
+    # socketio.emit('all',username + ' has entered the room.')
     print(username + ' has entered the room.')
 
 @socketio.on('leave')
@@ -221,7 +221,7 @@ def on_leave(data):
     username = current_user.username
     room = username + "'s room"
     leave_room(room)
-    socketio.emit('all',username + ' has left the room.')
+    # socketio.emit('all',username + ' has left the room.')
     print(username + ' has left the room.')
 
 @socketio.on('message')
@@ -230,14 +230,17 @@ def on_message(data):
     print("-------message--------")
     print("current user: ", current_user.username)
     print(data)
+
     to = data['to']
-    room = to + "'s room"
+    to_room = to + "'s room"
+
+    from_room = current_user.username + "'s room"
 
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data)))
     db.session.commit()
 
-    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=room)
-
+    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=to_room)
+    socketio.send({'from':current_user.username,'data': data}, broadcast=True, to=from_room)
     
 
 

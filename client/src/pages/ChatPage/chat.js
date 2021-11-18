@@ -2,7 +2,7 @@ import { deserializeRSAKey } from 'src/genKey.js';
 import aesjs from 'aes-js';
 import $ from 'jquery';
 import Cookies from 'js-cookie';
-import io from 'socket.io-client';
+
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
 console.log("SenderRSAkey:",SenderRSAkey);
@@ -126,21 +126,7 @@ export async function get_public_key(receiver) {
 
 
 
-const socket = io.connect('https://' + document.domain + ':' + location.port);
-// const socket = io.connect('https://' + document.domain + ':' + 80);
 
-socket.on('connect', function (data) {
-    console.log(data);
-    socket.emit('join', {});
-});
-
-socket.on('all', function (data) {
-    console.log(data);
-}); 
-
-socket.on('message', function (data) {
-    console.log(decrypt_msg(data));
-});
 
 
 
