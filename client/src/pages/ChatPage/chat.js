@@ -2,7 +2,7 @@ import { deserializeRSAKey } from 'src/genKey.js';
 import aesjs from 'aes-js';
 import $ from 'jquery';
 import Cookies from 'js-cookie';
-import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
 console.log(SenderRSAkey);
@@ -22,8 +22,10 @@ export function decrypt_msg(data) {
     console.log("---------decrypt_msg----------");
     console.log(data);
     console.log(encrypted_msg_info);
-    let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext'];
+    let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
     console.log(msg_info);
+    console.log(msg_info['plaintext']);
+    msg_info = msg_info['plaintext'];
     msg_info = JSON.parse(msg_info);
     console.log(msg_info);
     
@@ -117,7 +119,7 @@ export async function get_public_key(receiver) {
 
 
 
-const socket = io('https://' + document.domain + ':' + location.port);
+const socket = io.connect('https://' + document.domain + ':' + location.port);
 
 socket.on('connect', function (data) {
     console.log(data);

@@ -1,8 +1,4 @@
-import re
 from flask import Flask,make_response,redirect,request,send_from_directory
-from flask.helpers import flash
-from flask.templating import render_template
-from werkzeug.datastructures import HeaderSet
 from flask_jwt import *
 from Crypto import Random
 from database import *
@@ -10,6 +6,7 @@ from models import *
 from flask_socketio import SocketIO,join_room,leave_room, send
 from sqlalchemy import and_,or_
 from flask_sslify import SSLify
+from flask_cors import CORS
 
 app = Flask(__name__,static_folder = "client/build",static_url_path="/")
 app.config.from_object('config')
@@ -17,6 +14,8 @@ app.config.from_object('config')
 jwt = JWTManager(app)
 
 sslify = SSLify(app)
+
+CORS(app)
 
 db.app = app
 db.init_app(app)

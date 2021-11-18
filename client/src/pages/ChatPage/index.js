@@ -76,11 +76,11 @@ const ChatPage = () => {
 
         console.log("currentContact: ",currentContact);
 
-        await get_public_key(currentC).then((publicKey)=>{
-            setPublicKey(publicKey);
-            console.log("publicKey: ",publicKey);
+        await get_public_key(currentC).then((response)=>{
+            setPublicKey(response);
         });
-           
+        console.log("publicKey: ",publicKey);
+
         await get_history(currentC).then((response) => {
             setMsgList(response);
         });
