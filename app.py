@@ -172,8 +172,8 @@ def services():
 @jwt_required()
 def public_keys():
     print('----------public_keys---------')
-    print(request.json)
-    print(request.data)
+    # print(request.json)
+    # print(request.data)
     print(request.get_json())
     
     username = request.get_json()['username']
@@ -215,14 +215,14 @@ def on_join(data):
     # socketio.emit('all',username + ' has entered the room.')
     print(username + ' has entered the room.')
 
-@socketio.on('leave')
-@jwt_required()
-def on_leave(data):
-    username = current_user.username
-    room = username + "'s room"
-    leave_room(room)
-    # socketio.emit('all',username + ' has left the room.')
-    print(username + ' has left the room.')
+# @socketio.on('leave')
+# @jwt_required()
+# def on_leave(data):
+#     username = current_user.username
+#     room = username + "'s room"
+#     leave_room(room)
+#     # socketio.emit('all',username + ' has left the room.')
+#     print(username + ' has left the room.')
 
 @socketio.on('message')
 @jwt_required()
