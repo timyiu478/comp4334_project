@@ -33,7 +33,7 @@ const ChatPage = () => {
         }else{
             msgCounts[from]+=1;
         }
-        console.log(new_msgList);
+        console.log(msgCounts);
     });
 
     const msg_scrollbar = useRef(null);
@@ -82,7 +82,7 @@ const ChatPage = () => {
                 setContactList(result.usernames.filter((word) => word !== currentMe));
 
                 for(let i=0;i<result.usernames.length;i++){
-                    if(!new_msgList.hasOwnProperty(result.usernames[i]) && result.usernames[i] != currentMe){
+                    if(!msgCounts.hasOwnProperty(result.usernames[i]) && result.usernames[i] != currentMe){
                         msgCounts[result.usernames[i]] = 0;
                     }
                 }
