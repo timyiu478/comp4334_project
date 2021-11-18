@@ -236,7 +236,8 @@ def on_message(data):
 
     from_room = current_user.username + "'s room"
 
-    now = datetime.utcnow
+    now = datetime.utcnow()
+    print("datetime:",now)
 
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
