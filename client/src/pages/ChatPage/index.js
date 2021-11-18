@@ -9,9 +9,9 @@ import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
 import Cookies from 'js-cookie';
-import io from 'socket.io-client';
+import {socket} from './socket';
 
-const ChatPage = async () => {
+const ChatPage = () => {
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();
@@ -21,17 +21,11 @@ const ChatPage = async () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState("");
     const [publicKey,setPublicKey] = useState("");
-    const [socket,setSocket] = useState(null);
 
     let msgCounts = {}
     let publicKeys = {}
 
-    console.log("location.host:",location.host);
-
-    await useEffect(() => {
-        setSocket(io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} }));
-        socket.emit('join', {});
-    },[]);
+    socket.emit('join', {});
 
     socket.on('message', function (data) {
         console.log("---------new msg---------");
