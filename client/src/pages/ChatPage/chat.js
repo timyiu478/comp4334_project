@@ -120,6 +120,7 @@ export async function get_public_key(receiver) {
 
 
 const socket = io.connect('https://' + document.domain + ':' + location.port);
+// const socket = io.connect('https://' + document.domain + ':' + 80);
 
 socket.on('connect', function (data) {
     console.log(data);
