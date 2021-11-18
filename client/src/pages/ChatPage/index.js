@@ -7,32 +7,38 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
-import { get_history, get_public_key, sendMsg} from './chat';
+import { get_history, get_public_key, sendMsg, decrypt_msg} from './chat';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
 const ChatPage = () => {
 
+    let msgCounts = {}
+
     const socket = io.connect('https://' + document.domain + ':' + location.port);
-    // const socket = io.connect('https://' + document.domain + ':' + 80);
     
     socket.on('connect', function (data) {
         console.log(data);
         socket.emit('join', {});
     });
     
-    socket.on('all', function (data) {
-        console.log(data);
-    }); 
-    
     socket.on('message', function (data) {
-        console.log(decrypt_msg(data));
+        console.log("---------new msg---------");
+        const new_msg = decrypt_msg(data);
+        const from = data['from'];
+        console.log("from:",from);
+        console.log("new_nsg:",new_msg);
+        if(from == currentContact){
+            setMsgList([...msgList,new_msg]);
+        }else{
+            msgCounts[from]+=1;
+        }
+        console.log(new_msgList);
     });
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();
     const [msgList, setMsgList] = useState([]);
-
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
@@ -74,6 +80,12 @@ const ChatPage = () => {
             success: (result, statusText) => {
                 console.log(result.usernames);
                 setContactList(result.usernames.filter((word) => word !== currentMe));
+
+                for(let i=0;i<result.usernames.length;i++){
+                    if(!new_msgList.hasOwnProperty(result.usernames[i]) && result.usernames[i] != currentMe){
+                        msgCounts[result.usernames[i]] = 0;
+                    }
+                }
             },
             error: (result, statusText) => {
                 console.log(result);
