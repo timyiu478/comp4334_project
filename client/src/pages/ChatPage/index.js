@@ -71,7 +71,7 @@ const ChatPage = () => {
     const handleCurrentContact = async (currentContact) => {
         await setCurrentContact(currentContact);
 
-        console.log("currentContact",currentContact);
+        console.log("currentContact: ",currentContact);
 
         await get_public_key(currentContact).then((publicKey)=>{
             setPublicKey(publicKey);
@@ -124,8 +124,8 @@ const ChatPage = () => {
                                     <li
                                         key={index}
                                         className={styles.chat_app_contactList_contact}
-                                        onClick={(contact) => handleCurrentContact(contact)}
-                                    >
+                                        onClick={handleCurrentContact({contact})}
+                                    >}
                                         {contact}
                                     </li>
                                 ))}
