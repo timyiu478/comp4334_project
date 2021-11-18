@@ -138,7 +138,7 @@ const ChatPage = () => {
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{contactList[currentContact] !== null}</h2>
+                                <h2>{currentContact !== null && contactList[currentContact]}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
