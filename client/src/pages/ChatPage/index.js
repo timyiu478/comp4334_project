@@ -13,6 +13,15 @@ import io from 'socket.io-client';
 
 const ChatPage = () => {
 
+    const msg_scrollbar = useRef(null);
+    const history = useHistory();
+    const [msgList, setMsgList] = useState([]);
+    const [contactList, setContactList] = useState([]);
+    const currentMe = localStorage.getItem('username');
+    const [inputForm, setInputForm] = useState('');
+    const [currentContact, setCurrentContact] = useState("");
+    const [publicKey,setPublicKey] = useState("");
+
     let msgCounts = {}
     let publicKeys = {}
 
@@ -30,22 +39,13 @@ const ChatPage = () => {
         const from = data['from'];
         console.log("from:",from);
         console.log("new_nsg:",new_msg);
-        if(from == currentContact){
+        if(from == currentContact || from == currentMe){
             setMsgList([...msgList,new_msg]);
         }else{
             msgCounts[from]+=1;
         }
         console.log(msgCounts);
     });
-
-    const msg_scrollbar = useRef(null);
-    const history = useHistory();
-    const [msgList, setMsgList] = useState([]);
-    const [contactList, setContactList] = useState([]);
-    const currentMe = localStorage.getItem('username');
-    const [inputForm, setInputForm] = useState('');
-    const [currentContact, setCurrentContact] = useState("");
-    const [publicKey,setPublicKey] = useState("");
 
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
