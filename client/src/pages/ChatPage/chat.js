@@ -4,6 +4,11 @@ import $ from 'jquery';
 import Cookies from 'js-cookie';
 import { io } from 'socket.io-client';
 
+let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
+console.log(SenderRSAkey);
+let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
+
+
 export function decrypt_msg(data) {
     // console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
@@ -14,9 +19,14 @@ export function decrypt_msg(data) {
     } else {
         encrypted_msg_info = data['data']['msg_info_for_sender'];
     }
-
-    let msg_info = JSON.parse(cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext']);
-    // console.log(encrypted_msg_info);
+    console.log("---------decrypt_msg----------");
+    console.log(data);
+    console.log(encrypted_msg_info);
+    let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey)['plaintext'];
+    console.log(msg_info);
+    msg_info = JSON.parse(msg_info);
+    console.log(msg_info);
+    
 
     // console.log(msg_info);
 
@@ -105,9 +115,6 @@ export async function get_public_key(receiver) {
 
 
 
-let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
-console.log(SenderRSAkey);
-let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
 
 
 const socket = io('https://' + document.domain + ':' + location.port);
