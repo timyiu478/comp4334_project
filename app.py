@@ -7,6 +7,7 @@ from flask_socketio import SocketIO,join_room,leave_room, send
 from sqlalchemy import and_,or_
 from flask_sslify import SSLify
 from flask_cors import CORS
+import iso8601
 
 app = Flask(__name__,static_folder = "client/build",static_url_path="/")
 app.config.from_object('config')
@@ -242,8 +243,8 @@ def on_message(data):
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
 
-    socketio.send(jsonify({'datetime':now,'from':current_user.username,'data': data}), broadcast=True, to=to_room)
-    socketio.send(jsonify({'datetime':now,'from':current_user.username,'data': data}), broadcast=True, to=from_room)
+    socketio.send({'datetime':iso8601.parse_date(now),'from':current_user.username,'data': data}, broadcast=True, to=to_room)
+    socketio.send({'datetime':iso8601.parse_date(now),'from':current_user.username,'data': data}, broadcast=True, to=from_room)
     
 
 
