@@ -13,7 +13,7 @@ app.config.from_object('config')
 
 jwt = JWTManager(app)
 
-sslify = SSLify(app)
+#sslify = SSLify(app)
 
 CORS(app)
 
