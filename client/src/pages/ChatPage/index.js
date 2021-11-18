@@ -25,33 +25,32 @@ const ChatPage = () => {
     let msgCounts = {}
     let publicKeys = {}
 
-    // const socket = io.connect('wss://' + document.domain + ':' + location.port);
-    console.log("location.host:",location.host);
-    const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} });
-    socket.emit('join', {});
 
-    // socket.on('connect', function (data) {
-    //     console.log(data);
+    useEffect(() => {    
+        console.log("location.host:",location.host);
         
-    // });
-    
-    socket.on('message', function (data) {
-        console.log("---------new msg---------");
-        const new_msg = decrypt_msg(data);
-        const from = data['from'];
-        console.log("from:",from);
-        console.log("new_nsg:",new_msg);
-        console.log("data:", data);
-        if(from == currentContact || from == currentMe){
-            setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
-            msg_scrollbar.current.scrollToBottom();
-        }else{
-            msgCounts[from]+=1;
-        }
-        console.log(msgCounts);
+        const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} });
+        
+        socket.emit('join', {});
 
-        if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]);
-    });
+        socket.on('message', function (data) {
+            console.log("---------new msg---------");
+            const new_msg = decrypt_msg(data);
+            const from = data['from'];
+            console.log("from:",from);
+            console.log("new_nsg:",new_msg);
+            console.log("data:", data);
+            if(from == currentContact || from == currentMe){
+                setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
+                msg_scrollbar.current.scrollToBottom();
+            }else{
+                msgCounts[from]+=1;
+            }
+            console.log(msgCounts);
+
+            if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]);
+        });
+    },[]);
 
     const handleInputFormChange = (e) => {
         setInputForm(e.target.value);
