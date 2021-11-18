@@ -1,4 +1,5 @@
 from flask import Flask,make_response,redirect,request,send_from_directory
+from sqlalchemy.sql.elements import Null
 from flask_jwt import *
 from Crypto import Random
 from database import *
@@ -153,10 +154,14 @@ def services():
     start_message_index = data['start_message_index']
     username = current_user.username
 
-    msgs = History.query.filter(\
-        or_(and_(History.from_username==username,History.to_username==target),\
-        and_(History.from_username==target,History.to_username==username)))\
-        .order_by(History.datetime.desc()).all()
+    msgs = redis_client.get(target+username)
+
+    if msgs == None:
+        msgs = History.query.filter(\
+            or_(and_(History.from_username==username,History.to_username==target),\
+            and_(History.from_username==target,History.to_username==username)))\
+            .order_by(History.datetime.desc()).all()
+        redis_client.set(target+username,msgs)
 
     print("--------- msgs ----------------")
     print(data)
