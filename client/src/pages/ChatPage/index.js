@@ -25,7 +25,7 @@ const ChatPage = () => {
     let msgCounts = {}
     let publicKeys = {}
 
-    const socket = io.connect('https://' + document.domain + ':' + location.port);
+    const socket = io.connect('ws://' + document.domain + ':' + location.port);
     socket.emit('join', {});
 
     // socket.on('connect', function (data) {
