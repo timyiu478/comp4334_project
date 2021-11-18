@@ -72,7 +72,7 @@ const ChatPage = () => {
 
         const currentContact = contactList[e.target.id];
 
-        setCurrentContact(currentContact);
+        await setCurrentContact(currentContact);
 
         console.log("currentContact: ",currentContact);
 
@@ -84,7 +84,7 @@ const ChatPage = () => {
         // const msgs = await get_history(currentContact);
         // console.log("msgs: ",msgs);
            
-        get_history(currentContact).then((response) => {
+        await get_history(currentContact).then((response) => {
             setMsgList(response);
         });
         
