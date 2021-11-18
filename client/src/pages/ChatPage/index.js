@@ -68,7 +68,7 @@ const ChatPage = () => {
         getUser();
     }, []);
 
-    const handleCurrentContact = async (currentContact) => {
+    async function handleCurrentContact(currentContact){
         await setCurrentContact(currentContact);
 
         console.log("currentContact: ",currentContact);
