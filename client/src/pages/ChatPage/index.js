@@ -19,7 +19,7 @@ const ChatPage = () => {
     const [contactList, setContactList] = useState([]);
     const currentMe = localStorage.getItem('username');
     const [inputForm, setInputForm] = useState('');
-    const [currentContact, setCurrentContact] = useState("");
+    const [currentContact, setCurrentContact] = useState(null);
     const [publicKey,setPublicKey] = useState("");
 
     const handleInputFormChange = (e) => {
@@ -70,18 +70,16 @@ const ChatPage = () => {
 
     const handleCurrentContact = async (e)=>{
 
-        console.log("e.target.id",e.target.id);
+        setCurrentContact(contactList[e.target.key]);
 
-        await setCurrentContact(e.target.id);
+        console.log("currentContact: ",contactList[e.target.key]);
 
-        console.log("currentContact: ",currentContact);
-
-        await get_public_key(currentContact).then((publicKey)=>{
+        await get_public_key(contactList[e.target.key]).then((publicKey)=>{
             setPublicKey(publicKey);
             console.log("publicKey: ",publicKey);
         });
 
-        const msgs = await get_history(currentContact);
+        const msgs = await get_history(contactList[e.target.key]);
         console.log("msgs: ",msgs);
         
         await setMsgList([msgs]);
@@ -126,7 +124,6 @@ const ChatPage = () => {
                                 contactList.map((contact, index) => (
                                     <li
                                         key={index}
-                                        id = {contact}
                                         className={styles.chat_app_contactList_contact}
                                         onClick={handleCurrentContact}
                                     >
@@ -136,7 +133,7 @@ const ChatPage = () => {
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{currentContact !== ""}</h2>
+                                <h2>{contactList[currentContact] !== null}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
