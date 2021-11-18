@@ -148,6 +148,8 @@ function padding(msg) {
 export function sendMsg(msg, to, receiver_public_key) {
     // let msg = document.getElementById('message').value;
 
+    console.log("to: ",to);
+
     let key_256 = crypto.getRandomValues(new Uint8Array(32));
     let iv = crypto.getRandomValues(new Uint8Array(16));
 

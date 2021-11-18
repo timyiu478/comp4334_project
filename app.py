@@ -229,6 +229,7 @@ def on_leave(data):
 @jwt_required()
 def on_message(data):
     print("-------message--------")
+    print("current user: ", current_user.username)
     print(data)
     to = data['to']
     room = to + "'s room"
