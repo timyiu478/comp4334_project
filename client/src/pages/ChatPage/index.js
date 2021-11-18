@@ -11,7 +11,7 @@ import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
-const ChatPage = () => {
+const ChatPage = async () => {
 
     const msg_scrollbar = useRef(null);
     const history = useHistory();
@@ -28,8 +28,8 @@ const ChatPage = () => {
 
     console.log("location.host:",location.host);
 
-    useEffect(async () => {
-        await setSocket(io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} }));
+    await useEffect(() => {
+        setSocket(io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} }));
         socket.emit('join', {});
     },[]);
 
