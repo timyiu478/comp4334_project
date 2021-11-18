@@ -10,5 +10,4 @@ ujson
 Flask-SSLify
 flask_cors
 gevent
-python-gevent-websocket
 python-gevent
