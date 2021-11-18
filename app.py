@@ -1,5 +1,6 @@
 from flask import Flask,make_response,redirect,request,send_from_directory
 from sqlalchemy.sql.elements import Null
+from sqlalchemy.sql.expression import true
 from flask_jwt import *
 from Crypto import Random
 from database import *
@@ -260,7 +261,7 @@ def on_message(data):
 
     if msgs != None:
         msgs.append({'data':data,'datetime':now})
-        redis_client.set(to+current_user.username,ujson.dumps({'msgs':msgs}),300)
+        redis_client.set(to+current_user.username,ujson.dumps({'msgs':msgs}),300,true)
 
     
 
