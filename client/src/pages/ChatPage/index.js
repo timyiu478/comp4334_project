@@ -39,6 +39,7 @@ const ChatPage = () => {
         const from = data['from'];
         console.log("from:",from);
         console.log("new_nsg:",new_msg);
+        console.log("data:", data);
         if(from == currentContact || from == currentMe){
             setMsgList([...msgList,{msg:new_msg,date:data['datatime'],to:data['data']['to']}]);
         }else{
