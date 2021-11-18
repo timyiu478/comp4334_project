@@ -84,7 +84,9 @@ const ChatPage = () => {
         // const msgs = await get_history(currentContact);
         // console.log("msgs: ",msgs);
            
-        setMsgList(get_history(currentContact));
+        get_history(currentContact).then((response) => {
+            setMsgList(response);
+        });
         
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();

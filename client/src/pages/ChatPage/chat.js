@@ -44,7 +44,7 @@ export async function get_history(target, start_message_index = 0) {
         start_message_index,
     };
     let history = [];
-    $.ajax({
+    await $.ajax({
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json',
