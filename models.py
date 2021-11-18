@@ -36,10 +36,11 @@ class History(db.Model):
     fun = db.relationship('User',foreign_keys="[History.from_username]")
     tun = db.relationship('User',foreign_keys="[History.to_username]")
 
-    def __init__(self,from_username,to_username,data):
+    def __init__(self,from_username,to_username,data,datetime):
         self.from_username = from_username
         self.to_username = to_username
         self.data = data
+        self.datetime = datetime
 
     def get_json(self):
         return {
