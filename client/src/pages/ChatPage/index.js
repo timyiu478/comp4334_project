@@ -25,7 +25,9 @@ const ChatPage = () => {
     let msgCounts = {}
     let publicKeys = {}
 
-    const socket = io.connect('wss://' + document.domain + ':' + location.port);
+    // const socket = io.connect('wss://' + document.domain + ':' + location.port);
+    console.log("location.host:",location.host);
+    const socket = io.connect('wss://'+ location.host);
     socket.emit('join', {});
 
     // socket.on('connect', function (data) {
@@ -70,6 +72,12 @@ const ChatPage = () => {
             },
         });
     };
+
+    const sendInputMsgByEnter = (e) => {
+        if(e.key !== 'Enter') return;
+        sendInputMsg();
+    }
+
     const sendInputMsg = async () => {
         setInputForm('');
         // const publicKey = await get_public_key(contactList[currentContact]);
@@ -149,7 +157,7 @@ const ChatPage = () => {
 
     return (
         <>
-            <div className={styles.container}>
+            <div className={styles.container} onKeyDown={sendInputMsgByEnter}>
                 <div className={styles.background} />
                 <div className={styles.chat_container}>
                     <div className={styles.logOut}>
