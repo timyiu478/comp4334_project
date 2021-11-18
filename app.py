@@ -164,14 +164,14 @@ def services():
 
         msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
         
-        redis_client.set(target+username,bytes(msgs),300)
+        redis_client.set(target+username,ujson.dumps({'msgs':msgs}),300)
     else:
-        msgs = list(msgs)
+        msgs = ujson.loads(msgs)['msgs']
 
     print("--------- msgs ----------------")
     print(data)
     # print(msgs)
-    
+
     return {'msgs': msgs},200
 
 # @app.route('/chat/')
