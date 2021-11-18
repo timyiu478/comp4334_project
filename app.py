@@ -260,6 +260,7 @@ def on_message(data):
     msgs = redis_client.get(to+current_user.username)
 
     if msgs != None:
+        msgs = ujson.loads(msgs)['msgs']
         msgs.append({'data':data,'datetime':now})
         redis_client.set(to+current_user.username,ujson.dumps({'msgs':msgs}),300,true)
 
