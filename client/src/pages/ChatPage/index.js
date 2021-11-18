@@ -27,7 +27,7 @@ const ChatPage = () => {
 
     // const socket = io.connect('wss://' + document.domain + ':' + location.port);
     console.log("location.host:",location.host);
-    const socket = io.connect('wss://'+ location.host);
+    const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true});
     socket.emit('join', {});
 
     // socket.on('connect', function (data) {
