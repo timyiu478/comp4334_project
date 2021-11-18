@@ -7,7 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
-import { get_history, get_public_key, sendMsg, decrypt_msg} from './chat';
+import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
@@ -67,7 +67,10 @@ const ChatPage = () => {
     const sendInputMsg = async () => {
         setInputForm('');
         // const publicKey = await get_public_key(contactList[currentContact]);
-        sendMsg(inputForm, currentContact, publicKey);
+        encryptMsg(inputForm, currentContact, publicKey).then((response) => {
+            socket.emit('message', response);
+        });
+        
     };
     const getUser = () => {
         $.ajax({

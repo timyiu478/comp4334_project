@@ -148,7 +148,7 @@ function padding(msg) {
     }
 }
 
-export function sendMsg(msg, to, receiver_public_key) {
+export function encryptMsg(msg, to, receiver_public_key) {
     // let msg = document.getElementById('message').value;
 
     console.log("to:",to);
@@ -187,7 +187,7 @@ export function sendMsg(msg, to, receiver_public_key) {
         to,
     };
 
-    socket.emit('message', data);
+    return data;
     // document.getElementById('receiver').value = "";
     // document.getElementById('message').value = "";
 }
