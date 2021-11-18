@@ -21,12 +21,16 @@ const ChatPage = () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState("");
     const [publicKey,setPublicKey] = useState("");
+    const [socket,setSocket] = useState(null);
 
     let msgCounts = {}
     let publicKeys = {}
 
     console.log("location.host:",location.host);
-    const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} });
+
+    useEffect(() => {
+        setSocket(io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} }));
+    },[]);
 
     socket.emit('join', {});
 
