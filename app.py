@@ -238,13 +238,13 @@ def on_message(data):
     from_room = current_user.username + "'s room"
 
     now = datetime.utcnow()
-    print("datetime:",now)
+    print("datetime:",now.isoformat())
 
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
 
-    socketio.send({'datetime':iso8601.parse_date(now),'from':current_user.username,'data': data}, broadcast=True, to=to_room)
-    socketio.send({'datetime':iso8601.parse_date(now),'from':current_user.username,'data': data}, broadcast=True, to=from_room)
+    socketio.send({'datetime':now.isoformat(),'from':current_user.username,'data': data}, broadcast=True, to=to_room)
+    socketio.send({'datetime':now.isoformat(),'from':current_user.username,'data': data}, broadcast=True, to=from_room)
     
 
 
