@@ -81,10 +81,10 @@ const ChatPage = () => {
             console.log("publicKey: ",publicKey);
         });
 
-        const msgs = await get_history(currentContact);
-        console.log("msgs: ",msgs);
+        // const msgs = await get_history(currentContact);
+        // console.log("msgs: ",msgs);
            
-        setMsgList(msgList => msgs);
+        setMsgList(get_history(currentContact));
         
         console.log("Msglist: ",msgList);
         msg_scrollbar.current.scrollToBottom();
