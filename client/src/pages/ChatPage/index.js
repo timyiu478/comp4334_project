@@ -68,8 +68,8 @@ const ChatPage = () => {
         getUser();
     }, []);
 
-    async function handleCurrentContact(currentContact){
-        await setCurrentContact(currentContact);
+    const handleCurrentContact = async (e)=>{
+        await setCurrentContact(e.target.id);
 
         console.log("currentContact: ",currentContact);
 
@@ -123,8 +123,9 @@ const ChatPage = () => {
                                 contactList.map((contact, index) => (
                                     <li
                                         key={index}
+                                        id = {contact}
                                         className={styles.chat_app_contactList_contact}
-                                        onClick={(contact)=>{handleCurrentContact(contact);}}
+                                        onClick={handleCurrentContact}
                                     >
                                         {contact}
                                     </li>
