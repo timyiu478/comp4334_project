@@ -124,7 +124,7 @@ const ChatPage = () => {
                                     <li
                                         key={index}
                                         className={styles.chat_app_contactList_contact}
-                                        onClick={handleCurrentContact(contact)}
+                                        onClick={(contact)=>{handleCurrentContact(contact);}}
                                     >
                                         {contact}
                                     </li>
