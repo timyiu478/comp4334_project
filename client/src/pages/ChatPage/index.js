@@ -70,16 +70,16 @@ const ChatPage = () => {
 
     const handleCurrentContact = async (e)=>{
 
-        setCurrentContact(contactList[e.target.key]);
+        setCurrentContact(contactList[e.target.id]);
 
-        console.log("currentContact: ",contactList[e.target.key]);
+        console.log("currentContact: ",contactList[e.target.id]);
 
-        await get_public_key(contactList[e.target.key]).then((publicKey)=>{
+        await get_public_key(contactList[e.target.id]).then((publicKey)=>{
             setPublicKey(publicKey);
             console.log("publicKey: ",publicKey);
         });
 
-        const msgs = await get_history(contactList[e.target.key]);
+        const msgs = await get_history(contactList[e.target.id]);
         console.log("msgs: ",msgs);
         
         await setMsgList([msgs]);
@@ -124,6 +124,7 @@ const ChatPage = () => {
                                 contactList.map((contact, index) => (
                                     <li
                                         key={index}
+                                        id={index}
                                         className={styles.chat_app_contactList_contact}
                                         onClick={handleCurrentContact}
                                     >
