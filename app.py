@@ -165,7 +165,7 @@ def services():
 
         msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
         
-        redis_client.set(target+username,ujson.dumps({'msgs':msgs}),300)
+        redis_client.set(target+username,ujson.dumps({'msgs':msgs}),15)
     else:
         msgs = ujson.loads(msgs)['msgs']
 
@@ -257,12 +257,7 @@ def on_message(data):
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
 
-    msgs = redis_client.get(to+current_user.username)
 
-    if msgs != None:
-        msgs = ujson.loads(msgs)['msgs']
-        msgs.append({'data':data,'datetime':now})
-        redis_client.set(to+current_user.username,ujson.dumps({'msgs':msgs}),300,true)
 
     
 
