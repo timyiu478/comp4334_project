@@ -23,7 +23,7 @@ const ChatPage = () => {
     const [publicKey,setPublicKey] = useState("");
     // const [msgCounts,setMsgCounts] = useState({});
 
-    let publicKeys = {}
+    let publicKeys = {};
 
     socket.emit('join', {});
 
