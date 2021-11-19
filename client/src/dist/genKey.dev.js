@@ -10,7 +10,7 @@ exports.deserializeRSAKey = deserializeRSAKey;
 exports.gen_key_pair = gen_key_pair;
 exports.gen_public_key = gen_public_key;
 
-var _crypticoJs = _interopRequireWildcard(require("cryptico-js"));
+var _cryptico = _interopRequireWildcard(require("cryptico.js"));
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -31,7 +31,7 @@ function serializeRSAKey(key) {
 
 function deserializeRSAKey(key) {
   var json = JSON.parse(key);
-  var rsa = new _crypticoJs.RSAKey();
+  var rsa = new _cryptico.RSAKey();
   rsa.setPrivateEx(json.n, json.e, json.d, json.p, json.q, json.dmp1, json.dmq1, json.coeff);
   return rsa;
 }
@@ -43,7 +43,7 @@ function gen_key_pair(username, password) {
   var passphrase = username + password + password_salt;
   var Bits = 1024;
 
-  var SenderRSAkey = _crypticoJs["default"].generateRSAKey(passphrase, Bits);
+  var SenderRSAkey = _cryptico["default"].generateRSAKey(passphrase, Bits);
 
   return SenderRSAkey; // let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
   // document.getElementById('public_key').value = SenderPublicKeyString;
@@ -56,5 +56,5 @@ function gen_key_pair(username, password) {
 }
 
 function gen_public_key(SenderRSAkey) {
-  return _crypticoJs["default"].publicKeyString(SenderRSAkey);
+  return _cryptico["default"].publicKeyString(SenderRSAkey);
 }
