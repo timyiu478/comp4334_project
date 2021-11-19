@@ -1,6 +1,4 @@
 from flask import Flask,make_response,redirect,request,send_from_directory
-from sqlalchemy.sql.elements import Null
-from sqlalchemy.sql.expression import true
 from flask_jwt import *
 from Crypto import Random
 from database import *
@@ -45,23 +43,23 @@ def token_verification_failed_callback(callback):
 @jwt.expired_token_loader
 def expired_token_callback(header,callback):
     # Expired auth header
-    print("----------expired_token_loader--------------")
-    print(header)
+    # print("----------expired_token_loader--------------")
+    # print(header)
     resp = make_response(redirect(url_for('refresh')))
     unset_access_cookies(resp)
     return resp, 302
 
 @jwt.user_identity_loader
 def user_identity_lookup(user):
-    print("------------------------user_identity_lookup----------------------------")
-    print(user)
+    # print("------------------------user_identity_lookup----------------------------")
+    # print(user)
     return user
 
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    print("----------------------------user_lookup_callback--------------------------")
-    print(jwt_data)
+    # print("----------------------------user_lookup_callback--------------------------")
+    # print(jwt_data)
     return User.query.filter_by(id=identity).one_or_none()
 
 
@@ -128,8 +126,8 @@ def login():
     username = data['username']
     password = data['password']
 
-    print("-------login-----------")
-    print(data)
+    # print("-------login-----------")
+    # print(data)
 
     user = User.query.filter_by(username=username).one_or_none()
 
@@ -169,8 +167,8 @@ def services():
     else:
         msgs = ujson.loads(msgs)['msgs']
 
-    print("--------- msgs ----------------")
-    print(data)
+    # print("--------- msgs ----------------")
+    # print(data)
     # print(msgs)
 
     return {'msgs': msgs},200
@@ -186,10 +184,10 @@ def public_keys():
     print('----------public_keys---------')
     # print(request.json)
     # print(request.data)
-    print(request.get_json())
+    # print(request.get_json())
     
     username = request.get_json()['username']
-    print("username: ",username)
+    # print("username: ",username)
 
     if username == None:
         return "No username provided", 400
@@ -198,7 +196,7 @@ def public_keys():
     
 
     user = User.query.filter_by(username=username).one_or_none()
-    print("user public key: ",user.public_key)
+    # print("user public key: ",user.public_key)
     if user:
         return str(user.public_key),200
     else:
@@ -208,8 +206,8 @@ def public_keys():
 @jwt_required()
 def usernames():
     usernames = User.query.with_entities(User.username).all()
-    print("---------usernames------------")
-    print(usernames)
+    # print("---------usernames------------")
+    # print(usernames)
 
     return {'usernames': [user.username for user in usernames]},200
 
@@ -225,7 +223,7 @@ def on_join(data):
     room = username + "'s room"
     join_room(room)
     # socketio.emit('all',username + ' has entered the room.')
-    print(username + ' has entered the room.')
+    # print(username + ' has entered the room.')
 
 # @socketio.on('leave')
 # @jwt_required()
@@ -239,9 +237,9 @@ def on_join(data):
 @socketio.on('message')
 @jwt_required()
 def on_message(data):
-    print("-------message--------")
-    print("current user: ", current_user.username)
-    print(data)
+    # print("-------message--------")
+    # print("current user: ", current_user.username)
+    # print(data)
 
     to = data['to']
     to_room = to + "'s room"
@@ -249,7 +247,7 @@ def on_message(data):
     from_room = current_user.username + "'s room"
 
     now = datetime.utcnow().isoformat()
-    print("datetime:",now)
+    # print("datetime:",now)
 
     socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=to_room)
     socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=from_room)

@@ -5,11 +5,11 @@ import Cookies from 'js-cookie';
 
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
-console.log("SenderRSAkey:",SenderRSAkey);
+// console.log("SenderRSAkey:",SenderRSAkey);
 let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
-console.log("SenderPublicKeyString:",SenderPublicKeyString);
+// console.log("SenderPublicKeyString:",SenderPublicKeyString);
 let currrentUsername = localStorage.getItem('username');
-console.log("currrentUsername:",currrentUsername);
+// console.log("currrentUsername:",currrentUsername);
 
 export function decrypt_msg(data) {
     // console.log(data);
@@ -21,18 +21,18 @@ export function decrypt_msg(data) {
     } else {
         encrypted_msg_info = data['data']['msg_info_for_sender'];
     }
-    console.log("---------decrypt_msg----------");
-    console.log(data);
-    console.log(encrypted_msg_info);
+    // console.log("---------decrypt_msg----------");
+    // console.log(data);
+    // console.log(encrypted_msg_info);
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
-    console.log(msg_info);
+    // console.log(msg_info);
 
     if(msg_info['status']=="failure") return false;
 
-    console.log(msg_info['plaintext']);
+    // console.log(msg_info['plaintext']);
     msg_info = msg_info['plaintext'];
     msg_info = JSON.parse(msg_info);
-    console.log(msg_info);
+    // console.log(msg_info);
     
 
     // console.log(msg_info);
@@ -73,7 +73,7 @@ export async function get_history(target, start_message_index = 0) {
         success: (result, statusText) => {
             // Handle success
             const msg = result.msgs;
-            console.log(msg);
+            // console.log(msg);
             for (let i = 0; i < msg.length; i++) {
                 const plaintext = decrypt_msg(msg[i]);
                 if (plaintext == false) continue;
@@ -133,15 +133,15 @@ export async function get_public_key(receiver) {
 function padding(msg) {
     if (msg.length % 16 != 0) {
         const count = msg.length % 16;
-        console.log(count);
+        // console.log(count);
         let array = new Uint8Array(16 - count);
         array = crypto.getRandomValues(array);
-        console.log(array);
+        // console.log(array);
         let pad = '';
         for (var i = 0; i < array.length; i++) {
             pad += String.fromCharCode((array[i] + 32) % 127);
         }
-        console.log(msg + pad);
+        // console.log(msg + pad);
         return msg + pad;
     } else {
         return msg;
@@ -151,7 +151,7 @@ function padding(msg) {
 export async function encryptMsg(msg, to, receiver_public_key) {
     // let msg = document.getElementById('message').value;
 
-    console.log("to:",to);
+    // console.log("to:",to);
 
     let key_256 = crypto.getRandomValues(new Uint8Array(32));
     let iv = crypto.getRandomValues(new Uint8Array(16));
@@ -162,8 +162,8 @@ export async function encryptMsg(msg, to, receiver_public_key) {
     let encryptedBytes = aesCbc.encrypt(msgBytes);
 
     let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-    console.log(encryptedHex);
-    console.log('receiver_public_key: ' + receiver_public_key);
+    // console.log(encryptedHex);
+    // console.log('receiver_public_key: ' + receiver_public_key);
     const aes_key = {
         key_256: key_256.toString(),
         iv: iv.toString(),
@@ -178,7 +178,7 @@ export async function encryptMsg(msg, to, receiver_public_key) {
     const encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, SenderRSAkey);
     const encrypted_msg_info_for_sender = cryptico.encrypt(JSON.stringify(msg_info), SenderPublicKeyString);
 
-    console.log(encrypted_msg_info);
+    // console.log(encrypted_msg_info);
 
     const data = {
         msg: encryptedHex,

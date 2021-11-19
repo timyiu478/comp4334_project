@@ -10,7 +10,6 @@ import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
 import Cookies from 'js-cookie';
 import {socket} from './socket';
-import Badge from 'react-bootstrap/Badge'
 
 const ChatPage = () => {
 
@@ -22,27 +21,27 @@ const ChatPage = () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState("");
     const [publicKey,setPublicKey] = useState("");
-    const [msgCounts,setMsgCounts] = useState({});
+    // const [msgCounts,setMsgCounts] = useState({});
 
     let publicKeys = {}
 
     socket.emit('join', {});
 
     socket.on('message', function (data) {
-        console.log("---------new msg---------");
+        // console.log("---------new msg---------");
         const new_msg = decrypt_msg(data);
         const from = data['from'];
-        console.log("from:",from);
-        console.log("new_nsg:",new_msg);
-        console.log("data:", data);
+        // console.log("from:",from);
+        // console.log("new_nsg:",new_msg);
+        // console.log("data:", data);
         if(from == currentContact || from == currentMe){
             setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
             msg_scrollbar.current.scrollToBottom();
         }else{
             if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
-            setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
+            // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
         }
-        console.log(msgCounts);
+        // console.log(msgCounts);
 
         
     });
@@ -90,17 +89,17 @@ const ChatPage = () => {
             },
             url: '/api/usernames/',
             success: (result, statusText) => {
-                console.log(result.usernames);
+                // console.log(result.usernames);
                 setContactList(result.usernames.filter((word) => word !== currentMe));
 
-                for(let i=0;i<result.usernames.length;i++){
-                    if(!msgCounts.hasOwnProperty(result.usernames[i]) && result.usernames[i] != currentMe){
-                        setMsgCounts({...msgCounts,[result.usernames[i]]:0});
-                    }
-                }
+                // for(let i=0;i<result.usernames.length;i++){
+                //     if(!msgCounts.hasOwnProperty(result.usernames[i]) && result.usernames[i] != currentMe){
+                //         setMsgCounts({...msgCounts,[result.usernames[i]]:0});
+                //     }
+                // }
             },
             error: (result, statusText) => {
-                console.log(result);
+                // console.log(result);
             },
         });
     };
@@ -115,7 +114,7 @@ const ChatPage = () => {
 
         setCurrentContact(currentC);
 
-        console.log("currentContact: ",currentContact);
+        // console.log("currentContact: ",currentContact);
 
         if(publicKeys.hasOwnProperty(currentC)){
             setPublicKey(publicKeys[currentC]);
@@ -126,7 +125,7 @@ const ChatPage = () => {
             });
         }
 
-        console.log("publicKey: ",publicKey);
+        // console.log("publicKey: ",publicKey);
 
         await get_history(currentC).then((response) => {
             setMsgList(response);
