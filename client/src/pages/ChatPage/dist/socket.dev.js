@@ -15,7 +15,7 @@ var socket = _socket["default"].connect('wss://' + location.host, {
   cors: {
     origin: "*"
   }
-});
+}); // console.log("location.host:",location.host);
+
 
 exports.socket = socket;
-console.log("location.host:", location.host);

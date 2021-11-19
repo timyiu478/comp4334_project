@@ -163,7 +163,7 @@ def services():
 
         msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
         
-        redis_client.set(target+username,ujson.dumps({'msgs':msgs}),15)
+        redis_client.set(target+username,ujson.dumps({'msgs':msgs}),3)
     else:
         msgs = ujson.loads(msgs)['msgs']
 
@@ -181,7 +181,7 @@ def services():
 @app.route('/api/public_keys/',methods=['POST'])
 @jwt_required()
 def public_keys():
-    print('----------public_keys---------')
+    # print('----------public_keys---------')
     # print(request.json)
     # print(request.data)
     # print(request.get_json())
@@ -237,9 +237,9 @@ def on_join(data):
 @socketio.on('message')
 @jwt_required()
 def on_message(data):
-    # print("-------message--------")
-    # print("current user: ", current_user.username)
-    # print(data)
+    print("-------message--------")
+    print("current user: ", current_user.username)
+    print(data)
 
     to = data['to']
     to_room = to + "'s room"
