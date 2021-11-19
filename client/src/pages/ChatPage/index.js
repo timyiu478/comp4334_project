@@ -28,11 +28,11 @@ const ChatPage = () => {
     socket.emit('join', {});
 
     socket.on('message', function (data) {
-        // console.log("---------new msg---------");
+        console.log("---------new msg---------");
         const new_msg = decrypt_msg(data);
         const from = data['from'];
         // console.log("from:",from);
-        // console.log("new_nsg:",new_msg);
+        console.log("new_nsg:",new_msg);
         // console.log("data:", data);
         if(from == currentContact || from == currentMe){
             setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
