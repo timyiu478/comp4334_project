@@ -59,10 +59,10 @@ const ChatPage = () => {
             },
             success: (result, statusText) => {
                 history.push('/');
-                console.log(result);
+                // console.log(result);
             },
             error: (result, statusText) => {
-                console.log(result);
+                // console.log(result);
             },
         });
     };
