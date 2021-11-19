@@ -1,7 +1,7 @@
 import { deserializeRSAKey } from 'src/genKey.js';
-import aesjs from 'aes-js';
-import $ from 'jquery';
-import Cookies from 'js-cookie';
+// import aesjs from 'aes-js';
+// import $ from 'jquery';
+// import Cookies from 'js-cookie';
 
 
 let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));

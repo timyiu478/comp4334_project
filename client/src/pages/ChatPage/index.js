@@ -4,10 +4,10 @@ import { Send } from '@material-ui/icons';
 import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import $ from 'jquery';
+// import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { socket } from './socket';
 
 const ChatPage = () => {
