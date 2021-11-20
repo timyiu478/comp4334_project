@@ -42,10 +42,11 @@ def token_verification_failed_callback(callback):
     return resp, 302
 
 @jwt.expired_token_loader
-def expired_token_callback(header):
+def expired_token_callback(header,payload):
     # Expired auth header
-    # print("----------expired_token_loader--------------")
-    # print(header)
+    print("----------expired_token_loader--------------")
+    print(header)
+    print(payload)
     resp = make_response(redirect(url_for('refresh')))
     unset_access_cookies(resp)
     return resp, 302
