@@ -1,1 +1,1 @@
-web: uwsgi --gevent 100 --gevent-early-monkey-patch uwsgi.ini
+web: uwsgi --gevent 1000 --gevent-early-monkey-patch uwsgi.ini
