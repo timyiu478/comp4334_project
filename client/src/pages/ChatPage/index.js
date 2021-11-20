@@ -10,7 +10,7 @@ import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
 import { deserializeRSAKey } from 'src/genKey.js';
 import cryptico from 'cryptico-js';
 import Cookies from 'js-cookie';
-import { socket } from './socket';
+import {tryReconnect, socket } from './socket';
 
 const ChatPage = () => {
 
@@ -35,19 +35,9 @@ const ChatPage = () => {
 
     socket.emit('join', {});
 
-    const tryReconnect = () => {
-        if (socket.connected === false &&
-            socket.connecting === false) {
-            // use a connect() or reconnect() here if you want
-            console.log("tryReconnect...");
-            socket.connect();
-            socket.emit('join', {});
-        }else{ 
-            console.log("connected");
-        }
-    }
-    
-    setInterval(tryReconnect, 5000);
+    useEffect(() => {
+        setInterval(tryReconnect, 5000);
+    },[]);
 
     socket.on('message', function (data) {
         console.log("---------new msg---------");

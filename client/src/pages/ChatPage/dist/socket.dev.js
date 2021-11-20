@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.socket = void 0;
+exports.tryReconnect = exports.socket = void 0;
 
 var _socket = _interopRequireDefault(require("socket.io-client"));
 
@@ -19,3 +19,16 @@ var socket = _socket["default"].connect('wss://' + location.host, {
 
 
 exports.socket = socket;
+
+var tryReconnect = function tryReconnect() {
+  if (socket.connected === false && socket.connecting === false) {
+    // use a connect() or reconnect() here if you want
+    console.log("tryReconnect...");
+    socket.connect();
+    socket.emit('join', {});
+  } else {
+    console.log("connected");
+  }
+};
+
+exports.tryReconnect = tryReconnect;
