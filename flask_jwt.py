@@ -3,9 +3,10 @@ from flask_jwt_extended import (JWTManager, jwt_required, get_jwt_identity,
                                 create_access_token, create_refresh_token, 
                                 set_access_cookies, set_refresh_cookies, 
                                 unset_jwt_cookies,unset_access_cookies,current_user)
+from datetime import datetime
 
 def assign_access_refresh_tokens(user_id):
-    access_token = create_access_token(identity=user_id)
+    access_token = create_access_token(identity=user_id,expires_delta=datetime.timedelta(days=1))
     refresh_token = create_refresh_token(identity=user_id)
     resp = jsonify({'refresh': True})
     set_access_cookies(resp, access_token)
