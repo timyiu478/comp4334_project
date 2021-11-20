@@ -269,4 +269,4 @@ async def on_message(data):
 
 
 if __name__ == "__main__":
-    socketio.run(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins='*',async_mode='gevent_uwsgi')
+    socketio.run(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins='*',async_mode='gevent')
