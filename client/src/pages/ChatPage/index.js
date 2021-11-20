@@ -36,7 +36,7 @@ const ChatPage = () => {
     socket.emit('join', {});
 
     useEffect(() => {
-        setInterval(tryReconnect, 5000);
+        setInterval(tryReconnect, 15*1000);
     },[]);
 
     socket.on('message', function (data) {
