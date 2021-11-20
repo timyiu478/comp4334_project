@@ -42,7 +42,7 @@ def token_verification_failed_callback(callback):
     return resp, 302
 
 @jwt.expired_token_loader
-def expired_token_callback(header,callback):
+def expired_token_callback(header):
     # Expired auth header
     # print("----------expired_token_loader--------------")
     # print(header)
