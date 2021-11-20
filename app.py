@@ -236,7 +236,7 @@ def on_join(data):
 
 @socketio.on('message')
 @jwt_required()
-def on_message(data):
+async def on_message(data):
     print("-------message--------")
     print("current user: ", current_user.username)
     print(data)
@@ -249,8 +249,8 @@ def on_message(data):
     now = datetime.utcnow().isoformat()
     # print("datetime:",now)
 
-    socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=to_room)
-    socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=from_room)
+    await socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=to_room)
+    await socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=from_room)
 
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()
