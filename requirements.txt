@@ -14,3 +14,4 @@ flask_redis
 gevent-websocket
 flask[async]
 redis
+eventlet
