@@ -23,7 +23,7 @@ redis_client = FlaskRedis(app)
 db.app = app
 db.init_app(app)
 
-socketio = SocketIO(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins = '*')
+socketio = SocketIO(app)
 
 db.create_all()
 
@@ -263,4 +263,4 @@ async def on_message(data):
 
 
 if __name__ == "__main__":
-    socketio.run(app)
+    socketio.run(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins = '*')
