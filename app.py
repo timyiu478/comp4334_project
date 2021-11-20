@@ -9,9 +9,9 @@ from sqlalchemy import and_,or_
 from flask_sslify import SSLify
 from flask_cors import CORS
 from flask_redis import FlaskRedis
-import eventlet
+from gevent import monkey
 
-eventlet.monkey_patch() 
+monkey.monkey_patch() 
 
 app = Flask(__name__,static_folder = "client/build",static_url_path="/")
 app.config.from_object('config')
@@ -269,4 +269,4 @@ async def on_message(data):
 
 
 if __name__ == "__main__":
-    socketio.run(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins='*',async_mode='None')
+    socketio.run(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins='*',async_mode='gevent_uwsgi')
