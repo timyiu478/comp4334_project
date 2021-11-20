@@ -47,7 +47,7 @@ export function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     return msg;
 }
 
-export async function get_history(target, start_message_index = 0) {
+export async function get_history(target,currrentUsername,SenderRSAkey, start_message_index = 0) {
     const data = {
         target,
         start_message_index,
@@ -67,7 +67,7 @@ export async function get_history(target, start_message_index = 0) {
             const msg = result.msgs;
             // console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                const plaintext = decrypt_msg(msg[i]);
+                const plaintext = decrypt_msg(msg[i],currrentUsername,SenderRSAkey);
                 if (plaintext == false) continue;
                 history.push({ msg: plaintext, date: msg[i].datetime, to: msg[i].data.to });
                 // console.log(msg[i].datetime);

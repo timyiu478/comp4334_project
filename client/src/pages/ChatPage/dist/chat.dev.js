@@ -52,7 +52,7 @@ function decrypt_msg(data, currrentUsername, SenderRSAkey) {
   return msg;
 }
 
-function get_history(target) {
+function get_history(target, currrentUsername, SenderRSAkey) {
   var start_message_index,
       data,
       history,
@@ -61,7 +61,7 @@ function get_history(target) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          start_message_index = _args.length > 1 && _args[1] !== undefined ? _args[1] : 0;
+          start_message_index = _args.length > 3 && _args[3] !== undefined ? _args[3] : 0;
           data = {
             target: target,
             start_message_index: start_message_index
@@ -82,7 +82,7 @@ function get_history(target) {
               var msg = result.msgs; // console.log(msg);
 
               for (var i = 0; i < msg.length; i++) {
-                var plaintext = decrypt_msg(msg[i]);
+                var plaintext = decrypt_msg(msg[i], currrentUsername, SenderRSAkey);
                 if (plaintext == false) continue;
                 history.push({
                   msg: plaintext,
