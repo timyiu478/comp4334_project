@@ -1,17 +1,9 @@
-import { deserializeRSAKey } from 'src/genKey.js';
-// import aesjs from 'aes-js';
-// import $ from 'jquery';
-// import Cookies from 'js-cookie';
 
+import aesjs from 'aes-js';
+import $ from 'jquery';
+import Cookies from 'js-cookie';
 
-let SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
-// console.log("SenderRSAkey:",SenderRSAkey);
-let SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
-// console.log("SenderPublicKeyString:",SenderPublicKeyString);
-let currrentUsername = localStorage.getItem('username');
-// console.log("currrentUsername:",currrentUsername);
-
-export function decrypt_msg(data) {
+export function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     // console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
     let encrypted_msg_info;
@@ -148,7 +140,7 @@ function padding(msg) {
     }
 }
 
-export async function encryptMsg(msg, to, receiver_public_key) {
+export async function encryptMsg(msg, to, receiver_public_key,SenderRSAkey,SenderPublicKeyString) {
     // let msg = document.getElementById('message').value;
 
     // console.log("to:",to);

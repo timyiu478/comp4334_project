@@ -4,10 +4,12 @@ import { Send } from '@material-ui/icons';
 import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-// import $ from 'jquery';
+import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
 import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
-// import Cookies from 'js-cookie';
+import { deserializeRSAKey } from 'src/genKey.js';
+import cryptico from 'cryptico-js';
+import Cookies from 'js-cookie';
 import { socket } from './socket';
 
 const ChatPage = () => {
@@ -22,13 +24,20 @@ const ChatPage = () => {
     const [publicKey,setPublicKey] = useState("");
     // const [msgCounts,setMsgCounts] = useState({});
 
+    const SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
+    // console.log("SenderRSAkey:",SenderRSAkey);
+    const SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey);
+    // console.log("SenderPublicKeyString:",SenderPublicKeyString);
+    const currrentUsername = localStorage.getItem('username');
+    // console.log("currrentUsername:",currrentUsername);
+
     let publicKeys = {};
 
     socket.emit('join', {});
 
     socket.on('message', function (data) {
         console.log("---------new msg---------");
-        const new_msg = decrypt_msg(data);
+        const new_msg = decrypt_msg(data,currrentUsername,SenderRSAkey);
         const from = data['from'];
         // console.log("from:",from);
         console.log("new_nsg:",new_msg);
@@ -37,7 +46,7 @@ const ChatPage = () => {
             setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
             msg_scrollbar.current.scrollToBottom();
         }else{
-            if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
+            // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
             // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
         }
         // console.log(msgCounts);
@@ -74,7 +83,7 @@ const ChatPage = () => {
     const sendInputMsg = async () => {
         setInputForm('');
         // const publicKey = await get_public_key(contactList[currentContact]);
-        encryptMsg(inputForm, currentContact, publicKey).then((response) => {
+        encryptMsg(inputForm, currentContact, publicKey,SenderRSAkey,SenderPublicKeyString).then((response) => {
             socket.emit('message', response);
         });
         

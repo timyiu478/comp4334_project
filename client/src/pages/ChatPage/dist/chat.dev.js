@@ -8,20 +8,18 @@ exports.get_history = get_history;
 exports.get_public_key = get_public_key;
 exports.encryptMsg = encryptMsg;
 
-var _genKey = require("src/genKey.js");
+var _aesJs = _interopRequireDefault(require("aes-js"));
 
-// import aesjs from 'aes-js';
-// import $ from 'jquery';
-// import Cookies from 'js-cookie';
-var SenderRSAkey = (0, _genKey.deserializeRSAKey)(localStorage.getItem('SenderRSAkey')); // console.log("SenderRSAkey:",SenderRSAkey);
+var _jquery = _interopRequireDefault(require("jquery"));
 
-var SenderPublicKeyString = cryptico.publicKeyString(SenderRSAkey); // console.log("SenderPublicKeyString:",SenderPublicKeyString);
+var _jsCookie = _interopRequireDefault(require("js-cookie"));
 
-var currrentUsername = localStorage.getItem('username'); // console.log("currrentUsername:",currrentUsername);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function decrypt_msg(data) {
+function decrypt_msg(data, currrentUsername, SenderRSAkey) {
   // console.log(data);
-  var encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
+  var encryptedBytes = _aesJs["default"].utils.hex.toBytes(data['data']['msg']);
+
   var encrypted_msg_info;
 
   if (data['data']['to'] == currrentUsername) {
@@ -44,9 +42,11 @@ function decrypt_msg(data) {
   var aes = msg_info['aes']; // console.log(aes);
   //
 
-  var aesCbc = new aesjs.ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(',')), new Uint8Array(aes['iv'].split(',')));
+  var aesCbc = new _aesJs["default"].ModeOfOperation.cbc(new Uint8Array(aes['key_256'].split(',')), new Uint8Array(aes['iv'].split(',')));
   var decryptedBytes = aesCbc.decrypt(encryptedBytes);
-  var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
+  var decryptedText = _aesJs["default"].utils.utf8.fromBytes(decryptedBytes);
+
   var msg = decryptedText.slice(0, msg_info['msg_length']); // console.log(msg);
 
   return msg;
@@ -68,12 +68,12 @@ function get_history(target) {
           };
           history = [];
           _context.next = 5;
-          return regeneratorRuntime.awrap($.ajax({
+          return regeneratorRuntime.awrap(_jquery["default"].ajax({
             method: 'POST',
             dataType: 'json',
             contentType: 'application/json',
             headers: {
-              'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
+              'X-CSRF-TOKEN': _jsCookie["default"].get('csrf_access_token')
             },
             data: JSON.stringify(data),
             url: '/api/history/',
@@ -125,12 +125,12 @@ function get_public_key(receiver) {
           };
           publicKey = '';
           _context2.next = 5;
-          return regeneratorRuntime.awrap($.ajax({
+          return regeneratorRuntime.awrap(_jquery["default"].ajax({
             method: 'POST',
             dataType: 'text',
             contentType: 'application/json',
             headers: {
-              'X-CSRF-TOKEN': Cookies.get('csrf_access_token')
+              'X-CSRF-TOKEN': _jsCookie["default"].get('csrf_access_token')
             },
             data: JSON.stringify(data),
             url: '/api/public_keys/',
@@ -178,7 +178,7 @@ function padding(msg) {
   }
 }
 
-function encryptMsg(msg, to, receiver_public_key) {
+function encryptMsg(msg, to, receiver_public_key, SenderRSAkey, SenderPublicKeyString) {
   var key_256, iv, msgBytes, aesCbc, encryptedBytes, encryptedHex, aes_key, msg_info, encrypted_msg_info, encrypted_msg_info_for_sender, data;
   return regeneratorRuntime.async(function encryptMsg$(_context3) {
     while (1) {
@@ -188,10 +188,10 @@ function encryptMsg(msg, to, receiver_public_key) {
           // console.log("to:",to);
           key_256 = crypto.getRandomValues(new Uint8Array(32));
           iv = crypto.getRandomValues(new Uint8Array(16));
-          msgBytes = aesjs.utils.utf8.toBytes(padding(msg));
-          aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
+          msgBytes = _aesJs["default"].utils.utf8.toBytes(padding(msg));
+          aesCbc = new _aesJs["default"].ModeOfOperation.cbc(key_256, iv);
           encryptedBytes = aesCbc.encrypt(msgBytes);
-          encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes); // console.log(encryptedHex);
+          encryptedHex = _aesJs["default"].utils.hex.fromBytes(encryptedBytes); // console.log(encryptedHex);
           // console.log('receiver_public_key: ' + receiver_public_key);
 
           aes_key = {
