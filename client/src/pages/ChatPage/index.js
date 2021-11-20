@@ -36,11 +36,11 @@ const ChatPage = () => {
     socket.emit('join', {});
 
     const tryReconnect = () => {
-        if (socket.socket.connected === false &&
-            socket.socket.connecting === false) {
+        if (socket.connected === false &&
+            socket.connecting === false) {
             // use a connect() or reconnect() here if you want
             console.log("tryReconnect...");
-            socket.socket.connect();
+            socket.connect();
             socket.emit('join', {});
         }else{ 
             console.log("connected");
