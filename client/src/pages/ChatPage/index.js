@@ -35,6 +35,20 @@ const ChatPage = () => {
 
     socket.emit('join', {});
 
+    const tryReconnect = () => {
+        if (socket.socket.connected === false &&
+            socket.socket.connecting === false) {
+            // use a connect() or reconnect() here if you want
+            console.log("tryReconnect...");
+            socket.socket.connect();
+            socket.emit('join', {});
+        }else{ 
+            console.log("connected");
+        }
+    }
+    
+    setInterval(tryReconnect, 5000);
+
     socket.on('message', function (data) {
         console.log("---------new msg---------");
         const new_msg = decrypt_msg(data,currrentUsername,SenderRSAkey);
