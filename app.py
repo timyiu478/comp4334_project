@@ -39,7 +39,7 @@ def token_verification_failed_callback(callback):
     # Invalid Fresh/Non-Fresh Access token in auth header
     resp = jsonify({'authorized':False}),302
     unset_jwt_cookies(resp)
-    return resp, 302
+    return resp
 
 @jwt.expired_token_loader
 def expired_token_callback(header,payload):
