@@ -23,7 +23,7 @@ redis_client = FlaskRedis(app)
 db.app = app
 db.init_app(app)
 
-socketio = SocketIO(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins = "*")
+socketio = SocketIO(app,message_queue=app.config["REDIS_URL"], cors_allowed_origins = '*')
 
 db.create_all()
 
