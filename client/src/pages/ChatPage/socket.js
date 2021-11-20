@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-export const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"} });
+export const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"},credentials: true,methods: ["GET", "POST"]});
 
 // console.log("location.host:",location.host);
 

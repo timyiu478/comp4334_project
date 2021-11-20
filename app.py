@@ -1,4 +1,5 @@
 from flask import Flask,make_response,redirect,request,send_from_directory
+from flask.wrappers import Response
 from flask_jwt import *
 from Crypto import Random
 from database import *
@@ -249,8 +250,10 @@ async def on_message(data):
     now = datetime.utcnow().isoformat()
     # print("datetime:",now)
 
-    await socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=to_room)
-    await socketio.send({'datetime':now,'from':current_user.username,'data': data}, to=from_room)
+    message = {'datetime':now,'from':current_user.username,'data': data}
+
+    socketio.send(message, to=to_room)
+    socketio.send(message, to=from_room)
 
     db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
     db.session.commit()

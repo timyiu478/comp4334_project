@@ -14,7 +14,9 @@ var socket = _socket["default"].connect('wss://' + location.host, {
   rememberUpgrade: true,
   cors: {
     origin: "*"
-  }
+  },
+  credentials: true,
+  methods: ["GET", "POST"]
 }); // console.log("location.host:",location.host);
 
 
