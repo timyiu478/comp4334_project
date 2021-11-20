@@ -12,3 +12,4 @@ Flask-SSLify
 flask_cors
 flask_redis
 gevent-websocket
+flask[async]
