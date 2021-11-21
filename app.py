@@ -42,6 +42,7 @@ def refresh_expiring_jwts(response):
         return response
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original respone
+        print("expiring_jwt error")
         return response
 
 @jwt.unauthorized_loader
@@ -126,9 +127,9 @@ def refresh():
     # Refreshing expired Access token
     user_id = get_jwt_identity()
     access_token = create_access_token(identity=user_id)
-    resp = make_response(redirect(url_for('index'), 302))
+    resp = jsonify({'refresh': True})
     set_access_cookies(resp, access_token)
-    return resp
+    return resp,200
 
 @app.route('/api/login/', methods=['POST'])
 def login():
