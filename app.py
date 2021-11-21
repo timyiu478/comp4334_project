@@ -126,7 +126,7 @@ def signup():
 def refresh():
     # Refreshing expired Access token
     user_id = get_jwt_identity()
-    access_token = create_access_token(identity=user_id)
+    access_token = create_access_token(identity=user_id, fresh=False)
     resp = jsonify({'refresh': True})
     set_access_cookies(resp, access_token)
     return resp,200

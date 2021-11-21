@@ -69,7 +69,6 @@
     height: 100%;
     width: 100%;
     background-color: transparent;
-    position: relative;
 }
 
 .chat_app_contactList_container {
@@ -77,6 +76,7 @@
     width: 150px;
     justify-content: center;
     background-color: $contactListContainer-color;
+    position: relative;
 }
 
 .chat_app_contactList_contact {
