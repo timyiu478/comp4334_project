@@ -170,6 +170,9 @@ def services():
     start_message_index = data['start_message_index']
     username = current_user.username
 
+    if target == None: return "No contact name provided.",400
+
+
     msgs = redis_client.get(target+username)
     # msgs = None
     if msgs == None:
