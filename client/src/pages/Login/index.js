@@ -27,13 +27,12 @@ const Login = () => {
     const signUp = () => {
         const senderRSAkey = gen_key_pair(username, password);
 
+        const h_password = crypto.subtle.digest('SHA-256', password);
+
         const data = {
             username,
-            password,
+            h_password,
         };
-
-        localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
-        localStorage.setItem('username', username);
 
         $.ajax({
             method: 'POST',
@@ -42,6 +41,8 @@ const Login = () => {
             data: JSON.stringify(data),
             url: '/api/login/',
             success: function (result, statusText) {
+                localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
+                localStorage.setItem('username', username);
                 console.log(result);
                 history.push('/chatpage');
             },
