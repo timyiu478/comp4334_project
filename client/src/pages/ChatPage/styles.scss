@@ -80,7 +80,7 @@
 }
 
 .chat_app_contactList_contact {
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: $font-size;
     display: flex;
     justify-content: center;
@@ -204,15 +204,19 @@ form button:active {
 }
 
 .refresh_token_button{
-    border-radius: 10px;
-    font-size: 1.2rem;
+    border-radius: 5px;
+    font-size: 1rem;
     text-align: center;
     width: 90%;
     height: fit-content;
     background-color: $contactListContainer-color;
     position: absolute;
-    bottom: 0;
-    margin: auto;
+    bottom: 5px;
+    left: auto;
+}
+
+.refresh_token_button:hover{
+    background-color: $contactListContact-selected-color;;
 }
 
 @media screen and (max-width: 1024px) {
