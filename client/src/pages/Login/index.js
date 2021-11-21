@@ -8,6 +8,8 @@ import Register from 'components/Register';
 import { serializeRSAKey, gen_key_pair } from 'src/genKey.js';
 import $ from 'jquery';
 
+import sha256 from 'crypto-js/sha256';
+
 const Login = () => {
     const [open, setOpen] = useState(false);
     const history = useHistory();
@@ -27,7 +29,7 @@ const Login = () => {
     const signUp = () => {
         const senderRSAkey = gen_key_pair(username, password);
 
-        const h_password = crypto.subtle.digest('SHA-256', password);
+        const h_password =sha256(password);
 
         const data = {
             username,

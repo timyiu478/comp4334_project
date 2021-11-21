@@ -30,7 +30,7 @@ const FormDialog = ({ open, setOpen }) => {
         const senderRSAkey = gen_key_pair(username,password);
         const senderPublicKeyString = gen_public_key(senderRSAkey);
 
-        h_pw = crypto.subtle.digest('SHA-256', password)
+        const h_pw = sha256(password);
 
         const data = {
             'username': username,
