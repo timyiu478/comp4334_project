@@ -47,6 +47,28 @@ export function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     return msg;
 }
 
+export function refresh_token() {
+    $.ajax({
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+            'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
+        },
+        url: '/api/token/refresh',
+        success: (result, statusText) => {
+            // Handle success
+            alert("Refresh Token Successfully!");
+        },
+        error: (jqXHR, textStatus, errorThrown) => {
+            //handle error
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert("Refresh Token Failed!");
+        },
+    });
+}
+
 export async function get_history(target,currrentUsername,SenderRSAkey, start_message_index = 0) {
     const data = {
         target,

@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.decrypt_msg = decrypt_msg;
+exports.refresh_token = refresh_token;
 exports.get_history = get_history;
 exports.get_public_key = get_public_key;
 exports.encryptMsg = encryptMsg;
@@ -50,6 +51,28 @@ function decrypt_msg(data, currrentUsername, SenderRSAkey) {
   var msg = decryptedText.slice(0, msg_info['msg_length']); // console.log(msg);
 
   return msg;
+}
+
+function refresh_token() {
+  _jquery["default"].ajax({
+    method: 'GET',
+    dataType: 'json',
+    headers: {
+      'X-CSRF-TOKEN': _jsCookie["default"].get('csrf_access_token')
+    },
+    url: '/api/token/refresh',
+    success: function success(result, statusText) {
+      // Handle success
+      alert("Refresh Token Successfully!");
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      //handle error
+      console.log(jqXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+      alert("Refresh Token Failed!");
+    }
+  });
 }
 
 function get_history(target, currrentUsername, SenderRSAkey) {

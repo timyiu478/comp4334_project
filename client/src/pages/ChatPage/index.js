@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import $ from 'jquery';
 import { useHistory } from 'react-router-dom';
-import { get_history, get_public_key, encryptMsg, decrypt_msg} from './chat';
+import { get_history, get_public_key, encryptMsg, decrypt_msg, refresh_token} from './chat';
 import { deserializeRSAKey } from 'src/genKey.js';
 import cryptico from 'cryptico-js';
 import Cookies from 'js-cookie';
@@ -36,7 +36,7 @@ const ChatPage = () => {
     socket.emit('join', {});
 
     useEffect(() => {
-        setInterval(tryReconnect, 15*1000);
+        setInterval(tryReconnect, 30*1000);
     },[]);
 
     socket.on('message', function (data) {
@@ -189,10 +189,11 @@ const ChatPage = () => {
                                         {contact}
                                     </li>
                                 ))}
+                            <button onClick={refresh_token} className={styles.refresh_token_button}>Refresh Token</button>
                         </div>
                         <div className={styles.chat_app_body}>
                             <div className={styles.chat_app_contact}>
-                                <h2>{currentContact !== "" && currentContact}</h2>
+                                <h2>Current Contact: {currentContact !== "" && currentContact}</h2>
                             </div>
                             <div className={styles.chat_app_msg_container}>
                                 <Scrollbars
