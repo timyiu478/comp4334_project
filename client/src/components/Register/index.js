@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import {serializeRSAKey,gen_public_key,gen_key_pair} from 'src/genKey.js';
 import $ from 'jquery';
-import {Sha256} from '@aws-crypto/sha256-js';
+import {sha256,hex} from 'src/hash-sha256.js';
 
 const FormDialog = ({ open, setOpen }) => {
 
@@ -25,15 +25,13 @@ const FormDialog = ({ open, setOpen }) => {
         } 
     }
 
-    const handleClickOpen = () => {
+    const handleClickOpen = async () => {
         // setOpen(true);
 
         const senderRSAkey = gen_key_pair(username,password);
         const senderPublicKeyString = gen_public_key(senderRSAkey);
 
-        const hash = new Sha256();
-        hash.update(password);
-        const h_pw = hash.digest();
+        const h_pw = await sha256(password);
 
         const data = {
             'username': username,

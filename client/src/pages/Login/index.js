@@ -26,12 +26,10 @@ const Login = () => {
         }
     };
 
-    const signUp = () => {
+    const signUp = async () => {
         const senderRSAkey = gen_key_pair(username, password);
 
-        const hash = new Sha256();
-        hash.update(password);
-        const h_pw = hash.digest();
+        const h_pw = await sha256(password);
 
         const data = {
             username,
