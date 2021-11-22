@@ -8,7 +8,7 @@ import Register from 'components/Register';
 import { serializeRSAKey, gen_key_pair } from 'src/genKey.js';
 import $ from 'jquery';
 
-import sha256 from 'crypto-js/sha256';
+import {Sha256} from '@aws-crypto/sha256-js';
 
 const Login = () => {
     const [open, setOpen] = useState(false);
@@ -29,11 +29,13 @@ const Login = () => {
     const signUp = () => {
         const senderRSAkey = gen_key_pair(username, password);
 
-        const h_password =sha256(password);
+        const hash = new Sha256();
+        hash.update(password);
+        const h_pw = hash.digest();
 
         const data = {
             username,
-            h_password,
+            h_pw,
         };
 
         $.ajax({
