@@ -22,6 +22,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     // console.log(encrypted_msg_info);
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
     console.log("msg_info:",msg_info);
+
     if(msg_info['status']=="failure") return false;
 
     console.log(msg_info['plaintext']);
@@ -50,7 +51,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     console.log("msg:",msg);
     if (data['from'] != currrentUsername) {
         // verfiy signature
-        let signature = plaintext['signature'];
+        let signature = plaintext['signature']['cipher'];
         console.log("signature:",signature);
         let hash = cryptico.decrypt(signature, SenderRSAkey);
         console.log("hash:",hash);
