@@ -65,7 +65,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
             msg:msg
         }
         let new_hash = await sha256(JSON.stringify(signature_info));
-        // console.log("new_hash:",new_hash);
+        console.log("new_hash:",new_hash);
         if (new_hash['plaintext']==hash['plaintext']){
             // console.log("Valid signature");
         }else{
