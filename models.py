@@ -45,5 +45,6 @@ class History(db.Model):
     def get_json(self):
         return {
             'data': ujson.loads(self.data),
-            'datetime': self.datetime
+            'datetime': self.datetime,
+            'from': self.fun
         }
