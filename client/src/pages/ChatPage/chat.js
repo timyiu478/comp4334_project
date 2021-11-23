@@ -5,8 +5,7 @@ import Cookies from 'js-cookie';
 import {sha256} from 'src/hash-sha256.js';
 
 export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
-    // console.log(data);
-    data = JSON.parse(data);
+    console.log(data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     let encrypted_msg_info;
 

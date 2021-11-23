@@ -25,8 +25,7 @@ function decrypt_msg(data, currrentUsername, SenderRSAkey) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          // console.log(data);
-          data = JSON.parse(data);
+          console.log(data);
           encryptedBytes = _aesJs["default"].utils.hex.toBytes(data['data']['encryptedHex']);
 
           if (data['data']['to'] == currrentUsername) {
