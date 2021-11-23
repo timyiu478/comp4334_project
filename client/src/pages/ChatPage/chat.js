@@ -10,10 +10,10 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     // console.log("encryptedBytes:",encryptedBytes);
     let encrypted_msg_info;
 
-    if (data['data']['to'] == currrentUsername) {
-        encrypted_msg_info = data['data']['encrypted_msg_info'];
-    } else {
+    if (data['from'] == currrentUsername) {
         encrypted_msg_info = data['data']['encrypted_msg_info_for_sender'];
+    } else {
+        encrypted_msg_info = data['data']['encrypted_msg_info'];
     }
     // console.log("encrypted_msg_info:",encrypted_msg_info);
     // console.log("---------decrypt_msg----------");
