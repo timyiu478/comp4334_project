@@ -5,8 +5,9 @@ import Cookies from 'js-cookie';
 import {sha256} from 'src/hash-sha256.js';
 
 export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
-    console.log(data);
+    console.log("data:",data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
+    console.log("encryptedBytes:",encryptedBytes);
     let encrypted_msg_info;
 
     if (data['data']['to'] == currrentUsername) {
@@ -14,16 +15,19 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     } else {
         encrypted_msg_info = data['data']['encrypted_msg_info_for_sender'];
     }
+    console.log("encrypted_msg_info:",encrypted_msg_info);
     // console.log("---------decrypt_msg----------");
     // console.log(data);
     // console.log(encrypted_msg_info);
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
-
+    console.log("msg_info:",msg_info);
     if(msg_info['status']=="failure") return false;
 
     // console.log(msg_info['plaintext']);
     msg_info = msg_info['plaintext'];
+    console.log("msg_info:",msg_info);
     msg_info = JSON.parse(msg_info);
+    console.log("msg_info:",msg_info);
     // console.log(msg_info);
     
     let aes = msg_info['aes'];
@@ -36,17 +40,19 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     );
 
     let decryptedBytes = aesCbc.decrypt(encryptedBytes);
+    console.log("decryptedBytes:",decryptedBytes);
     let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
-
+    console.log("decryptedText:",decryptedText);
     let plaintext = JSON.parse(decryptedText.slice(0, msg_info['data_length']));
-
+    console.log("plaintext:",plaintext);
     let msg = plaintext['msg'];
-
+    console.log("msg:",msg);
     if (data['data']['to'] == currrentUsername) {
         // verfiy signature
         let signature = plaintext['signature'];
+        console.log("signature:",signature);
         let hash = cryptico.decrypt(signature, SenderRSAkey);
-        
+        console.log("hash:",hash);
         if(hash['status']=="failure"){
             console.log("Invalid signature");
             return false;
@@ -57,7 +63,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
             msg:msg
         }
         let new_hash = await sha256(JSON.stringify(signature_info));
-
+        console.log("new_hash:",new_hash);
         if (new_hash==hash){
             console.log("Valid signature");
         }else{
@@ -113,9 +119,10 @@ export async function get_history(target,currrentUsername,SenderRSAkey, start_me
             const msg = result.msgs;
             // console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                const plaintext = decrypt_msg(msg[i],currrentUsername,SenderRSAkey);
-                if (plaintext == false) continue;
-                history.push({ msg: plaintext, date: msg[i].datetime, to: msg[i].data.to });
+                decrypt_msg(msg[i],currrentUsername,SenderRSAkey).then((plaintext)=>{
+                    if (plaintext != false)
+                        history.push({ msg: plaintext, date: msg[i].datetime, to: msg[i].data.to });
+                });
                 // console.log(msg[i].datetime);
             }
             return history;
