@@ -41,21 +41,21 @@ const ChatPage = () => {
 
     socket.on('message', function (data) {
         // console.log("---------new msg---------");
-        const new_msg = decrypt_msg(data,currrentUsername,SenderRSAkey);
-        const from = data['from'];
-        // console.log("from:",from);
-        // console.log("new_nsg:",new_msg);
-        // console.log("data:", data);
-        if(from == currentContact || from == currentMe){
-            setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
-            msg_scrollbar.current.scrollToBottom();
-        }else{
-            // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
-            // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
-        }
-        // console.log(msgCounts);
-
-        
+        decrypt_msg(data,currrentUsername,SenderRSAkey).then((new_msg)=>{
+            const from = data['from'];
+            // console.log("from:",from);
+            // console.log("new_nsg:",new_msg);
+            // console.log("data:", data);
+            if(from == currentContact || from == currentMe){
+                setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
+                msg_scrollbar.current.scrollToBottom();
+            }else{
+                // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
+                // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
+            }
+            // console.log(msgCounts);
+    
+        });        
     });
 
 
