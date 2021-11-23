@@ -32,8 +32,8 @@ const Login = () => {
         const h_pw = await sha256(password);
 
         const data = {
-            username,
-            h_pw,
+            username:username,
+            password:h_pw
         };
 
         $.ajax({
