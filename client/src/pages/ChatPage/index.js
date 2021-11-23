@@ -46,7 +46,7 @@ const ChatPage = () => {
 
     socket.on('message', function (data) {
         // console.log("---------new msg---------");
-        decrypt_msg(data,currrentUsername,SenderRSAkey).then((new_msg)=>{
+        decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey).then((new_msg)=>{
             const from = data['from'];
             // console.log("from:",from);
             // console.log("new_nsg:",new_msg);
@@ -140,7 +140,7 @@ const ChatPage = () => {
 
         // console.log("publicKey: ",publicKey);
 
-        await get_history(currentC,currrentUsername,SenderRSAkey).then((response) => {
+        await get_history(currentC,currrentUsername,publicKey,SenderRSAkey,publicKeys[currentC]).then((response) => {
             setMsgList(response);
         });
         

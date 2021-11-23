@@ -4,7 +4,7 @@ import $ from 'jquery';
 import Cookies from 'js-cookie';
 import {sha256} from 'src/hash-sha256.js';
 
-export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
+export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) {
     // console.log("data:",data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     // console.log("encryptedBytes:",encryptedBytes);
@@ -23,7 +23,11 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
     // console.log("msg_info:",msg_info);
 
-    if(msg_info['status']=="failure") return false;
+    if(msg_info['status']=="failure"){
+        console.log(msg_info);
+        return false;
+    }
+
 
     // console.log(msg_info['plaintext']);
     msg_info = msg_info['plaintext'];
@@ -56,6 +60,13 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
         let hash = cryptico.decrypt(signature, SenderRSAkey);
         // console.log("hash:",hash);
         if(hash['status']=="failure"){
+            console.log("Invalid signature");
+            return false;
+        }
+
+        if(publicKey.slice(0,32)!=cryptico.publicKeyID(hash.publickey)){
+            console.log(publicKey);
+            console.log(cryptico.publicKeyID(hash.publickey));
             console.log("Invalid signature");
             return false;
         }
@@ -101,7 +112,7 @@ export function refresh_token() {
     });
 }
 
-export async function get_history(target,currrentUsername,SenderRSAkey, start_message_index = 0) {
+export async function get_history(target,currrentUsername,publicKey,SenderRSAkey, start_message_index = 0) {
     const data = {
         target,
         start_message_index,
@@ -121,7 +132,7 @@ export async function get_history(target,currrentUsername,SenderRSAkey, start_me
             const msg = result.msgs;
             // console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                decrypt_msg(msg[i],currrentUsername,SenderRSAkey).then((plaintext)=>{
+                decrypt_msg(msg[i],currrentUsername,SenderRSAkey,publicKey).then((plaintext)=>{
                     if (plaintext != false)
                         history.push({ msg: plaintext, date: msg[i].datetime, to: msg[i].data.to });
                 });
