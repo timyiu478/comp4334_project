@@ -46,5 +46,5 @@ class History(db.Model):
         return {
             'data': ujson.loads(self.data),
             'datetime': self.datetime,
-            'from': self.fun
+            'from': self.from_username
         }
