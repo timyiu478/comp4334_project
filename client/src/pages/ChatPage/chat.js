@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import {sha256} from 'src/hash-sha256.js';
 
 export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) {
-    // console.log("data:",data);
+    console.log("data:",data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     // console.log("encryptedBytes:",encryptedBytes);
     let encrypted_msg_info;
@@ -58,13 +58,13 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) 
         let signature = plaintext['signature']['cipher'];
         // console.log("signature:",signature);
         let hash = cryptico.decrypt(signature, SenderRSAkey);
-        console.log("hash:",hash);
+        // console.log("hash:",hash);
         if(hash['status']=="failure"){
             console.log("Invalid signature");
             return false;
         }
 
-        if(publicKey.slice(0,32)!=cryptico.publicKeyID(hash.publickey)){
+        if(publicKey!=hash.publicKeyString){
             console.log(publicKey);
             console.log(cryptico.publicKeyID(hash.publickey));
             console.log("Invalid signature");
