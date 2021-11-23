@@ -8,7 +8,7 @@ import Register from 'components/Register';
 import { serializeRSAKey, gen_key_pair } from 'src/genKey.js';
 import $ from 'jquery';
 
-import {Sha256} from '@aws-crypto/sha256-js';
+import {sha256} from 'src/hash-sha256.js';
 
 const Login = () => {
     const [open, setOpen] = useState(false);

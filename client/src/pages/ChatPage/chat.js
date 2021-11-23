@@ -2,22 +2,23 @@
 import aesjs from 'aes-js';
 import $ from 'jquery';
 import Cookies from 'js-cookie';
+import {sha256} from 'src/hash-sha256.js';
 
-export function decrypt_msg(data,currrentUsername,SenderRSAkey) {
+export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     // console.log(data);
-    let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['msg']);
+    data = JSON.parse(data);
+    let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     let encrypted_msg_info;
 
     if (data['data']['to'] == currrentUsername) {
-        encrypted_msg_info = data['data']['msg_info'];
+        encrypted_msg_info = data['data']['encrypted_msg_info'];
     } else {
-        encrypted_msg_info = data['data']['msg_info_for_sender'];
+        encrypted_msg_info = data['data']['encrypted_msg_info_for_sender'];
     }
     // console.log("---------decrypt_msg----------");
     // console.log(data);
     // console.log(encrypted_msg_info);
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
-    // console.log(msg_info);
 
     if(msg_info['status']=="failure") return false;
 
@@ -26,13 +27,10 @@ export function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     msg_info = JSON.parse(msg_info);
     // console.log(msg_info);
     
-
-    // console.log(msg_info);
-
     let aes = msg_info['aes'];
 
     // console.log(aes);
-    //
+
     let aesCbc = new aesjs.ModeOfOperation.cbc(
         new Uint8Array(aes['key_256'].split(',')),
         new Uint8Array(aes['iv'].split(','))
@@ -41,7 +39,34 @@ export function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     let decryptedBytes = aesCbc.decrypt(encryptedBytes);
     let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
 
-    let msg = decryptedText.slice(0, msg_info['msg_length']);
+    let plaintext = JSON.parse(decryptedText.slice(0, msg_info['data_length']));
+
+    let msg = plaintext['msg'];
+
+    if (data['data']['to'] == currrentUsername) {
+        // verfiy signature
+        let signature = plaintext['signature'];
+        let hash = cryptico.decrypt(signature, SenderRSAkey);
+        
+        if(hash['status']=="failure"){
+            console.log("Invalid signature");
+            return false;
+        }
+
+        let signature_info = {
+            aes_key:aes_key,
+            msg:msg
+        }
+        let new_hash = await sha256(JSON.stringify(signature_info));
+
+        if (new_hash==hash){
+            console.log("Valid signature");
+        }else{
+            console.log("Invalid signature");
+            return false;
+        }
+    }
+
     // console.log(msg);
 
     return msg;
@@ -170,38 +195,62 @@ export async function encryptMsg(msg, to, receiver_public_key,SenderRSAkey,Sende
     let key_256 = crypto.getRandomValues(new Uint8Array(32));
     let iv = crypto.getRandomValues(new Uint8Array(16));
 
-    let msgBytes = aesjs.utils.utf8.toBytes(padding(msg));
-
-    let aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
-    let encryptedBytes = aesCbc.encrypt(msgBytes);
-
-    let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-    // console.log(encryptedHex);
-    // console.log('receiver_public_key: ' + receiver_public_key);
     const aes_key = {
         key_256: key_256.toString(),
         iv: iv.toString(),
     };
 
+    const signature_info={
+        aes_key:aes_key,
+        msg:msg
+    }
+
+    const hash = await sha256(JSON.stringify(signature_info));
+
+    let signature = cryptico.encrypt(hash,receiver_public_key, SenderRSAkey);
+    let data = JSON.stringify({msg:msg,signature:signature});
+    let data_length = data.length;
+    let padded_dataBytes = aesjs.utils.utf8.toBytes(padding(data));
+    let aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
+    let encryptedBytes = aesCbc.encrypt(padded_dataBytes);
+    let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+
+    // let msgBytes = aesjs.utils.utf8.toBytes(padding(msg));
+
+    // let aesCbc = new aesjs.ModeOfOperation.cbc(key_256, iv);
+    // let encryptedBytes = aesCbc.encrypt(msgBytes);
+
+    // let encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+    // console.log(encryptedHex);
+    // console.log('receiver_public_key: ' + receiver_public_key);
+
     const msg_info = {
-        to,
-        msg_length: msg.length,
+        data_length: data_length,
         aes: aes_key,
     };
 
-    const encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, SenderRSAkey);
+    const encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key);
     const encrypted_msg_info_for_sender = cryptico.encrypt(JSON.stringify(msg_info), SenderPublicKeyString);
+
+    // const encrypted_msg_info = cryptico.encrypt(JSON.stringify(msg_info), receiver_public_key, SenderRSAkey);
+    // const encrypted_msg_info_for_sender = cryptico.encrypt(JSON.stringify(msg_info), SenderPublicKeyString);
 
     // console.log(encrypted_msg_info);
 
-    const data = {
-        msg: encryptedHex,
-        msg_info: encrypted_msg_info,
-        msg_info_for_sender: encrypted_msg_info_for_sender,
-        to,
-    };
-
-    return data;
+    // const data = {
+    //     msg: encryptedHex,
+    //     msg_info: encrypted_msg_info,
+    //     msg_info_for_sender: encrypted_msg_info_for_sender,
+    //     to,
+    // };
+    const encrypted_data = {
+        encryptedHex:encryptedHex,
+        encrypted_msg_info:encrypted_msg_info,
+        encrypted_msg_info_for_sender:encrypted_msg_info_for_sender,
+        to:to
+    }
+    console.log(encrypted_data);
+    return encrypted_data;
     // document.getElementById('receiver').value = "";
     // document.getElementById('message').value = "";
 }

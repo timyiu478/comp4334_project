@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import {serializeRSAKey,gen_public_key,gen_key_pair} from 'src/genKey.js';
 import $ from 'jquery';
-import {sha256,hex} from 'src/hash-sha256.js';
+import {sha256} from 'src/hash-sha256.js';
 
 const FormDialog = ({ open, setOpen }) => {
 
