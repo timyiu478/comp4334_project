@@ -9,6 +9,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     // console.log("encryptedBytes:",encryptedBytes);
     let encrypted_msg_info;
+    
 
     if (data['from'] == currrentUsername) {
         encrypted_msg_info = data['data']['encrypted_msg_info_for_sender'];
@@ -47,7 +48,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     // console.log("plaintext:",plaintext);
     let msg = plaintext['msg'];
     // console.log("msg:",msg);
-    if (data['data']['to'] == currrentUsername) {
+    if (data['from'] == currrentUsername) {
         // verfiy signature
         let signature = plaintext['signature'];
         // console.log("signature:",signature);
