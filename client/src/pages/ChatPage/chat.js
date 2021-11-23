@@ -58,7 +58,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) 
         let signature = plaintext['signature']['cipher'];
         // console.log("signature:",signature);
         let hash = cryptico.decrypt(signature, SenderRSAkey);
-        // console.log("hash:",hash);
+        console.log("hash:",hash);
         if(hash['status']=="failure"){
             console.log("Invalid signature");
             return false;
