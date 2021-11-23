@@ -61,7 +61,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
         }
 
         let signature_info = {
-            aes_key:aesCbc,
+            aes_key:aes,
             msg:msg
         }
         let new_hash = await sha256(JSON.stringify(signature_info));
