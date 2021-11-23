@@ -5,9 +5,9 @@ import Cookies from 'js-cookie';
 import {sha256} from 'src/hash-sha256.js';
 
 export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
-    // console.log("data:",data);
+    console.log("data:",data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
-    // console.log("encryptedBytes:",encryptedBytes);
+    console.log("encryptedBytes:",encryptedBytes);
     let encrypted_msg_info;
     
 
@@ -16,24 +16,24 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     } else {
         encrypted_msg_info = data['data']['encrypted_msg_info'];
     }
-    // console.log("encrypted_msg_info:",encrypted_msg_info);
+    console.log("encrypted_msg_info:",encrypted_msg_info);
     // console.log("---------decrypt_msg----------");
     // console.log(data);
     // console.log(encrypted_msg_info);
     let msg_info = cryptico.decrypt(encrypted_msg_info['cipher'], SenderRSAkey);
-    // console.log("msg_info:",msg_info);
+    console.log("msg_info:",msg_info);
     if(msg_info['status']=="failure") return false;
 
-    // console.log(msg_info['plaintext']);
+    console.log(msg_info['plaintext']);
     msg_info = msg_info['plaintext'];
-    // console.log("msg_info:",msg_info);
+    console.log("msg_info:",msg_info);
     msg_info = JSON.parse(msg_info);
-    // console.log("msg_info:",msg_info);
+    console.log("msg_info:",msg_info);
     // console.log(msg_info);
     
     let aes = msg_info['aes'];
 
-    // console.log(aes);
+    console.log(aes);
 
     let aesCbc = new aesjs.ModeOfOperation.cbc(
         new Uint8Array(aes['key_256'].split(',')),
@@ -41,21 +41,21 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey) {
     );
 
     let decryptedBytes = aesCbc.decrypt(encryptedBytes);
-    // console.log("decryptedBytes:",decryptedBytes);
+    console.log("decryptedBytes:",decryptedBytes);
     let decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
-    // console.log("decryptedText:",decryptedText);
+    console.log("decryptedText:",decryptedText);
     let plaintext = JSON.parse(decryptedText.slice(0, msg_info['data_length']));
-    // console.log("plaintext:",plaintext);
+    console.log("plaintext:",plaintext);
     let msg = plaintext['msg'];
-    // console.log("msg:",msg);
-    if (data['from'] == currrentUsername) {
+    console.log("msg:",msg);
+    if (data['from'] != currrentUsername) {
         // verfiy signature
         let signature = plaintext['signature'];
-        // console.log("signature:",signature);
+        console.log("signature:",signature);
         let hash = cryptico.decrypt(signature, SenderRSAkey);
-        // console.log("hash:",hash);
+        console.log("hash:",hash);
         if(hash['status']=="failure"){
-            // console.log("Invalid signature");
+            console.log("Invalid signature");
             return false;
         }
 
