@@ -6,7 +6,7 @@ import {sha256} from 'src/hash-sha256.js';
 
 export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) {
     console.log("data:",data);
-    data = JSON.parse(data);
+    data['data'] = JSON.parse(data['data']);
     console.log("data:",data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     // console.log("encryptedBytes:",encryptedBytes);
