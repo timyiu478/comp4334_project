@@ -5,9 +5,6 @@ import Cookies from 'js-cookie';
 import {sha256} from 'src/hash-sha256.js';
 
 export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) {
-    console.log("data:",data);
-    data['data'] = JSON.parse(data['data']);
-    console.log("data:",data);
     let encryptedBytes = aesjs.utils.hex.toBytes(data['data']['encryptedHex']);
     // console.log("encryptedBytes:",encryptedBytes);
     let encrypted_msg_info;
@@ -134,7 +131,9 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
             const msg = result.msgs;
             // console.log(msg);
             for (let i = 0; i < msg.length; i++) {
-                decrypt_msg(msg[i],currrentUsername,SenderRSAkey,publicKey).then((plaintext)=>{
+                let data = msg[i];
+                data['data'] = JSON.parse(data['data']);
+                decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey).then((plaintext)=>{
                     if (plaintext != false)
                         history.push({ msg: plaintext, date: msg[i].datetime, to: msg[i].data.to });
                 });
