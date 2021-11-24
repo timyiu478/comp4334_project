@@ -140,7 +140,7 @@ const ChatPage = () => {
 
         // console.log("publicKey: ",publicKey);
 
-        await get_history(currentC,currrentUsername,publicKey,SenderRSAkey).then((response) => {
+        await get_history(currentC,currrentUsername,publicKeys[currentC],SenderRSAkey).then((response) => {
             setMsgList(response);
         });
         
