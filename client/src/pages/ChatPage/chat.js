@@ -67,7 +67,7 @@ export async function decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey) 
 
         if(publicKey!=hash.publicKeyString){
             console.log(publicKey);
-            console.log(cryptico.publicKeyID(hash.publickey));
+            console.log(hash.publicKeyString);
             console.log("Invalid signature");
             return false;
         }
