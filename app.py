@@ -30,18 +30,18 @@ socketio = SocketIO(app)
 
 db.create_all()
 
-# prevent cached responses
-@app.after_request
-def add_header(r):
-    """
-    Add headers to both force latest IE rendering engine or Chrome Frame,
-    and also to cache the rendered page for 10 minutes.
-    """
-    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    r.headers["Pragma"] = "no-cache"
-    r.headers["Expires"] = "0"
-    r.headers['Cache-Control'] = 'public, max-age=0'
-    return r
+# # prevent cached responses
+# @app.after_request
+# def add_header(r):
+#     """
+#     Add headers to both force latest IE rendering engine or Chrome Frame,
+#     and also to cache the rendered page for 10 minutes.
+#     """
+#     r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     r.headers["Pragma"] = "no-cache"
+#     r.headers["Expires"] = "0"
+#     r.headers['Cache-Control'] = 'public, max-age=0'
+#     return r
 
 @jwt.unauthorized_loader
 def unauthorized_callback(callback):
@@ -83,7 +83,12 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 @app.route('/')
 def index():
-    return send_from_directory(app.static_folder,'index.html'),200
+    resp = make_response(send_from_directory(app.static_folder,'index.html'),200)
+    resp.delete_cookie('csrf_refresh_token')
+    resp.delete_cookie('refresh_token_cookie')
+    resp.delete_cookie('access_token_cookie')
+    resp.delete_cookie('csrf_access_token')
+    return resp
     
 
 
@@ -255,7 +260,7 @@ def on_join(data):
 #     print(username + ' has left the room.')
 
 @socketio.on('message')
-@jwt_required(optional=True)
+@jwt_required()
 def on_message(data):
     print("-------message--------")
     print("current user: ", current_user.username)
