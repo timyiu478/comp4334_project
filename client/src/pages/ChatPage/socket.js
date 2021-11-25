@@ -10,6 +10,9 @@ export const socket = io.connect('wss://'+ location.host,
     methods: ["GET", "POST"],
     extraHeaders: {    
         "X-CSRF-TOKEN": Cookies.get('csrf_access_token')
+    },
+    query: {
+        "jwt": "Bearer " + Cookies.get('access_token_cookie')
     }
     });
 
