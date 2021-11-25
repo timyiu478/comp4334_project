@@ -51,7 +51,28 @@ const ChatPage = () => {
                 }));
         }
         );
+        
         socket.emit('join', {});
+        
+        socket.on('message', function (data) {
+            // console.log("---------new msg---------");
+            decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey).then((new_msg)=>{
+                const from = data['from'];
+                // console.log("from:",from);
+                // console.log("new_nsg:",new_msg);
+                // console.log("data:", data);
+                if(from == currentContact || from == currentMe){
+                    setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
+                    msg_scrollbar.current.scrollToBottom();
+                }else{
+                    // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
+                    // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
+                }
+                // console.log(msgCounts);
+        
+            });        
+        });
+
         getUser();
     },[]);
 
@@ -59,24 +80,7 @@ const ChatPage = () => {
         setInterval(getUser, 60*1000);  
     },[]);
 
-    socket.on('message', function (data) {
-        // console.log("---------new msg---------");
-        decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey).then((new_msg)=>{
-            const from = data['from'];
-            // console.log("from:",from);
-            // console.log("new_nsg:",new_msg);
-            // console.log("data:", data);
-            if(from == currentContact || from == currentMe){
-                setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
-                msg_scrollbar.current.scrollToBottom();
-            }else{
-                // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
-                // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
-            }
-            // console.log(msgCounts);
-    
-        });        
-    });
+
 
 
     const handleInputFormChange = (e) => {
