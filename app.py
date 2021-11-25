@@ -255,8 +255,8 @@ def on_join(data):
 #     print(username + ' has left the room.')
 
 @socketio.on('message')
-@jwt_required()
-async def on_message(data):
+@jwt_required(optional=True)
+def on_message(data):
     print("-------message--------")
     print("current user: ", current_user.username)
     print(data)
