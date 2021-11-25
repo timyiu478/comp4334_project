@@ -10,8 +10,7 @@ import { get_history, get_public_key, encryptMsg, decrypt_msg, refresh_token} fr
 import { deserializeRSAKey } from 'src/genKey.js';
 import cryptico from 'cryptico-js';
 import Cookies from 'js-cookie';
-// import { socket } from './socket';
-import io from 'socket.io-client';
+import {tryReconnect, ioConnect } from './socket';
 
 const ChatPage = () => {
 
@@ -23,7 +22,7 @@ const ChatPage = () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState("");
     const [publicKey,setPublicKey] = useState("");
-    const [socket,setSocket] = useState(null);
+    const [socket] = useState(ioConnect(Cookies.get('X-CSRF-TOKEN')));
     // const [msgCounts,setMsgCounts] = useState({});
 
     const SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
@@ -38,49 +37,33 @@ const ChatPage = () => {
     
 
     useEffect(() => {
-        
-        setSocket(io.connect('wss://'+ location.host,
-        {   transports: ["websocket"],
-            rememberUpgrade: true,
-            cors:{origin:"*"},
-            credentials: true,
-            forceBase64: true,
-            methods: ["GET", "POST"],
-            extraHeaders: {    
-                "X-CSRF-TOKEN": Cookies.get('csrf_access_token')
-            }
-            }));
-        
-        
-        socket.emit('join', {});
-        
-        socket.on('message', function (data) {
-            // console.log("---------new msg---------");
-            decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey).then((new_msg)=>{
-                const from = data['from'];
-                // console.log("from:",from);
-                // console.log("new_nsg:",new_msg);
-                // console.log("data:", data);
-                if(from == currentContact || from == currentMe){
-                    setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
-                    msg_scrollbar.current.scrollToBottom();
-                }else{
-                    // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
-                    // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
-                }
-                // console.log(msgCounts);
-        
-            });        
-        });
-
+        ioConnect()
         getUser();
     },[]);
 
     useEffect(() => {
+        // setInterval(tryReconnect, 60*1000);
         setInterval(getUser, 60*1000);  
     },[]);
 
-
+    socket.on('message', function (data) {
+        // console.log("---------new msg---------");
+        decrypt_msg(data,currrentUsername,SenderRSAkey,publicKey).then((new_msg)=>{
+            const from = data['from'];
+            // console.log("from:",from);
+            // console.log("new_nsg:",new_msg);
+            // console.log("data:", data);
+            if(from == currentContact || from == currentMe){
+                setMsgList([...msgList,{msg:new_msg,date:data['datetime'],to:data['data']['to']}]);
+                msg_scrollbar.current.scrollToBottom();
+            }else{
+                // if(!contactList.includes(from) && from != currentMe) setContactList([...contactList,from]); 
+                // setMsgCounts({...msgCounts,[msgCounts[from]]:msgCounts[from]+=1});
+            }
+            // console.log(msgCounts);
+    
+        });        
+    });
 
 
     const handleInputFormChange = (e) => {

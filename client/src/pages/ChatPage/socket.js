@@ -1,6 +1,21 @@
 import io from 'socket.io-client';
-import Cookies from 'js-cookie';
 
+
+export function ioConnect(csrf_token){
+    const socket = io.connect('wss://'+ location.host,
+    {   transports: ["websocket"],
+        rememberUpgrade: true,
+        cors:{origin:"*"},
+        credentials: true,
+        forceBase64: true,
+        methods: ["GET", "POST"],
+        extraHeaders: {    
+            "X-CSRF-TOKEN": csrf_token
+        }
+    });
+    socket.emit('join', {});
+    return socket;
+}
 
 
 
