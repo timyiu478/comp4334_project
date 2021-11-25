@@ -40,7 +40,7 @@ const ChatPage = () => {
     },[]);
 
     useEffect(() => {
-        setInterval(tryReconnect, 60*1000);
+        // setInterval(tryReconnect, 60*1000);
         setInterval(getUser, 60*1000);  
     },[]);
 
