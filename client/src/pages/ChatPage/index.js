@@ -11,6 +11,7 @@ import { deserializeRSAKey } from 'src/genKey.js';
 import cryptico from 'cryptico-js';
 import Cookies from 'js-cookie';
 // import { socket } from './socket';
+import io from 'socket.io-client';
 
 const ChatPage = () => {
 
