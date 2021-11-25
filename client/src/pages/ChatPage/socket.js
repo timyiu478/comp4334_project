@@ -6,15 +6,20 @@ export const socket = io.connect('wss://'+ location.host,
     rememberUpgrade: true,
     cors:{origin:"*"},
     credentials: true,
+    forceBase64: true,
     methods: ["GET", "POST"],
-    extraHeaders: {    "X-CSRF-TOKEN": Cookies.get('csrf_access_token')  }
+    extraHeaders: {    
+        "X-CSRF-TOKEN": Cookies.get('csrf_access_token')
+    }
     });
+
+
 
 // console.log("location.host:",location.host);
 
 export const tryReconnect = () => {
-    if (socket.connected === false &&
-        socket.connecting === false) {
+    if (socket.CLOSED === false &&
+        socket.CONNECTING === false) {
         // use a connect() or reconnect() here if you want
         console.log("tryReconnect...");
         socket.connect();
