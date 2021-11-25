@@ -37,20 +37,19 @@ const ChatPage = () => {
     
 
     useEffect(() => {
-        Cookies.get('csrf_access_token').then((cookie)=>{
-            setSocket(io.connect('wss://'+ location.host,
-            {   transports: ["websocket"],
-                rememberUpgrade: true,
-                cors:{origin:"*"},
-                credentials: true,
-                forceBase64: true,
-                methods: ["GET", "POST"],
-                extraHeaders: {    
-                    "X-CSRF-TOKEN": cookie
-                }
-                }));
-        }
-        );
+        
+        setSocket(io.connect('wss://'+ location.host,
+        {   transports: ["websocket"],
+            rememberUpgrade: true,
+            cors:{origin:"*"},
+            credentials: true,
+            forceBase64: true,
+            methods: ["GET", "POST"],
+            extraHeaders: {    
+                "X-CSRF-TOKEN": Cookies.get('csrf_access_token')
+            }
+            }));
+        
         
         socket.emit('join', {});
         
