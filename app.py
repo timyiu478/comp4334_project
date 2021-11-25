@@ -260,8 +260,6 @@ def on_join(data):
 @jwt_required(locations=['headers','cookies'])
 def on_message(data):
 
-    access_token_cookie = request.headers.get('access_token_cookie')
-
     print("-------message--------")
     print("current user: ", current_user.username)
     print(data)
