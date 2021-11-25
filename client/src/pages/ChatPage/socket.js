@@ -1,6 +1,14 @@
 import io from 'socket.io-client';
+import Cookies from 'js-cookie';
 
-export const socket = io.connect('wss://'+ location.host,{ transports: ["websocket"],rememberUpgrade: true,cors:{origin:"*"},credentials: true,methods: ["GET", "POST"]});
+export const socket = io.connect('wss://'+ location.host,
+{   transports: ["websocket"],
+    rememberUpgrade: true,
+    cors:{origin:"*"},
+    credentials: true,
+    methods: ["GET", "POST"],
+    extraHeaders: {    "X-CSRF-TOKEN": Cookies.get('csrf_access_token')  }
+    });
 
 // console.log("location.host:",location.host);
 
