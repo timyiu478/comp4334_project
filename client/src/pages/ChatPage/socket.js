@@ -9,7 +9,8 @@ export const socket = io.connect('wss://'+ location.host,
     forceBase64: true,
     methods: ["GET", "POST"],
     extraHeaders: {    
-        "X-CSRF-TOKEN": Cookies.get('csrf_access_token')
+        "X-CSRF-TOKEN": Cookies.get('csrf_access_token'),
+        "Authorization": "Bearer " + Cookies.get('access_token_cookie')
     }
     });
 
