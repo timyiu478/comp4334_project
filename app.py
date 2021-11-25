@@ -84,10 +84,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 @app.route('/')
 def index():
     resp = make_response(send_from_directory(app.static_folder,'index.html'),200)
-    resp.delete_cookie('csrf_refresh_token')
-    resp.delete_cookie('refresh_token_cookie')
-    resp.delete_cookie('access_token_cookie')
-    resp.delete_cookie('csrf_access_token')
+    unset_jwt_cookies(resp)
     return resp
     
 
