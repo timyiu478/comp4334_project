@@ -23,10 +23,6 @@ JWT_CSRF_CHECK_FORM = True
 JWT_COOKIE_SECURE = True # Controls if the secure flag should be placed on cookies created by this extension. If a cookie is marked as secure it will only be sent by the web browser over an HTTPS connection
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
-JWT_ACCESS_COOKIE_PATH = "/chatpage"
-JWT_REFRESH_COOKIE_PATH = "/chatpage"
-JWT_ACCESS_CSRF_COOKIE_PATH = "/chatpage"
-JWT_REFRESH_CSRF_COOKIE_PATH = "/chatpage"
 
 PROPAGATE_EXCEPTIONS = True
 
