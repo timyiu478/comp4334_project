@@ -27,6 +27,7 @@ const Login = () => {
     };
 
     const signUp = async () => {
+        // history.push('/chatpage');
         const senderRSAkey = gen_key_pair(username, password);
 
         const h_pw = await sha256(password);

@@ -158,11 +158,12 @@
     // flex:1;
     width: 100%;
     margin: 10px 0;
+    overflow: hidden;
 }
 
 .chat_app_footer input {
     // flex: 1;
-    width: 85%;
+    width: 80%;
     height: 2rem;
     border: none;
     outline: none;
@@ -204,6 +205,7 @@ form button:active {
 }
 
 .refresh_token_button{
+    display: none;
     border-radius: 5px;
     font-size: 0.8rem;
     text-align: center;
@@ -220,6 +222,14 @@ form button:active {
 }
 
 @media screen and (max-width: 1024px) {
+    .chat_app_footer input {
+        width: 75%;
+    }
+    .chat_app_contactList_container{
+        width: 80px;
+    }
+
+
     .chat_container {
         // background-color: transparent;
         // background-color: $background-color;
