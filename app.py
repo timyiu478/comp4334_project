@@ -257,7 +257,7 @@ def on_join(data):
 #     print(username + ' has left the room.')
 
 @socketio.on('message')
-@jwt_required(locations=['headers','cookies'])
+@jwt_required(locations=['headers'])
 def on_message(data):
 
     print("-------message--------")
