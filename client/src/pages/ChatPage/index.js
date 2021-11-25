@@ -77,6 +77,7 @@ const ChatPage = () => {
                 'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
             },
             success: (result, statusText) => {
+                socket.disconnect();
                 history.push('/');
                 // console.log(result);
             },

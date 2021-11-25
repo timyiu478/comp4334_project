@@ -45,7 +45,7 @@ const Login = () => {
             success: function (result, statusText) {
                 localStorage.setItem('SenderRSAkey', serializeRSAKey(senderRSAkey));
                 localStorage.setItem('username', username);
-                console.log(result);
+                // console.log(result);
                 history.push('/chatpage');
             },
             error: function (result, statusText) {
