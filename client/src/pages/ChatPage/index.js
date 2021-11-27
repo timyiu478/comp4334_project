@@ -10,7 +10,7 @@ import { get_history, get_public_key, encryptMsg, decrypt_msg, refresh_token} fr
 import { deserializeRSAKey } from 'src/genKey.js';
 import cryptico from 'cryptico-js';
 import Cookies from 'js-cookie';
-import {ioDisconnect, ioConnect } from './socket';
+import { ioConnect } from './socket';
 
 const ChatPage = () => {
 
@@ -76,8 +76,8 @@ const ChatPage = () => {
                 'X-CSRF-TOKEN': Cookies.get('csrf_access_token'),
             },
             success: (result, statusText) => {
-                ioDisconnect();
                 history.push('/');
+                location.reload(); 
                 // console.log(result);
             },
             error: (result, statusText) => {

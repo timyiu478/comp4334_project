@@ -18,11 +18,6 @@ export function ioConnect(csrf_token){
     return socket;
 }
 
-export function ioDisconnect(){
-    socket.disconnect();
-    return socket = null;
-}
-
 
 // console.log("location.host:",location.host);
 
