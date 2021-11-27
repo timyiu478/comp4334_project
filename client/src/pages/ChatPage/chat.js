@@ -128,7 +128,18 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
         url: '/api/history/',
         success: (result, statusText) => {
             // Handle success
-            const msg = result.msgs;
+            let msg = result.msgs;
+            msg.sort(function(A,B){
+                let timeA = Date.parse(A.datetime);
+                let timeB = Date.parse(B.datetime);
+                if (timeA < timeB) {
+                    return -1;
+                }
+                if (timeA > timeB) {
+                return 1;
+                }
+                return 0;
+            });
             // console.log(msg);
             for (let i = 0; i < msg.length; i++) {
                 let data = msg[i];
