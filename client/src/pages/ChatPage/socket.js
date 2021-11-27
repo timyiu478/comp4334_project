@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
 
+let socket;
 
 export function ioConnect(csrf_token){
-    const socket = io.connect('wss://'+ location.host,
+    socket = io.connect('wss://'+ location.host,
     {   transports: ["websocket"],
         rememberUpgrade: true,
         cors:{origin:"*"},
@@ -17,7 +18,10 @@ export function ioConnect(csrf_token){
     return socket;
 }
 
-
+export function ioDisconnect(){
+    socket.disconnect();
+    return socket = null;
+}
 
 
 // console.log("location.host:",location.host);
