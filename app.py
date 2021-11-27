@@ -81,15 +81,15 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 
 
-@app.route('/')
-@app.route('/chatpage/')
-@app.route('/login/')
-def index():
+@app.route('/<path:path>')
+# @app.route('/chatpage/')
+# @app.route('/login/')
+def index(path):
     resp = make_response(send_from_directory(app.static_folder,'index.html'),200)
-    # print("-------path-------")
-    # print(path)
-    # if path != "chatpage":
-    #     unset_jwt_cookies(resp)
+    print("-------path-------")
+    print(path)
+    if path != "chatpage":
+        unset_jwt_cookies(resp)
     
     return resp
     
