@@ -22,7 +22,7 @@ const ChatPage = () => {
     const [inputForm, setInputForm] = useState('');
     const [currentContact, setCurrentContact] = useState("");
     const [publicKey,setPublicKey] = useState("");
-    const [socket,setSocket] = useState(null);
+    const [socket,setSocket] = useState(ioConnect(Cookies.get('X-CSRF-TOKEN')));
     // const [msgCounts,setMsgCounts] = useState({});
 
     const SenderRSAkey = deserializeRSAKey(localStorage.getItem('SenderRSAkey'));
@@ -37,7 +37,6 @@ const ChatPage = () => {
     
 
     useEffect(() => {
-        setSocket(ioConnect(Cookies.get('X-CSRF-TOKEN')));
         getUser();
     },[]);
 
