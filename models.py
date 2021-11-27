@@ -5,8 +5,8 @@ import ujson
 class User(db.Model):
     __tablename__ = "User"
 
-    id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String(255),unique=True)
+    id = db.Column(db.Integer, index=True,primary_key=True)
+    username = db.Column(db.String(255), index=True,unique=True)
     hs_password = db.Column(db.String(255)) # hashed and salted password
     salt = db.Column(db.String(255))
     public_key = db.Column(db.String(255))
@@ -27,8 +27,8 @@ class History(db.Model):
     __tablename__ = "History"
 
     id = db.Column(db.Integer,primary_key=True)
-    from_username = db.Column(db.String(255),db.ForeignKey('User.username'))
-    to_username = db.Column(db.String(255),db.ForeignKey('User.username'))
+    from_username = db.Column(db.String(255),db.ForeignKey('User.username'), index=True)
+    to_username = db.Column(db.String(255),db.ForeignKey('User.username'), index=True)
     data = db.Column(db.String(4096))
     datetime = db.Column(db.String(255))
 
