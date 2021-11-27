@@ -144,6 +144,18 @@ const ChatPage = () => {
         // console.log("publicKey: ",publicKey);
 
         await get_history(currentC,currrentUsername,publicKeys[currentC],SenderRSAkey).then((response) => {
+            console.log(response);
+            response = response.sort(function(A,B){
+                let timeA = Date.parse(A.date);
+                let timeB = Date.parse(B.date);
+                if (timeA < timeB) {
+                    return -1;
+                }
+                if (timeA > timeB) {
+                return 1;
+                }
+                return 0;
+            });
             setMsgList(response);
         });
         

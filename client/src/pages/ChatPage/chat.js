@@ -139,17 +139,7 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
                 });
                 // console.log(msg[i].datetime);
             }
-            return history.sort(function(A,B){
-                let timeA = Date.parse(A.date);
-                let timeB = Date.parse(B.date);
-                if (timeA < timeB) {
-                    return -1;
-                }
-                if (timeA > timeB) {
-                return 1;
-                }
-                return 0;
-            });
+            return history;
         },
         error: (jqXHR, textStatus, errorThrown) => {
             //handle error
