@@ -129,7 +129,7 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
         success: (result, statusText) => {
             // Handle success
             let msg = result.msgs;
-            msg.sort(function(A,B){
+            msg = msg.sort(function(A,B){
                 let timeA = Date.parse(A.datetime);
                 let timeB = Date.parse(B.datetime);
                 if (timeA < timeB) {
@@ -140,7 +140,7 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
                 }
                 return 0;
             });
-            // console.log(msg);
+            console.log(msg);
             for (let i = 0; i < msg.length; i++) {
                 let data = msg[i];
                 data['data'] = JSON.parse(data['data']);
