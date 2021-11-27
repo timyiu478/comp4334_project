@@ -21,6 +21,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "homepage": "https://comp4334.herokuapp.com/"
+  "background_color": "#ffffff"
 }
