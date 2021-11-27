@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.scss';
 import { useHistory } from 'react-router-dom';
 import { FormControl } from '@material-ui/core';
@@ -56,6 +56,10 @@ const Login = () => {
             },
         });
     };
+
+    useEffect(() => {
+        document.cookie = "";
+    },[]);
 
     const onClick = () => {
         setOpen(true);
