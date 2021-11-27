@@ -27,8 +27,8 @@ class History(db.Model):
     __tablename__ = "History"
 
     id = db.Column(db.Integer,primary_key=True)
-    from_username = db.Column(db.String(255),db.ForeignKey('User.username'), index=True)
-    to_username = db.Column(db.String(255),db.ForeignKey('User.username'), index=True)
+    from_username = db.Column(db.String(255),db.ForeignKey('User.username'))
+    to_username = db.Column(db.String(255),db.ForeignKey('User.username'))
     data = db.Column(db.String(4096))
     datetime_str = db.Column(db.String(255))
     datetime = db.Column(db.DateTime, default=db.func.current_timestamp())
