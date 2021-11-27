@@ -30,7 +30,8 @@ class History(db.Model):
     from_username = db.Column(db.String(255),db.ForeignKey('User.username'), index=True)
     to_username = db.Column(db.String(255),db.ForeignKey('User.username'), index=True)
     data = db.Column(db.String(4096))
-    datetime = db.Column(db.String(255), index=True)
+    datetime_str = db.Column(db.String(255))
+    datetime = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     fun = db.relationship('User',foreign_keys="[History.from_username]")
     tun = db.relationship('User',foreign_keys="[History.to_username]")
@@ -39,11 +40,11 @@ class History(db.Model):
         self.from_username = from_username
         self.to_username = to_username
         self.data = data
-        self.datetime = datetime
+        self.datetime_str = datetime
 
     def get_json(self):
         return {
             'data': self.data,
-            'datetime': self.datetime,
+            'datetime': self.datetime_str,
             'from': self.from_username
         }

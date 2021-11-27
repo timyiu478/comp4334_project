@@ -277,7 +277,7 @@ def on_message(data):
     socketio.send(message, to=to_room)
     socketio.send(message, to=from_room)
 
-    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime=now))
+    db.session.add(History(from_username=current_user.username,to_username=to,data=ujson.dumps(data),datetime_str=now))
     db.session.commit()
 
 
