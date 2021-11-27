@@ -129,17 +129,6 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
         success: (result, statusText) => {
             // Handle success
             let msg = result.msgs;
-            msg = msg.sort(function(A,B){
-                let timeA = Date.parse(A.datetime);
-                let timeB = Date.parse(B.datetime);
-                if (timeA < timeB) {
-                    return -1;
-                }
-                if (timeA > timeB) {
-                return 1;
-                }
-                return 0;
-            });
             console.log(msg);
             for (let i = 0; i < msg.length; i++) {
                 let data = msg[i];
@@ -150,7 +139,17 @@ export async function get_history(target,currrentUsername,publicKey,SenderRSAkey
                 });
                 // console.log(msg[i].datetime);
             }
-            return history;
+            return history.sort(function(A,B){
+                let timeA = Date.parse(A.date);
+                let timeB = Date.parse(B.date);
+                if (timeA < timeB) {
+                    return -1;
+                }
+                if (timeA > timeB) {
+                return 1;
+                }
+                return 0;
+            });
         },
         error: (jqXHR, textStatus, errorThrown) => {
             //handle error
