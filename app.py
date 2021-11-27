@@ -184,14 +184,13 @@ def services():
             .order_by(History.datetime.desc()).all()
 
         msgs = [msg.get_json() for msg in msgs[start_message_index:start_message_index+50]][::-1]
-        
         redis_client.set(target+username,ujson.dumps({'msgs':msgs}),3)
     else:
         msgs = ujson.loads(msgs)['msgs']
 
-    # print("--------- msgs ----------------")
+    print("--------- history ----------------")
     # print(data)
-    # print(msgs)
+    print(msgs)
 
     return {'msgs': msgs},200
 
