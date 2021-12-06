@@ -33,7 +33,6 @@ db.create_all()
 
 @app.after_request
 def add_header(r):
-
     r.headers['X-XSS-Protection'] = '1; mode=block'
     r.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     return r
