@@ -33,12 +33,9 @@ db.create_all()
 
 @app.after_request
 def add_header(r):
-    """
-    Add headers to both force latest IE rendering engine or Chrome Frame,
-    and also to cache the rendered page for 10 minutes.
-    """
-    r.headers['X-XSS-Protection'] = '1; mode=block'
 
+    r.headers['X-XSS-Protection'] = '1; mode=block'
+    r.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     return r
 
 @jwt.unauthorized_loader
